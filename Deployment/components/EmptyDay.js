@@ -6,7 +6,7 @@ export default function EmptyDay() {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../images/perezoso.jpg')}
+                source={require('../images/perezoso.png')}
                 style={styles.image}
             />
             <Text style={styles.text}>Todavia no tienes ningun habito ni tarea. Empieza ahora mismo!</Text>
@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
         paddingRight: 30,
     },
     image: {
+        width: 250,
+        height: 250,
         marginTop: 30,
         marginBottom: 20
     },
