@@ -22,7 +22,7 @@ export default class Main extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: "#14ffec",
+        backgroundColor: "#2380d1",
         justifyContent: "center",
         alignItems: "center",
         height: 60,

@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         color: "#dbdbdb"
     },
     currentDay: {
-        backgroundColor: "green",
+        backgroundColor: "#14ffec",
         borderRadius: 50,
         height: 5,
         width: 5,
