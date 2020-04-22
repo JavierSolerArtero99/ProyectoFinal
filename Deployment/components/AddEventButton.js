@@ -1,16 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
 
-export default class Main extends React.Component {
+export default class AddEventButton extends React.Component {
+    /* CONSTRUCTOR */
     constructor(props) {
         super(props);
-        this.state = {
-        }
     }
 
+    /* LAYOUT */
     render() {
+        const { addEvents } = this.props;
+
         return (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={addEvents}>
                 <Image
                     source={require('../icons/add.png')}
                     style={styles.addImage}

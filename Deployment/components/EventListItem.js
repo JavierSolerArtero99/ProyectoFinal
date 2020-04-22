@@ -2,10 +2,12 @@ import React from 'react';
 import { View, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 
 export default class EventListItem extends React.Component {
+    /* CONSTRUCTOR */
     constructor(props) {
         super(props)
     }
 
+    /* LAYOUT */
     render() {
         const { event } = this.props;
 

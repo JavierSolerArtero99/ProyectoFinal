@@ -5,42 +5,36 @@ import getDayTimeImage from '../utils/getDayTimeImage'
 import EventListItem from './EventListItem'
 
 export default class TimeDay extends React.Component {
+    /* CONSTRUCTOR */
     constructor(props) {
         super(props)
     }
 
-    renderTimeEvents(events) {
-        return (
-            <View style={styles.eventsList}>
-                <FlatList
-                    data={events}
-                    renderItem={({ item }) => this.renderListItem(item)}
-                />
-            </View>
-        );
-    }
-
-    renderListItem(event) {
-        return (
-            <EventListItem event={event}/>
-        )
-    }
-
+    /* LAYOUT */
     render() {
-        const { time, events } = this.props;
+        const { events, time } = this.props;
 
         return (
-            <View style={styles.timeContainer}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={getDayTimeImage(time)}
-                        style={styles.image}
-                    />
-                </View>
-                <View style={styles.eventsContainer}>
-                    {this.renderTimeEvents(events)}
-                </View>
-            </View>
+            (events.length > 0) ?
+                (
+                    <View style={styles.timeContainer}>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={getDayTimeImage(time)}
+                                style={styles.image}
+                            />
+                        </View>
+                        <View style={styles.eventsContainer}>
+                            {events.map((event) => (
+                                <View style={styles.eventsList}>
+                                    <EventListItem event={event} />
+                                </View>),
+                            )}
+                        </View>
+                    </View>
+                ) : (
+                    <View></View>
+                )
         );
     }
 }
