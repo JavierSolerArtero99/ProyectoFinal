@@ -9,7 +9,7 @@ import TimeDay from '../components/TimeDay';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
-    /* STATE AND CONSTRUCTOR */
+    /* STATE && CONSTRUCTOR */
 
     state = {
         events: [

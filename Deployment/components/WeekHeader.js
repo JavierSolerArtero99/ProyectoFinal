@@ -2,31 +2,47 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 export default class WeekHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            weekDays: ["MON", "TUE", "WED", "TRU", "FRI", "SAT", "SUN"],
-            today: "",
-            currentWeek: []
-        }
+    /* STATE && CONSTRUCTOR */
+    state = {
+        weekDays: ["MON", "TUE", "WED", "TRU", "FRI", "SAT", "SUN"],
+        today: "",
+        currentWeek: []
     }
 
+    constructor(props) {
+        super(props);
+    }
+
+    /* CICLO DE VIDA */
+
+    /**
+     * Obtiene los dias del mes de toda la 
+     * semana actual
+     */
     componentDidMount() {
-        let curr = new Date
+        let date = new Date
         let week = []
+        let currentDay = parseInt(((date.toString()).split(' '))[2]);
 
         for (let i = 1; i <= 7; i++) {
-            let first = curr.getDate() - curr.getDay() + i
-            let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
+            let first = date.getDate() - date.getDay() + i
+            let day = new Date(date.setDate(first)).toISOString().slice(0, 10)
             week.push(day.charAt(8) + day.charAt(9))
         }
 
         this.setState({
             currentWeek: week,
-            today: curr.getDay()
+            today: currentDay
         });
     }
 
+    /* METODOS PARA RENDERIZADO */    
+
+    /**
+     * Renderiza el nombre de los dias de la
+     * semana
+     * @param {} weekDays: dias de la semana del state
+     */
     renderWeek(weekDays) {
         return weekDays.map((day) => {
             return (
@@ -37,18 +53,44 @@ export default class WeekHeader extends React.Component {
         })
     }
 
+    /**
+     * Renderiza el dia del mes
+     * @param {*} currentWeek: 
+     * @param {*} today 
+     */
     renderWeekDays(currentWeek, today) {
+        console.log(currentWeek);
+        
         return currentWeek.map((day, index) => {
             return (
                 <TouchableOpacity style={styles.day}>
-                    <Text style={styles.dayText}>{day}</Text>
-                    {(index == today) && (
+                    <Text style={[styles.dayText, this.gsCurrentDayText(day, today)]}>{day}</Text>
+                    {(day == today) && (
                     <View style={styles.currentDay}/>
                 )}
                 </TouchableOpacity>)
         });
     }
 
+    /* ESTILO CONDICIONAL */
+
+    /**
+     * Metodo que cambia el estilo del dia del mes en que estemos
+     * si es hoy
+     * @param {*} currentDay: dia actual que recorre el array
+     * @param {*} today: dia actual
+     */
+    gsCurrentDayText(currentDay, today) {
+        console.log("entra");
+        console.log(currentDay + " " + today);
+
+        
+        if (currentDay == today) {
+            return {fontSize: 18, color: "#14ffec"}
+        }
+    }
+
+    /* LAYOUT */
     render() {
         const { weekDays, currentWeek, today } = this.state;
 
@@ -82,6 +124,9 @@ const styles = StyleSheet.create({
     dayText: {
         fontWeight: "bold",
         color: "#dbdbdb"
+    },
+    currentDayText: {
+        fontSize: 3,
     },
     currentDay: {
         backgroundColor: "#14ffec",
