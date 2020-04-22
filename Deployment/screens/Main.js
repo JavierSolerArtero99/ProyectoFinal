@@ -43,15 +43,15 @@ export default class Main extends React.Component {
                 repeat: "daily",
                 hour: "15:00",
             },
-            {
-                name: "Recorrer el missisipi",
-                icon: "",
-                color: "red",
-                totalTimes: 3,
-                time: 0,
-                repeat: "daily",
-                hour: "21:00",
-            }
+            // {
+            //     name: "Recorrer el missisipi",
+            //     icon: "",
+            //     color: "red",
+            //     totalTimes: 3,
+            //     time: 0,
+            //     repeat: "daily",
+            //     hour: "21:00",
+            // }
         ],
         morningEvents: [],
         afternoonEvents: [],
