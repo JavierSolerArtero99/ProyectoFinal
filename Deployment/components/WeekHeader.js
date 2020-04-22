@@ -36,7 +36,7 @@ export default class WeekHeader extends React.Component {
         });
     }
 
-    /* METODOS PARA RENDERIZADO */    
+    /* METODOS PARA RENDERIZADO */
 
     /**
      * Renderiza el nombre de los dias de la
@@ -59,15 +59,15 @@ export default class WeekHeader extends React.Component {
      * @param {*} today 
      */
     renderWeekDays(currentWeek, today) {
-        console.log(currentWeek);
-        
         return currentWeek.map((day, index) => {
+            const { selected } = this.state;
+            
             return (
                 <TouchableOpacity style={styles.day}>
                     <Text style={[styles.dayText, this.gsCurrentDayText(day, today)]}>{day}</Text>
                     {(day == today) && (
-                    <View style={styles.currentDay}/>
-                )}
+                        <View style={styles.currentDay} />
+                    )}
                 </TouchableOpacity>)
         });
     }
@@ -81,12 +81,8 @@ export default class WeekHeader extends React.Component {
      * @param {*} today: dia actual
      */
     gsCurrentDayText(currentDay, today) {
-        console.log("entra");
-        console.log(currentDay + " " + today);
-
-        
         if (currentDay == today) {
-            return {fontSize: 18, color: "#14ffec"}
+            return { fontSize: 18, color: "#14ffec" }
         }
     }
 
