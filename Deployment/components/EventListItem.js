@@ -17,7 +17,6 @@ export default class EventListItem extends React.Component {
         const leftButton = (
             <SwipeButtonsContainer
                 style={styles.swipeButtonsContainer}
-                onLeftButtonsShowed={console.log("has desplazado para la derecha")}
             >
                 <LeftSwipeButton event={event} />
             </SwipeButtonsContainer>
