@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 export default class WeekHeader extends React.Component {
     /* STATE && CONSTRUCTOR */
     state = {
-        weekDays: ["MON", "TUE", "WED", "TRU", "FRI", "SAT", "SUN"],
+        weekDays: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
         today: "",
         currentWeek: []
     }
@@ -23,6 +23,9 @@ export default class WeekHeader extends React.Component {
         let date = new Date
         let week = []
         let currentDay = parseInt(((date.toString()).split(' '))[2]);
+
+        console.log(date);
+        
 
         for (let i = 1; i <= 7; i++) {
             let first = date.getDate() - date.getDay() + i
