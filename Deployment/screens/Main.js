@@ -155,6 +155,7 @@ export default class Main extends React.Component {
     /* LAYOUT */
     render() {
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;        
+        const { navigation } = this.props;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -174,7 +175,7 @@ export default class Main extends React.Component {
                         )}
                 </ScrollView>
                 <View style={styles.addEvent} >
-                    <AddEventButton addEvents={this.addEvent} />
+                    <AddEventButton addEvents={this.addEvent} navigation={navigation}/>
                 </View>
             </SafeAreaView>
         );

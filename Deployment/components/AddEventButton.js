@@ -7,12 +7,18 @@ export default class AddEventButton extends React.Component {
         super(props);
     }
 
+    newEvent = () => {
+        const { addEvents, navigation } = this.props;
+        navigation.navigate("AddEvent")
+    }
+
     /* LAYOUT */
     render() {
-        const { addEvents } = this.props;
+        const { addEvents, navigation } = this.props;
 
         return (
-            <TouchableOpacity style={styles.button} onPress={addEvents}>
+            <TouchableOpacity style={styles.button} onPress={this.newEvent}>
+            {/* <TouchableOpacity style={styles.button} onPress={addEvents}> */}
                 <Image
                     source={require('../icons/add.png')}
                     style={styles.addImage}

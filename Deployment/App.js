@@ -1,10 +1,10 @@
 import React from 'react';
 import Main from './screens/Main';
-import MainStackNavigation from './screens/MainStackNavigation';
+import AppNavigation from './screens/AppNavigation';
 
 export default function App() {
   return (
       // <Main />
-      <MainStackNavigation/>
+      <AppNavigation/>
   );
 }

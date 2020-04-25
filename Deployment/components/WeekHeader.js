@@ -24,8 +24,6 @@ export default class WeekHeader extends React.Component {
         let week = []
         let currentDay = parseInt(((date.toString()).split(' '))[2]);
 
-        console.log(date);
-        
 
         for (let i = 1; i <= 7; i++) {
             let first = date.getDate() - date.getDay() + i
@@ -62,8 +60,6 @@ export default class WeekHeader extends React.Component {
      * @param {*} today 
      */
     renderWeekDays(currentWeek, today) {
-        console.log(currentWeek);
-        
         return currentWeek.map((day, index) => {
             return (
                 <TouchableOpacity style={styles.day}>
@@ -84,10 +80,6 @@ export default class WeekHeader extends React.Component {
      * @param {*} today: dia actual
      */
     gsCurrentDayText(currentDay, today) {
-        console.log("entra");
-        console.log(currentDay + " " + today);
-
-        
         if (currentDay == today) {
             return {fontSize: 18, color: "#14ffec"}
         }
