@@ -64,9 +64,9 @@ export default class CustomDatePicker extends React.Component {
 
         } else {
             if ((month + 1) % 2 != 0) {
-                return 31;
-            } else {
                 return 30;
+            } else {
+                return 31;
             }
         }
     }
