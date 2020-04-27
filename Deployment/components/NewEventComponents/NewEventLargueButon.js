@@ -2,10 +2,19 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+/**
+ * Evento que añade un nuevo evento
+ * @param {*} props 
+ */
 export default function NewEventLargueButton(props) {
+    console.log(props);
+    
     return (
         <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: props.color }]}>
+            <TouchableOpacity
+                style={[styles.button, { backgroundColor: props.color }]}
+                onPress={props.addEvent}
+            >
                 <Text style={styles.buttonText}>ADD {props.eventType}</Text>
             </TouchableOpacity>
         </View>

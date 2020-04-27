@@ -2,8 +2,11 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+/**
+ * Pickers que seleccionan un color i un icono para el nuevo evento
+ * @param {*} props 
+ */
 export default function Pickers(props) {
-
     return (
         <View style={styles.container}>
             <View style={styles.pickerContainer}>

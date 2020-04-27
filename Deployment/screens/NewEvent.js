@@ -6,6 +6,7 @@ import CustomTextInput from '../components/NewEventComponents/CustomTextInput';
 import Pickers from '../components/NewEventComponents/Pickers';
 import NewEventLargueButton from '../components/NewEventComponents/NewEventLargueButon';
 import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker';
+import Timers from '../components/NewEventComponents/Timers';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
@@ -15,6 +16,7 @@ export default class NewEvent extends React.Component {
         eventType: "HABIT",
         date: [],
         color: "#2380d1",
+        timers: ["10:10"],
     }
 
     constructor(props) {
@@ -52,11 +54,19 @@ export default class NewEvent extends React.Component {
      * actualize la hora al componente padre
      */
     updateDate = (newDate) => {
-        const { date } = this.state;
-
         this.setState({
             date: newDate,
         });
+    }
+
+    /**
+     * Añade el nuevo evento a la lista 
+     */
+    addEvent = () => {
+        const { date } = this.state;
+
+        console.log("Añadiendo");
+        console.log(date);
     }
 
     /* FUNCIONES DE RENDERIZACION */
@@ -76,13 +86,19 @@ export default class NewEvent extends React.Component {
      * Renderiza los componentes de los check-in
      */
     renderCheckInComponents = () => {
-        const { date } = this.state;
+        const { date, timers, color } = this.state;
 
         return (
             <View style={styles.specificComponents}>
                 <CustomDatePicker
                     updateDate={this.updateDate}
                 />
+
+                <Timers
+                    timers={timers}
+                    color={color}
+                />
+
             </View>
         );
     }
@@ -109,6 +125,7 @@ export default class NewEvent extends React.Component {
                 }
 
                     <NewEventLargueButton
+                        addEvent={this.addEvent}
                         eventType={eventType}
                         color={color}
                     />

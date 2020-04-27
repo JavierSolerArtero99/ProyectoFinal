@@ -2,6 +2,10 @@ import * as React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+/**
+ * Boton que cambia el nuevo evento de habito a check in
+ * @param {*} props 
+ */
 export default function EventTypeButton(props) {
     return (
         <TouchableOpacity

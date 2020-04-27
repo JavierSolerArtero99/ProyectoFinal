@@ -48,6 +48,12 @@ export default class CustomDatePicker extends React.Component {
 
     /* METODOS DE AYUDA */
 
+    /**
+     * Obtiene la maxima cantidad de dias que tiene
+     * un mes
+     * @param {*} month 
+     * @param {*} year 
+     */
     getMaxMonthDay(month, year) {
         if (((month + 1) <= 7)) {
             if ((month + 1) % 2 == 0) {
@@ -71,6 +77,11 @@ export default class CustomDatePicker extends React.Component {
         }
     }
 
+    /**
+     * Obtiene la cantidad de dias de febrero comprobando
+     * si es bisiesto
+     * @param {*} year 
+     */
     getLeapDays(year) {
         if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
             return 29;

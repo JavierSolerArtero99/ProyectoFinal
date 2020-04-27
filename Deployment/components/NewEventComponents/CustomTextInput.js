@@ -2,6 +2,10 @@ import * as React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
+/**
+ * Componente reciclable con un text input personalizado 
+ * @param {*} props 
+ */
 export default function CustomTextInput(props) {
     return (
         <TextInput
