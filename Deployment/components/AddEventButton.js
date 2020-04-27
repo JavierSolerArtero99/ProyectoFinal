@@ -7,6 +7,10 @@ export default class AddEventButton extends React.Component {
         super(props);
     }
 
+    /**
+     * Cambia a la screen de añadir un
+     * nuevo evento
+     */
     newEvent = () => {
         const { addEvents, navigation } = this.props;
         navigation.navigate("AddEvent")
