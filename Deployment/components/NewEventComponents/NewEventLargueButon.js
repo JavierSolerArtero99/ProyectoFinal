@@ -1,16 +1,22 @@
 import * as React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function NewEventLargueButton(props) {
     return (
-        <TouchableOpacity style={[styles.button, {backgroundColor: props.color}]}>
-            <Text style={styles.buttonText}>ADD {props.eventType}</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: props.color }]}>
+                <Text style={styles.buttonText}>ADD {props.eventType}</Text>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        marginLeft: 15,
+        marginRight: 15,
+    },
     button: {
         height: 40,
         width: '100%',

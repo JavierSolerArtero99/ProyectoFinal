@@ -52,9 +52,11 @@ export default class NewEvent extends React.Component {
      * actualize la hora al componente padre
      */
     updateDate = (newDate) => {
+        const { date } = this.state;
+
         this.setState({
             date: newDate,
-        });        
+        });
     }
 
     /* FUNCIONES DE RENDERIZACION */
@@ -75,10 +77,10 @@ export default class NewEvent extends React.Component {
      */
     renderCheckInComponents = () => {
         const { date } = this.state;
-        
+
         return (
             <View style={styles.specificComponents}>
-                <CustomDatePicker 
+                <CustomDatePicker
                     updateDate={this.updateDate}
                 />
             </View>
@@ -106,10 +108,10 @@ export default class NewEvent extends React.Component {
                     (this.renderCheckInComponents())
                 }
 
-                <NewEventLargueButton
-                    eventType={eventType}
-                    color={color}
-                />
+                    <NewEventLargueButton
+                        eventType={eventType}
+                        color={color}
+                    />
             </SafeAreaView>
         );
     }
