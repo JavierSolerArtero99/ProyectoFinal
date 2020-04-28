@@ -7,8 +7,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
  * @param {*} props 
  */
 export default function NewEventLargueButton(props) {
-    console.log(props);
-    
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity

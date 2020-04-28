@@ -6,13 +6,40 @@ import { TextInput } from 'react-native-gesture-handler';
  * Componente reciclable con un text input personalizado 
  * @param {*} props 
  */
-export default function CustomTextInput(props) {
-    return (
-        <TextInput
-            style={[styles.textInput]}
-            placeholder={props.placeholder}
-        />
-    );
+export default class CustomTextInput extends React.Component {
+
+    /* STATE */
+    state = {
+        name: "",
+    }
+
+    /**
+     * envia el nuevo nombre de evento al componente
+     * padre
+     */
+    sendName = text => {
+        const { changeName } = this.props;
+        const { name } = this.state;
+
+        this.setState({
+            name: text
+        });
+
+        changeName(name);
+    }
+
+    /* LAYOUT */
+    render() {
+        const { name } = this.state;
+        return (
+            <TextInput
+                onChangeText={this.sendName}
+                style={[styles.textInput]}
+                placeholder={this.props.placeholder}
+                value={name}
+            />
+        );
+    }
 }
 
 const styles = StyleSheet.create({

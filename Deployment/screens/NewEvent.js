@@ -1,22 +1,29 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, ToastAndroid } from 'react-native';
 
 import EventTypeButton from '../components/NewEventComponents/EventTypeButton';
 import CustomTextInput from '../components/NewEventComponents/CustomTextInput';
 import Pickers from '../components/NewEventComponents/Pickers';
 import NewEventLargueButton from '../components/NewEventComponents/NewEventLargueButon';
 import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker';
-import Timers from '../components/NewEventComponents/Timers';
+import TimerList from '../components/NewEventComponents/TimerList';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
     state = {
         // view state
+        name: "",
         habit: true,
         eventType: "HABIT",
         date: [],
         color: "#2380d1",
-        timers: ["10:10"],
+        timers: [
+            {
+                id: 1,
+                hour: "10:00",
+            },
+        ],
     }
 
     constructor(props) {
@@ -50,6 +57,15 @@ export default class NewEvent extends React.Component {
     }
 
     /**
+     * change the event name
+     */
+    changeName = (newName) => {
+        this.setState({
+            name: newName,
+        });
+    }
+
+    /**
      * Metodo pasado al componente hijo para que 
      * actualize la hora al componente padre
      */
@@ -60,13 +76,45 @@ export default class NewEvent extends React.Component {
     }
 
     /**
-     * Añade el nuevo evento a la lista 
+     * añade un recordatorio al array 
+     * de estos
+     */
+    addTimer = (hour) => {
+        const { timers } = this.state;
+
+        this.setState({
+            timers: [hour, ...timers]
+        });
+    }
+
+    /**
+     * elimina el recordatorio seleccionado
+     */
+    removeTimer = (timerId) => {
+        this.setState({
+            //filtro
+            timers: this.state.timers.filter(t => t.id !== timerId),
+        });
+    }
+
+    /**
+     * Añade el nuevo evento a la lista y vuelve 
+     * a el layout anterior
      */
     addEvent = () => {
-        const { date } = this.state;
+        const { name } = this.state;
+        const { navigation } = this.props;
 
-        console.log("Añadiendo");
-        console.log(date);
+        if(name.length > 0) {
+            navigation.navigate("Main");
+        } else {
+            ToastAndroid.showWithGravity(
+                "Enter a name",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+              );
+        }
+
     }
 
     /* FUNCIONES DE RENDERIZACION */
@@ -86,7 +134,7 @@ export default class NewEvent extends React.Component {
      * Renderiza los componentes de los check-in
      */
     renderCheckInComponents = () => {
-        const { date, timers, color } = this.state;
+        const { date, timers, color, removeTimer } = this.state;
 
         return (
             <View style={styles.specificComponents}>
@@ -94,9 +142,11 @@ export default class NewEvent extends React.Component {
                     updateDate={this.updateDate}
                 />
 
-                <Timers
+                <TimerList
                     timers={timers}
                     color={color}
+                    addTimer={this.addTimer}
+                    removeTimer={this.removeTimer}
                 />
 
             </View>
@@ -107,28 +157,37 @@ export default class NewEvent extends React.Component {
     render() {
         const { habit, color, eventType, date } = this.state;
 
+        console.log("Propiedades");
+        console.log(this.props);
+        
+
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.buttonsContainer}>
-                    <EventTypeButton buttonName="Check-In" color="#ef611e" onPress={this.changeToCheckIn} />
-                    <EventTypeButton buttonName="Habit" color="#2380d1" onPress={this.changeToHabit} />
-                </View>
+                <ScrollView>
+                    <View style={styles.buttonsContainer}>
+                        <EventTypeButton buttonName="Habit" color="#2380d1" onPress={this.changeToHabit} />
+                        <EventTypeButton buttonName="Check-In" color="#ef611e" onPress={this.changeToCheckIn} />
+                    </View>
 
-                <CustomTextInput placeholder="Name" />
-                <Pickers color={color} />
+                    <CustomTextInput
+                        placeholder="Name"
+                        changeName={this.changeName}
+                    />
+                    <Pickers color={color} />
 
-                {(habit)
-                    ?
-                    (this.renderHabitsComponents())
-                    :
-                    (this.renderCheckInComponents())
-                }
+                    {(habit)
+                        ?
+                        (this.renderHabitsComponents())
+                        :
+                        (this.renderCheckInComponents())
+                    }
 
                     <NewEventLargueButton
                         addEvent={this.addEvent}
                         eventType={eventType}
                         color={color}
                     />
+                </ScrollView>
             </SafeAreaView>
         );
     }

@@ -13,7 +13,7 @@ export default class AddEventButton extends React.Component {
      */
     newEvent = () => {
         const { addEvents, navigation } = this.props;
-        navigation.navigate("AddEvent")
+        navigation.navigate("AddEvent", { params: { navigation } })
     }
 
     /* LAYOUT */
@@ -22,7 +22,7 @@ export default class AddEventButton extends React.Component {
 
         return (
             <TouchableOpacity style={styles.button} onPress={this.newEvent}>
-            {/* <TouchableOpacity style={styles.button} onPress={addEvents}> */}
+                {/* <TouchableOpacity style={styles.button} onPress={addEvents}> */}
                 <Image
                     source={require('../icons/add.png')}
                     style={styles.addImage}
