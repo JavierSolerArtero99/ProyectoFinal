@@ -82,9 +82,26 @@ export default class NewEvent extends React.Component {
     addTimer = (hour) => {
         const { timers } = this.state;
 
+        console.log("nuevo timer");
+        console.log(hour);
+
+        console.log("total timers");
+        console.log(timers);
+
         this.setState({
-            timers: [hour, ...timers]
+            timers: [this.instanceTimer(hour), ...timers]
         });
+    }
+
+    instanceTimer = (hour) => {
+        const { timers } = this.state;
+
+        let newTimer = {
+            id: (timers[timers.length - 1]).id++,
+            hour: hour,
+        }
+
+        return newTimer;
     }
 
     /**
@@ -140,6 +157,7 @@ export default class NewEvent extends React.Component {
             <View style={styles.specificComponents}>
                 <CustomDatePicker
                     updateDate={this.updateDate}
+                    color={color}
                 />
 
                 <TimerList

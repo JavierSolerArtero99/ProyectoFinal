@@ -175,6 +175,7 @@ export default class CustomDatePicker extends React.Component {
     /* LAYOUT */
     render() {
         const { date, months } = this.state;
+        const { color } = this.props;
 
         return (
             <View style={styles.container}>
@@ -184,39 +185,39 @@ export default class CustomDatePicker extends React.Component {
                     {/* days */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upDays}>
-                            <Text style={styles.pickerText}>+</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {date[0]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downDays}>
-                            <Text style={styles.pickerText}>-</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* month */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upMonths}>
-                            <Text style={styles.pickerText}>+</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {months[date[1]]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downMonths}>
-                            <Text style={styles.pickerText}>-</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* year */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upYears}>
-                            <Text style={styles.pickerText}>+</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {date[2]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downYears}>
-                            <Text style={styles.pickerText}>-</Text>
+                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -37,11 +37,28 @@ export default class Timers extends React.Component {
     /**
      * cambia la vista para añadir un nuevo timer
      */
-    addTimer = () => {
+    addNewTimer = () => {
+        const { hour } = this.state;
         const { addTimer } = this.props;
+
+        console.log("se va a añadir: " + hour);
+        addTimer(hour);
+        
         this.setState({
             creatingTimer: false,
         });
+        
+    }
+    
+    /**
+     * evento que se lanza cuando se cambia la hora
+     * para que se actualize en el state del 
+     * componente padre
+     */
+    changeTimer = (newHour) => {
+        this.setState({
+            hour: newHour,
+        })
     }
 
     /* LAYOUT */
@@ -71,12 +88,18 @@ export default class Timers extends React.Component {
                         <Text style={[styles.addTimerText, { color: color }]}>+</Text>
                     </TouchableOpacity>
                 ) : (
-                        <TouchableOpacity
-                            style={styles.checkedTimer}
-                            onPress={this.addTimer}
-                        >
-                            <Text style={[styles.addTimerText, { color: color }]}>Done</Text>
-                        </TouchableOpacity>
+                        <View>
+                            <TimePicker
+                                color={color}
+                                updateHour={this.changeTimer}
+                            />
+                            <TouchableOpacity
+                                style={styles.checkedTimer}
+                                onPress={this.addNewTimer}
+                            >
+                                <Text style={[styles.addTimerText, { color: color }]}>Done</Text>
+                            </TouchableOpacity>
+                        </View>
                     )}
             </View>
         );
@@ -100,10 +123,11 @@ const styles = StyleSheet.create({
     checkedTimer: {
         borderRadius: 15,
         padding: 5,
+        paddingHorizontal: 15,
         backgroundColor: "#545454",
         alignSelf: "center",
         alignItems: "center",
-        marginTop: 15,
+        marginTop: 5,
         flex: 1,
     },
     addTimerButton: {
@@ -117,7 +141,10 @@ const styles = StyleSheet.create({
         marginTop: 15,
         flex: 1,
     },
-    
+    addTimerText:{
+        fontSize: 15,
+        fontWeight: "bold"
+    },
     deleteTimer: {
         fontWeight: "bold",
         alignSelf: "center",

@@ -5,14 +5,17 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Timer extends React.Component {
 
+    /**
+     * elimina el timer actual
+     */
     deleteThisTimer = () => {
         const { removeTimer, timer } = this.props;
 
         removeTimer(timer.id)
     }
 
+    /* LAYOUT */
     render() {
-
         return (
             <View style={styles.timer}>
                 <Text style={[styles.addTimerText, { color: this.props.color }]}>{this.props.timer.hour}</Text>
@@ -33,6 +36,7 @@ export default class Timer extends React.Component {
 
 const styles = StyleSheet.create({
     timer: {
+        marginTop: 5,
         alignItems: "center",
         flexDirection: "row",
     },
@@ -52,4 +56,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#545454",
     },
+    deleteTimer: {
+        fontSize: 15,
+        fontWeight: "bold"
+    }
 });
