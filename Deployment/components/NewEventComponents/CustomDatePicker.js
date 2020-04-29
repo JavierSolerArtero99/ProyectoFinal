@@ -175,11 +175,11 @@ export default class CustomDatePicker extends React.Component {
     /* LAYOUT */
     render() {
         const { date, months } = this.state;
-        const { color } = this.props;
+        const { color, title } = this.props;
 
         return (
             <View style={styles.container}>
-                <Text style={[styles.pickerText, {marginBottom: 10}]}>CHECK-IN DATE</Text>
+                <Text style={[styles.pickerText, {marginBottom: 10}]}>{title}</Text>
 
                 <View style={styles.datePickerContainer}>
                     {/* days */}
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 15,
+        marginTop: 15,
         marginRight: 15,
         marginLeft: 15,
         padding: 5

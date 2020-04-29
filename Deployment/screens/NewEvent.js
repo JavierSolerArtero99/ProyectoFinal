@@ -7,21 +7,24 @@ import Pickers from '../components/NewEventComponents/Pickers';
 import NewEventLargueButton from '../components/NewEventComponents/NewEventLargueButon';
 import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker';
 import TimerList from '../components/NewEventComponents/TimerList';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import Repeat from '../components/NewEventComponents/Repeat';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
     state = {
         // view state
         name: "",
+        description: "",
         habit: true,
         eventType: "HABIT",
         date: [],
+        endDate: [],
         color: "#2380d1",
         timers: [
             {
                 id: 1,
-                hour: "10:00",
+                hour: "09:00",
             },
         ],
     }
@@ -38,9 +41,11 @@ export default class NewEvent extends React.Component {
      */
     changeToCheckIn = () => {
         this.setState({
+            description: "",
             habit: false,
             eventType: "CHECK-IN",
             color: "#ef611e",
+            endDate: [],
         });
     }
 
@@ -66,12 +71,31 @@ export default class NewEvent extends React.Component {
     }
 
     /**
+     * metodo que actualiza la descripcion
+     */
+    updateDescription = (description) => {
+        this.setState({
+            description: description,
+        });
+    }
+
+    /**
      * Metodo pasado al componente hijo para que 
      * actualize la hora al componente padre
      */
     updateDate = (newDate) => {
         this.setState({
             date: newDate,
+        });
+    }
+
+    /**
+     * actualiza la fecha de finalizacion del
+     * evento
+     */
+    updateEnd = (newEnd) => {
+        this.setState({
+            endDate: newEnd,
         });
     }
 
@@ -95,9 +119,16 @@ export default class NewEvent extends React.Component {
 
     instanceTimer = (hour) => {
         const { timers } = this.state;
+        let id;
+
+        if (timers.length > 0) {
+            id = (timers[timers.length - 1]).id++;
+        } else {
+            id = 1;
+        }
 
         let newTimer = {
-            id: (timers[timers.length - 1]).id++,
+            id: id,
             hour: hour,
         }
 
@@ -122,14 +153,17 @@ export default class NewEvent extends React.Component {
         const { name } = this.state;
         const { navigation } = this.props;
 
-        if(name.length > 0) {
+        console.log(this.state);
+
+
+        if (name.length > 0) {
             navigation.navigate("Main");
         } else {
             ToastAndroid.showWithGravity(
                 "Enter a name",
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER
-              );
+            );
         }
 
     }
@@ -140,24 +174,33 @@ export default class NewEvent extends React.Component {
      * Renderiza los componentes de los habitos
      */
     renderHabitsComponents = () => {
-        return (
-            <View style={styles.specificComponents}>
-                <Text>habito</Text>
-            </View>
-        );
-    }
-
-    /**
-     * Renderiza los componentes de los check-in
-     */
-    renderCheckInComponents = () => {
-        const { date, timers, color, removeTimer } = this.state;
+        const { date, timers, color } = this.state;
 
         return (
             <View style={styles.specificComponents}>
+                <TextInput
+                    onChangeText={this.updateDescription}
+                    style={styles.descriptionInput}
+                    multiline
+                    placeholder={"Description"}
+                    underlineColorAndroid="transparent"
+                />
+
                 <CustomDatePicker
                     updateDate={this.updateDate}
                     color={color}
+                    title={"HABIT BEGIN"}
+                />
+
+                <Repeat
+                    color={color}
+                />
+
+                <CustomDatePicker
+                    style={{ marginBottom: 15 }}
+                    updateDate={this.updateEnd}
+                    color={color}
+                    title={"HABIT END"}
                 />
 
                 <TimerList
@@ -166,7 +209,30 @@ export default class NewEvent extends React.Component {
                     addTimer={this.addTimer}
                     removeTimer={this.removeTimer}
                 />
+            </View>
+        );
+    }
 
+    /**
+     * Renderiza los componentes de los check-in
+     */
+    renderCheckInComponents = () => {
+        const { date, timers, color } = this.state;
+
+        return (
+            <View style={styles.specificComponents}>
+                <CustomDatePicker
+                    updateDate={this.updateDate}
+                    color={color}
+                    title={"CHECK-IN DATE"}
+                />
+
+                <TimerList
+                    timers={timers}
+                    color={color}
+                    addTimer={this.addTimer}
+                    removeTimer={this.removeTimer}
+                />
             </View>
         );
     }
@@ -177,7 +243,7 @@ export default class NewEvent extends React.Component {
 
         console.log("Propiedades");
         console.log(this.props);
-        
+
 
         return (
             <SafeAreaView style={styles.container}>
@@ -187,11 +253,14 @@ export default class NewEvent extends React.Component {
                         <EventTypeButton buttonName="Check-In" color="#ef611e" onPress={this.changeToCheckIn} />
                     </View>
 
+                    <Pickers
+                        color={color}
+                    />
+
                     <CustomTextInput
                         placeholder="Name"
                         changeName={this.changeName}
                     />
-                    <Pickers color={color} />
 
                     {(habit)
                         ?
@@ -226,5 +295,16 @@ const styles = StyleSheet.create({
     },
     specificComponents: {
         marginBottom: 15,
+    },
+    descriptionInput: {
+        backgroundColor: "#323232",
+        marginLeft: 15,
+        marginRight: 15,
+        paddingBottom: 40,
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        color: "#dbdbdb",
+        fontWeight: "bold",
     },
 });

@@ -36,6 +36,7 @@ export default class CustomTextInput extends React.Component {
                 onChangeText={this.sendName}
                 style={[styles.textInput]}
                 placeholder={this.props.placeholder}
+                underlineColorAndroid="transparent"
                 value={name}
             />
         );
@@ -45,6 +46,7 @@ export default class CustomTextInput extends React.Component {
 const styles = StyleSheet.create({
     textInput: {
         backgroundColor: "#323232",
+        marginBottom: 15,
         marginLeft: 15,
         marginRight: 15,
         padding: 10,

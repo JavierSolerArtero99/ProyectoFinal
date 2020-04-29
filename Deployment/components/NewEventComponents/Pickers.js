@@ -25,12 +25,11 @@ export default function Pickers(props) {
     );
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        padding: 10,
-        marginLeft: 10,
+        marginBottom: 15,
+        marginLeft: 15,
         marginRight: 10
     },
     pickerContainer: {
