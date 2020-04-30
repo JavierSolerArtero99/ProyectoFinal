@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Main from './Main';
@@ -10,7 +10,7 @@ import Settings from './Settings';
 import NewEvent from './NewEvent';
 
 /* VARIABLES DE NAVEGACION */
-const Tab = createBottomTabNavigator(); // navegacion de la app
+const Tab = createMaterialBottomTabNavigator(); // navegacion de la app
 const MainStackNavigation = createStackNavigator();    // pantalla main
 
 /* NAVEGACION PRINCIPAL */
@@ -19,11 +19,13 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Tab.Navigator
-                // tabBarOptions
                 initialRouteName="Main"
+                activeColor="#14ffec"
+                inactiveColor="#dbdbdb"
+                barStyle={{ backgroundColor: '#434343' }}
             >
-                <Tab.Screen name="Main" component={MainStack} />
                 <Tab.Screen name="Stats" component={StatsScreen} />
+                <Tab.Screen name="Main" component={MainStack} />
                 <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
         </NavigationContainer>

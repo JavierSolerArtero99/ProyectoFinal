@@ -34,7 +34,7 @@ export default class AddEventButton extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: "#2380d1",
+        backgroundColor: "#14ffec",
         justifyContent: "center",
         alignItems: "center",
         height: 60,
