@@ -80,6 +80,15 @@ export default class NewEvent extends React.Component {
     }
 
     /**
+     * actualiza el color del evento
+     */
+    updateColor = (newColor) => {
+        this.setState({
+            color: newColor,
+        })
+    }
+
+    /**
      * Metodo pasado al componente hijo para que 
      * actualize la hora al componente padre
      */
@@ -254,6 +263,7 @@ export default class NewEvent extends React.Component {
                     </View>
 
                     <Pickers
+                        updateColor={this.updateColor}
                         color={color}
                     />
 

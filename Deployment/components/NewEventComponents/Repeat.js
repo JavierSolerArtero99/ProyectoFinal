@@ -6,9 +6,9 @@ export default class Repeat extends React.Component {
     /* STATE */
     state = {
         selected: "day",
-        diaryChecked: "#2380d1",
-        weeklyChecked: "#434343",
-        monthlyChecked: "#434343",
+        diaryChecked: true,
+        weeklyChecked: false,
+        monthlyChecked: false,
 
         days: ["M", "T", "W", "T", "F", "S", "S"],
         weeks: [1, 2, 3, 4, 5, 6],
@@ -18,35 +18,29 @@ export default class Repeat extends React.Component {
     /* TOUCHABLE EVENTS */
 
     changeDaily = () => {
-        const { color } = this.props;
-
         this.setState({
             selected: "day",
-            diaryChecked: "#2380d1",
-            weeklyChecked: "#434343",
-            monthlyChecked: "#434343",
+            diaryChecked: true,
+            weeklyChecked: false,
+            monthlyChecked: false,
         });
     }
 
     changeWeekly = () => {
-        const { color } = this.props;
-
         this.setState({
             selected: "week",
-            diaryChecked: "#434343",
-            weeklyChecked: "#2380d1",
-            monthlyChecked: "#434343",
+            diaryChecked: false,
+            weeklyChecked: true,
+            monthlyChecked: false,
         });
     }
 
     changeMonthly = () => {
-        const { color } = this.props;
-
         this.setState({
             selected: "month",
-            diaryChecked: "#434343",
-            weeklyChecked: "#434343",
-            monthlyChecked: "#2380d1",
+            diaryChecked: false,
+            weeklyChecked: false,
+            monthlyChecked: true,
         });
     }
 
@@ -63,26 +57,28 @@ export default class Repeat extends React.Component {
         } = this.state
         const { color } = this.props;
 
+        console.log("color del dia: " + diaryChecked)
+
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Repeat</Text>
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
-                        style={[styles.repeatSelector, { backgroundColor: diaryChecked }]}
+                        style={[styles.repeatSelector, diaryChecked && {backgroundColor: color}]}
                         onPress={this.changeDaily}
                     >
                         <Text style={styles.repeatText}>Diary</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={[styles.repeatSelector, { backgroundColor: weeklyChecked }]}
+                        style={[styles.repeatSelector, weeklyChecked && {backgroundColor: color}]}
                         onPress={this.changeWeekly}
                     >
                         <Text style={styles.repeatText}>Weekly</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={[styles.repeatSelector, { backgroundColor: monthlyChecked }]}
+                        style={[styles.repeatSelector, monthlyChecked && {backgroundColor: color}]}
                         onPress={this.changeMonthly}
                     >
                         <Text style={styles.repeatText}>Monthly</Text>
@@ -96,7 +92,7 @@ export default class Repeat extends React.Component {
                             <View style={styles.repeatContainer}>
                                 {days.map((day) => {
                                     return (
-                                        <TouchableOpacity style={[styles.selectorCirlcle, {backgroundColor: color}]}>
+                                        <TouchableOpacity style={[styles.selectorCirlcle, { backgroundColor: color }]}>
                                             <Text style={styles.repeatText}>{day}</Text>
                                         </TouchableOpacity>
                                     );
@@ -111,7 +107,7 @@ export default class Repeat extends React.Component {
                             <View style={styles.repeatContainer}>
                                 {weeks.map((week) => {
                                     return (
-                                        <TouchableOpacity style={[styles.selectorCirlcle, {backgroundColor: color}]}>
+                                        <TouchableOpacity style={[styles.selectorCirlcle, { backgroundColor: color }]}>
                                             <Text style={styles.repeatText}>{week}</Text>
                                         </TouchableOpacity>
                                     );
@@ -126,7 +122,7 @@ export default class Repeat extends React.Component {
                             <View style={styles.repeatContainer}>
                                 {months.map((month) => {
                                     return (
-                                        <TouchableOpacity style={[styles.selectorCirlcle, {backgroundColor: color}]}>
+                                        <TouchableOpacity style={[styles.selectorCirlcle, { backgroundColor: color }]}>
                                             <Text style={styles.repeatText}>{month}</Text>
                                         </TouchableOpacity>
                                     );
@@ -135,7 +131,6 @@ export default class Repeat extends React.Component {
                         </View>
                     )}
                 </View>
-
             </View>
         );
     }
