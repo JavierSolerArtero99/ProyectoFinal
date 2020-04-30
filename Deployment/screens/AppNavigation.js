@@ -3,6 +3,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Main from './Main';
 import Stats from './Stats';
@@ -24,9 +25,36 @@ export default function AppNavigation() {
                 inactiveColor="#dbdbdb"
                 barStyle={{ backgroundColor: '#434343' }}
             >
-                <Tab.Screen name="Stats" component={StatsScreen} />
-                <Tab.Screen name="Main" component={MainStack} />
-                <Tab.Screen name="Settings" component={SettingsScreen} />
+                <Tab.Screen
+                    name="Stats"
+                    component={StatsScreen}
+                    options={{
+                        tabBarLabel: 'Analytics',
+                        tabBarIcon: ({ color }) => (
+                          <MaterialCommunityIcons name="google-analytics" color={color} size={26} />
+                        ),
+                      }}
+                />
+                <Tab.Screen
+                    name="Main"
+                    component={MainStack}
+                    options={{
+                        tabBarLabel: 'My Habits',
+                        tabBarIcon: ({ color }) => (
+                          <MaterialCommunityIcons name="home-circle" color={color} size={26} />
+                        ),
+                      }}
+                />
+                <Tab.Screen
+                    name="Settings"
+                    component={SettingsScreen}
+                    options={{
+                        tabBarLabel: 'Settings',
+                        tabBarIcon: ({ color }) => (
+                          <MaterialCommunityIcons name="settings-outline" color={color} size={26} />
+                        ),
+                      }}
+                />
             </Tab.Navigator>
         </NavigationContainer>
     );
