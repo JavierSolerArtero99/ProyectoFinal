@@ -13,7 +13,7 @@ export default class AddEventButton extends React.Component {
      */
     newEvent = () => {
         const { addEvents, navigation } = this.props;
-        navigation.navigate("AddEvent", { params: { navigation } })
+        navigation.navigate("AddEvent", { params: { navigation, addEvents } })
     }
 
     /* LAYOUT */

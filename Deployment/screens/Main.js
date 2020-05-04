@@ -44,6 +44,7 @@ export default class Main extends React.Component {
                 hour: "15:00",
             },
             {
+                key: '3',
                 name: "Recorrer el missisipi",
                 icon: "",
                 color: "red",
@@ -121,35 +122,35 @@ export default class Main extends React.Component {
     /**
      * Metodo que añade un nuevo evento al array de estos
      */
-    addEvent = () => {
-        const { morningEvents, afternoonEvents, nightEvents } = this.state;
-        const added = {
-            name: "Ir al instituto",
-            icon: "",
-            color: "red",
+    addEvent = (added) => {
+        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        const aux = {
+            name: added.name,
+            icon: added.icon,
+            color: added.color,
             totalTimes: 3,
             time: 0,
-            repeat: "daily",
+            repeat: added.repeat,
             hour: "10:00",
-        }
-
+        }    
+        
         switch (true) {
-            case (this.checkHour(added.hour) == "morning"):
+            case (this.checkHour(aux.hour) == "morning"):
                 this.setState({
-                    morningEvents: [newEvent(added), ...morningEvents],
+                    morningEvents: [newEvent(aux), ...morningEvents],
                 });
                 break;
-            case (this.checkHour(added.hour) == "afternoon"):
+            case (this.checkHour(aux.hour) == "afternoon"):
                 this.setState({
-                    afternoonEvents: [newEvent(added)],
+                    afternoonEvents: [newEvent(aux), ...afternoonEvents],
                 });
                 break;
-            case (this.checkHour(newEaddedent.hour) == "night"):
+            case (this.checkHour(aux.hour) == "night"):
                 this.setState({
-                    nightEvents: [newEvent(added), ...nightEvents],
+                    nightEvents: [newEvent(aux), ...nightEvents],
                 });
                 break;
-        }
+        }        
     }
 
     /* LAYOUT */

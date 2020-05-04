@@ -5,6 +5,9 @@
  * @param {*} attrs 
  */
 export const newEvent = (attrs) => {
+    console.log("desde new event");
+    console.log((attrs));
+
     const event = {
         name: attrs.name,
         icon: attrs.icon,

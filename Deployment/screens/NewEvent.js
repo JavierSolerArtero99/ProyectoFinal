@@ -13,7 +13,6 @@ import Repeat from '../components/NewEventComponents/Repeat';
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
     state = {
-        // view state
         name: "",
         description: "",
         habit: true,
@@ -161,12 +160,12 @@ export default class NewEvent extends React.Component {
     addEvent = () => {
         const { name } = this.state;
         const { navigation } = this.props;
-
-        console.log(this.state);
-
+        const { addEvents } = this.props.route.params.params;
 
         if (name.length > 0) {
+            addEvents(this.state);
             navigation.navigate("Main");
+
         } else {
             ToastAndroid.showWithGravity(
                 "Enter a name",
@@ -174,7 +173,6 @@ export default class NewEvent extends React.Component {
                 ToastAndroid.CENTER
             );
         }
-
     }
 
     /* FUNCIONES DE RENDERIZACION */
@@ -250,8 +248,6 @@ export default class NewEvent extends React.Component {
     render() {
         const { habit, color, eventType, date } = this.state;
 
-        console.log("Propiedades");
-        console.log(this.props);
 
 
         return (

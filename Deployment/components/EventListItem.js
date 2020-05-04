@@ -13,6 +13,9 @@ export default class EventListItem extends React.Component {
     /* LAYOUT */
     render() {
         const { event } = this.props;
+        console.log("===renderizando item:===");
+        console.log(event);
+        
         //left buttons
         const leftButton = (
             <SwipeButtonsContainer
