@@ -254,7 +254,9 @@ export default class NewEvent extends React.Component {
                     updateTotalTimes={this.updateTotalTimes}
                 />
 
-                <Stopwatch/>
+                <Stopwatch
+                    color={color}
+                />
 
             </View>
         );
