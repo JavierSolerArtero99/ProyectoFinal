@@ -14,51 +14,92 @@ export default class Main extends React.Component {
     state = {
         events: [
             {
-                key: '0',
+                id: 1,
                 name: "Saltar a la comba",
-                icon: "",
-                color: "red",
+                icon: "basketball",
+                description: "Saltar a la comba 100 veces",
+                habit: true,
+                eventType: "HABIT",
+                date: [],
+                endDate: [],
+                color: "#2380d1",
+                hour: "09:00",
                 totalTimes: 3,
                 time: 0,
-                repeat: "daily",
-                hour: "10:00",
+                timers: [
+                    {
+                        id: 1,
+                        hour: "09:00",
+                    },
+                ],
             },
             {
-                key: '1',
-                name: "Comer",
-                icon: "",
-                color: "red",
-                totalTimes: 3,
-                time: 0,
-                repeat: "daily",
-                hour: "10:00",
-            },
-            {
-                key: '2',
+                id: 2,
                 name: "Ir a misa",
-                icon: "",
-                color: "red",
-                totalTimes: 3,
-                time: 0,
-                repeat: "daily",
+                icon: "christianity",
+                description: "rezar durante 3 horas",
+                habit: true,
+                eventType: "HABIT",
+                date: [],
+                endDate: [],
+                color: "#ffc801",
                 hour: "15:00",
+                totalTimes: 0,
+                time: 0,
+                timers: [
+                    {
+                        id: 1,
+                        hour: "09:00",
+                    },
+                ],
             },
             {
-                key: '3',
-                name: "Recorrer el missisipi",
-                icon: "",
-                color: "red",
+                id: 3,
+                name: "Comprar pan",
+                icon: "bread-slice",
+                description: "Saltar a la comba 100 veces",
+                habit: true,
+                eventType: "HABIT",
+                date: [],
+                endDate: [],
+                color: "#ef611e",
+                hour: "09:00",
                 totalTimes: 3,
                 time: 0,
-                repeat: "daily",
-                hour: "21:00",
-            }
+                timers: [
+                    {
+                        id: 1,
+                        hour: "09:00",
+                    },
+                ],
+            },
+            {
+                id: 4,
+                name: "Recoger a Raul",
+                icon: "guitar-pick",
+                description: "Saltar a la comba 100 veces",
+                habit: true,
+                eventType: "HABIT",
+                date: [],
+                endDate: [],
+                color: "#ff005a",
+                hour: "19:00",
+                totalTimes: 3,
+                time: 0,
+                timers: [
+                    {
+                        id: 1,
+                        hour: "09:00",
+                    },
+                ],
+            },
+            
         ],
         morningEvents: [],
         afternoonEvents: [],
         nightEvents: [],
     }
-    
+
     constructor(props) {
         super(props);
 
@@ -128,12 +169,12 @@ export default class Main extends React.Component {
             name: added.name,
             icon: added.icon,
             color: added.color,
-            totalTimes: 3,
+            totalTimes: added.totalTimes,
             time: 0,
             repeat: added.repeat,
             hour: "10:00",
-        }    
-        
+        }
+
         switch (true) {
             case (this.checkHour(aux.hour) == "morning"):
                 this.setState({
@@ -150,12 +191,12 @@ export default class Main extends React.Component {
                     nightEvents: [newEvent(aux), ...nightEvents],
                 });
                 break;
-        }        
+        }
     }
 
     /* LAYOUT */
     render() {
-        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;        
+        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
         const { navigation } = this.props;
 
         return (
@@ -176,7 +217,7 @@ export default class Main extends React.Component {
                         )}
                 </ScrollView>
                 <View style={styles.addEvent} >
-                    <AddEventButton addEvents={this.addEvent} navigation={navigation}/>
+                    <AddEventButton addEvents={this.addEvent} navigation={navigation} />
                 </View>
             </SafeAreaView>
         );

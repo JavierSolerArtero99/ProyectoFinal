@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 export default class AddEventButton extends React.Component {
     /* CONSTRUCTOR */
     constructor(props) {
@@ -20,10 +22,7 @@ export default class AddEventButton extends React.Component {
     render() {
         return (
             <TouchableOpacity style={styles.button} onPress={this.newEvent}>
-                <Image
-                    source={require('../icons/add.png')}
-                    style={styles.addImage}
-                />
+                <MaterialCommunityIcons name="plus" color={"#323232"} size={30} />
             </TouchableOpacity>
         )
     }
@@ -32,15 +31,11 @@ export default class AddEventButton extends React.Component {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: "#14ffec",
+        marginLeft: '20%',
         justifyContent: "center",
         alignItems: "center",
-        height: 60,
-        width: 60,
+        height: 50,
+        width: 50,
         borderRadius: 50,
     },
-    addImage: {
-        width: 25,
-        height: 25,
-        resizeMode: "contain",
-    }
 });

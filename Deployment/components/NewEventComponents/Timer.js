@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Timer extends React.Component {
 
@@ -24,11 +25,9 @@ export default class Timer extends React.Component {
                         onPress={this.deleteThisTimer}
                         style={styles.deleteTimerButton}
                     >
-                        <Text style={[styles.deleteTimer, { color: this.props.color }]}>X</Text>
+                        <MaterialCommunityIcons name="trash-can-outline" color={this.props.color} size={20} />
                     </TouchableOpacity>
                 </View>
-
-
             </View>
         );
     }

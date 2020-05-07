@@ -4,6 +4,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import TimePicker from './TimePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Timer from './Timer';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Timers extends React.Component {
 
@@ -109,7 +110,7 @@ export default class Timers extends React.Component {
 const styles = StyleSheet.create({
     timerContainer: {
         borderRadius: 15,
-        marginTop: 15,
+        marginBottom: 15,
         marginHorizontal: 15,
         padding: 10,
         backgroundColor: "#323232",
@@ -144,10 +145,5 @@ const styles = StyleSheet.create({
     addTimerText:{
         fontSize: 15,
         fontWeight: "bold"
-    },
-    deleteTimer: {
-        fontWeight: "bold",
-        alignSelf: "center",
-        fontSize: 14,
     },
 });

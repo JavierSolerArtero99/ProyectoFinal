@@ -9,7 +9,7 @@ export default function EmptyDay() {
                 source={require('../images/perezoso.png')}
                 style={styles.image}
             />
-            <Text style={styles.text}>Todavia no tienes ningun habito ni tarea. Empieza ahora mismo!</Text>
+            <Text style={styles.text}>You still don't have any habit or check-in. Start now!</Text>
         </View>
     )
 }

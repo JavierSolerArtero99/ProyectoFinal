@@ -9,6 +9,8 @@ import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker'
 import TimerList from '../components/NewEventComponents/TimerList';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import Repeat from '../components/NewEventComponents/Repeat';
+import Count from '../components/NewEventComponents/Count';
+import Stopwatch from '../components/NewEventComponents/Stopwatch';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
@@ -20,6 +22,9 @@ export default class NewEvent extends React.Component {
         date: [],
         endDate: [],
         color: "#2380d1",
+        hour: "",
+        totalTimes: 1,
+        time: 0,
         timers: [
             {
                 id: 1,
@@ -108,6 +113,39 @@ export default class NewEvent extends React.Component {
     }
 
     /**
+     * actualiza la cantidad total de veces que
+     * se tiene que hacer el evento
+     */
+    updateTotalTimes = (variation) => {
+        const { totalTimes } = this.state;
+        let augment = 0;
+        
+        (variation == '+') ? (augment++) : (augment--)
+
+        if (totalTimes <= 1 && variation == '-') {
+            augment = 0;
+            ToastAndroid.showWithGravity(
+                "Cannot be less than 1",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        }
+
+        if (totalTimes >= 50 && variation == '+') {
+            augment = 0;
+            ToastAndroid.showWithGravity(
+                "Cannot be more than 50",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        }
+
+        this.setState({
+            totalTimes: totalTimes + augment,
+        });
+    }
+
+    /**
      * añade un recordatorio al array 
      * de estos
      */
@@ -181,7 +219,7 @@ export default class NewEvent extends React.Component {
      * Renderiza los componentes de los habitos
      */
     renderHabitsComponents = () => {
-        const { date, timers, color } = this.state;
+        const { totalTimes, color } = this.state;
 
         return (
             <View style={styles.specificComponents}>
@@ -210,12 +248,14 @@ export default class NewEvent extends React.Component {
                     title={"HABIT END"}
                 />
 
-                <TimerList
-                    timers={timers}
+                <Count
                     color={color}
-                    addTimer={this.addTimer}
-                    removeTimer={this.removeTimer}
+                    totalTimes={totalTimes}
+                    updateTotalTimes={this.updateTotalTimes}
                 />
+
+                <Stopwatch/>
+
             </View>
         );
     }
@@ -233,20 +273,13 @@ export default class NewEvent extends React.Component {
                     color={color}
                     title={"CHECK-IN DATE"}
                 />
-
-                <TimerList
-                    timers={timers}
-                    color={color}
-                    addTimer={this.addTimer}
-                    removeTimer={this.removeTimer}
-                />
             </View>
         );
     }
 
     /* LAYOUT */
     render() {
-        const { habit, color, eventType, date } = this.state;
+        const { habit, color, eventType, date, timers } = this.state;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -272,6 +305,13 @@ export default class NewEvent extends React.Component {
                         :
                         (this.renderCheckInComponents())
                     }
+
+                    <TimerList
+                        timers={timers}
+                        color={color}
+                        addTimer={this.addTimer}
+                        removeTimer={this.removeTimer}
+                    />
 
                     <NewEventLargueButton
                         addEvent={this.addEvent}

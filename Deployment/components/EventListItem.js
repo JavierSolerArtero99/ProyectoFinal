@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity } f
 
 import { SwipeItem, SwipeButtonsContainer } from 'react-native-swipe-item';
 import LeftSwipeButton from './LeftSwipeButtons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class EventListItem extends React.Component {
     /* CONSTRUCTOR */
@@ -23,7 +24,7 @@ export default class EventListItem extends React.Component {
 
         console.log("evento desde eventlistitem");
         console.log(event);
-        
+
         //left buttons
         const leftButton = (
             <SwipeButtonsContainer
@@ -40,13 +41,11 @@ export default class EventListItem extends React.Component {
                 leftButtons={leftButton}
             >
                 <TouchableOpacity
+                    activeOpacity={0.9}
                     onPress={this.goDetailEvent}
                 >
                     <View style={styles.eventContainer}>
-                        <Image
-                            source={require('../icons/add.png')}
-                            style={styles.icon}
-                        />
+                        <MaterialCommunityIcons name={event.icon} color={event.color} size={26} />
                         <View style={styles.description}>
                             <View>
                                 <Text style={styles.eventName}>{event.name}</Text>
@@ -72,6 +71,7 @@ const styles = StyleSheet.create({
     },
     eventContainer: {
         backgroundColor: "#434343",
+        alignItems: "center",
         borderRadius: 15,
         marginBottom: 8,
         flexDirection: "row",
