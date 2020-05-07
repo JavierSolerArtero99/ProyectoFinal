@@ -248,8 +248,6 @@ export default class NewEvent extends React.Component {
     render() {
         const { habit, color, eventType, date } = this.state;
 
-
-
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>

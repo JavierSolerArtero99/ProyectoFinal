@@ -10,10 +10,18 @@ export default class EventListItem extends React.Component {
         super(props)
     }
 
+    /* METODOS AUXILIARES */
+
+    goDetailEvent = () => {
+        const { event, navigation } = this.props;
+        navigation.navigate("DetailEvent", { params: { navigation, event } });
+    }
+
     /* LAYOUT */
     render() {
-        const { event } = this.props;
-        console.log("===renderizando item:===");
+        const { event, navigation } = this.props;
+
+        console.log("evento desde eventlistitem");
         console.log(event);
         
         //left buttons
@@ -31,7 +39,9 @@ export default class EventListItem extends React.Component {
                 style={{ flex: 1 }}
                 leftButtons={leftButton}
             >
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={this.goDetailEvent}
+                >
                     <View style={styles.eventContainer}>
                         <Image
                             source={require('../icons/add.png')}

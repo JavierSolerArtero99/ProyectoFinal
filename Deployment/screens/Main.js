@@ -169,9 +169,9 @@ export default class Main extends React.Component {
                             <EmptyDay />
                         ) : (
                             <View style={styles.dayContainer}>
-                                <TimeDay time={"morning"} events={morningEvents} />
-                                <TimeDay time={"afternoon"} events={afternoonEvents} />
-                                <TimeDay time={"night"} events={nightEvents} />
+                                <TimeDay time={"morning"} events={morningEvents} navigation={navigation} />
+                                <TimeDay time={"afternoon"} events={afternoonEvents} navigation={navigation} />
+                                <TimeDay time={"night"} events={nightEvents} navigation={navigation} />
                             </View>
                         )}
                 </ScrollView>
