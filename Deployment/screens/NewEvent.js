@@ -146,6 +146,16 @@ export default class NewEvent extends React.Component {
     }
 
     /**
+     * cambia el valor de timer añadiendo
+     * un cronometro para el evento
+     */
+    updateTime = (newTime) => {
+        this.setState({
+            time: newTime,
+        })
+    }
+
+    /**
      * añade un recordatorio al array 
      * de estos
      */
@@ -179,6 +189,26 @@ export default class NewEvent extends React.Component {
         }
 
         return newTimer;
+    }
+
+    /**
+     * reinicia el contador
+     */
+    resetTotalTimes = () => {
+        this.setState({
+            totalTimes: 1,
+        })
+    }
+
+    /**
+     * reinicia el cronometro
+     */
+    resetStopwatch = () => {
+        this.setState({
+            time: 0,
+        })
+
+        Stopwatch.reset();
     }
 
     /**
@@ -252,10 +282,13 @@ export default class NewEvent extends React.Component {
                     color={color}
                     totalTimes={totalTimes}
                     updateTotalTimes={this.updateTotalTimes}
+                    resetStopwatch={this.resetStopwatch}
                 />
 
                 <Stopwatch
+                    updateTime={this.updateTime}
                     color={color}
+                    resetTotalTimes={this.resetTotalTimes}
                 />
 
             </View>

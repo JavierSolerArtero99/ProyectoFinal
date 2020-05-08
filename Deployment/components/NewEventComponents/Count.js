@@ -16,13 +16,16 @@ export default class Count extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { totalTimes, color, updateTotalTimes } = this.props;
+        const { totalTimes, color, updateTotalTimes, resetStopwatch } = this.props;
 
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>TIME COUNTER</Text>
                 <TouchableOpacity
-                    onPress={() => { updateTotalTimes('+') }}
+                    onPress={() => { 
+                        updateTotalTimes('+');
+                        resetStopwatch();
+                    }}
                     style={styles.button}
                 >
                     <Text style={[styles.totalTimes, { color: color }]}>+</Text>
@@ -31,7 +34,10 @@ export default class Count extends React.Component {
                 <Text style={[styles.counter, { color: "#dbdbdb" }]}>{totalTimes}</Text>
 
                 <TouchableOpacity
-                    onPress={() => { updateTotalTimes('-') }}
+                    onPress={() => { 
+                        updateTotalTimes('-');
+                        resetStopwatch();
+                    }}
                     style={styles.button}
                 >
                     <Text style={[styles.totalTimes, { color: color }]}>-</Text>
