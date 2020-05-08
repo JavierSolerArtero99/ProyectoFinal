@@ -1,19 +1,24 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-/**
- * Componente funcional que devuelve el boton al
- * hacer swipe en un elemento de la lista  
- */
-export default function LeftSwipeButton(props) {
+
+export default function LeftSwipeCounterButton(props) {
+    console.log("propiedades");
+    console.log(props);
+
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: props.color }]}
             onPress={() => console.log('left button clicked')}
         >
-            <MaterialCommunityIcons name="check" color={"#323232"} size={30} /> 
+            <Text
+                style={styles.counter}
+                color={props.event.color}
+            >
+                {props.count}
+            </Text>
         </TouchableOpacity>
     );
 }
@@ -29,9 +34,9 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         flexDirection: 'column',
     },
-    checkButton: {
-        width: 25,
-        height: 25,
-        resizeMode: "contain",
+    counter: {
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "#323232",
     }
 });

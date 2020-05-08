@@ -1,19 +1,20 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, ImageBackground } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 /**
  * Componente funcional que devuelve el boton al
- * hacer swipe en un elemento de la lista  
+ * hacer swipe hacia la derecha en un elemento de
+ * la lista  
  */
-export default function LeftSwipeButton(props) {
+export default function RightSwipeButtons(props) {
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: props.color }]}
-            onPress={() => console.log('left button clicked')}
+            onPress={() => console.log('right button clicked')}
         >
-            <MaterialCommunityIcons name="check" color={"#323232"} size={30} /> 
+            <MaterialCommunityIcons name="close" color={"#323232"} size={30} /> 
         </TouchableOpacity>
     );
 }

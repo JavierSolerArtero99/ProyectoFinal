@@ -207,8 +207,6 @@ export default class NewEvent extends React.Component {
         this.setState({
             time: 0,
         })
-
-        Stopwatch.reset();
     }
 
     /**

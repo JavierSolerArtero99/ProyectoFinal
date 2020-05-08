@@ -24,7 +24,8 @@ export default class Main extends React.Component {
                 endDate: [],
                 color: "#2380d1",
                 hour: "09:00",
-                totalTimes: 3,
+                totalTimes: 1,
+                totalTimesDone: 0,
                 time: 0,
                 timers: [
                     {
@@ -44,7 +45,8 @@ export default class Main extends React.Component {
                 endDate: [],
                 color: "#ffc801",
                 hour: "15:00",
-                totalTimes: 0,
+                totalTimes: 13,
+                totalTimesDone: 0,
                 time: 0,
                 timers: [
                     {
@@ -64,8 +66,9 @@ export default class Main extends React.Component {
                 endDate: [],
                 color: "#ef611e",
                 hour: "09:00",
-                totalTimes: 3,
-                time: 0,
+                totalTimes: 1,
+                totalTimesDone: 0,
+                time: 1120029,
                 timers: [
                     {
                         id: 1,
@@ -84,7 +87,8 @@ export default class Main extends React.Component {
                 endDate: [],
                 color: "#ff005a",
                 hour: "19:00",
-                totalTimes: 3,
+                totalTimes: 1,
+                totalTimesDone: 0,
                 time: 0,
                 timers: [
                     {
@@ -93,7 +97,7 @@ export default class Main extends React.Component {
                     },
                 ],
             },
-            
+
         ],
         morningEvents: [],
         afternoonEvents: [],

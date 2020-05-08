@@ -150,16 +150,6 @@ export default class Stopwatch extends React.Component {
         });
     }
 
-    static reset() {
-        console.log("hola");
-        
-        this.setState({
-            selectedHours: "00",
-            selectedMinutes: "00",
-            selectedSeconds: "00",
-        });
-    }
-
     /* METODOS DE RENDERIZACION */
 
     /**
