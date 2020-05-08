@@ -3,15 +3,11 @@ import { StyleSheet, TouchableOpacity, Text, } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 export default function LeftSwipeCounterButton(props) {
-    console.log("propiedades");
-    console.log(props);
-
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: props.color }]}
-            onPress={() => console.log('left button clicked')}
+            onPress={() => {props.addTotalTimeCounter(props.event, props.quantity)}}
         >
             <Text
                 style={styles.counter}

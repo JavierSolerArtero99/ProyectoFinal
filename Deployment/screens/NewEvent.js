@@ -24,6 +24,7 @@ export default class NewEvent extends React.Component {
         color: "#2380d1",
         hour: "",
         totalTimes: 1,
+        totalTimesDone: 0,
         time: 0,
         timers: [
             {

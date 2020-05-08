@@ -170,14 +170,20 @@ export default class Main extends React.Component {
     addEvent = (added) => {
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
         const aux = {
+            id: 10,
             name: added.name,
             icon: added.icon,
             color: added.color,
             totalTimes: added.totalTimes,
+            totalTimesDone: 0,
             time: 0,
             repeat: added.repeat,
             hour: "10:00",
         }
+
+        this.setState({
+            events: [...events, newEvent(aux)]
+        })
 
         switch (true) {
             case (this.checkHour(aux.hour) == "morning"):
@@ -198,6 +204,71 @@ export default class Main extends React.Component {
         }
     }
 
+    /**
+     * metodo que cumple el evento clicado y lo edita en
+     * los arrays
+     */
+    addTotalTimeCounter = (event, quantity) => {
+        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        let aux = [];
+        let morning = [];
+        let after = [];
+        let night = [];
+        let value = 0;
+        
+        if(quantity != event.totalTimes) {
+            if (quantity == 1) {
+                if ((event.totalTimesDone + 1) <= event.totalTimes) {
+                    value = event.totalTimesDone + 1;
+                } else {
+                    value = event.totalTimesDone;
+                }
+            } else {
+                if ((event.totalTimesDone + quantity) <= event.totalTimes) {
+                    value = event.totalTimesDone + quantity;
+                } else {
+                    value = event.totalTimes;
+                }
+            }
+        } else {
+            value = event.totalTimes;
+        }
+
+        console.log("variacion");
+        console.log(value);
+
+        events.forEach((e, i) => {
+            (e.id == event.id) && (e.totalTimesDone = value);
+            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
+            aux = [...aux, e];
+        });
+
+        morningEvents.forEach((e, i) => {
+            (e.id == event.id) && (e.totalTimesDone = value);
+            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
+            morning = [...morning, e];
+        });
+
+        afternoonEvents.forEach((e, i) => {
+            (e.id == event.id) && (e.totalTimesDone = value);
+            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
+            after = [...after, e];
+        });
+
+        nightEvents.forEach((e, i) => {
+            (e.id == event.id) && (e.totalTimesDone = value);
+            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
+            night = [...night, e];
+        });
+
+        this.setState({
+            events: aux,
+            morningEvents: morning, 
+            afternoonEvents: after, 
+            nightEvents: night,
+        })
+    }
+
     /* LAYOUT */
     render() {
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
@@ -214,9 +285,24 @@ export default class Main extends React.Component {
                             <EmptyDay />
                         ) : (
                             <View style={styles.dayContainer}>
-                                <TimeDay time={"morning"} events={morningEvents} navigation={navigation} />
-                                <TimeDay time={"afternoon"} events={afternoonEvents} navigation={navigation} />
-                                <TimeDay time={"night"} events={nightEvents} navigation={navigation} />
+                                <TimeDay
+                                    time={"morning"}
+                                    events={morningEvents}
+                                    navigation={navigation}
+                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                />
+                                <TimeDay
+                                    time={"afternoon"}
+                                    events={afternoonEvents}
+                                    navigation={navigation}
+                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                />
+                                <TimeDay
+                                    time={"night"}
+                                    events={nightEvents}
+                                    navigation={navigation}
+                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                />
                             </View>
                         )}
                 </ScrollView>

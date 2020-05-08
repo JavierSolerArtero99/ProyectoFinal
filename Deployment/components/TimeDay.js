@@ -12,7 +12,7 @@ export default class TimeDay extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { events, time, navigation } = this.props;
+        const { events, time, navigation, addTotalTimeCounter } = this.props;
 
         return (
             (events.length > 0) ?
@@ -27,7 +27,7 @@ export default class TimeDay extends React.Component {
                         <View style={styles.eventsContainer}>
                             {events.map((event) => (
                                 <View style={styles.eventsList}>
-                                    <EventListItem event={event} navigation={navigation} />
+                                    <EventListItem addTotalTimeCounter={addTotalTimeCounter} event={event} navigation={navigation} />
                                 </View>),
                             )}
                         </View>

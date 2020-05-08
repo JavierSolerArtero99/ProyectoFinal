@@ -11,7 +11,7 @@ export default function LeftSwipeButton(props) {
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: props.color }]}
-            onPress={() => console.log('left button clicked')}
+            onPress={() => {props.addTotalTimeCounter(props.event, props.event.totalTimes)}}
         >
             <MaterialCommunityIcons name="check" color={"#323232"} size={30} /> 
         </TouchableOpacity>

@@ -18,7 +18,12 @@ export default class EventListItem extends React.Component {
 
     /* METODOS DE RENDERIZACION */
 
+    /**
+     * Obtiene los botones de la parte izquierda 
+     * dependiendo de los tipos de parametros utilzados 
+     */
     getLeftButtons = (event) => {
+        const { addTotalTimeCounter } = this.props;
         let leftButton;
 
         if (event.totalTimes > 1) {
@@ -27,9 +32,24 @@ export default class EventListItem extends React.Component {
                 <SwipeButtonsContainer
                     style={styles.swipeButtonsContainer}
                 >
-                    <LeftSwipeButton event={event} color={event.color} />
-                    <LeftSwipeCounterButton event={event} color={event.color} count={"+1"} />
-                    <LeftSwipeCounterButton event={event} color={event.color} count={"+" + Math.floor(event.totalTimes / 2 + 1)} />
+                    <LeftSwipeButton
+                        event={event}
+                        color={event.color}
+                        addTotalTimeCounter={addTotalTimeCounter}
+                    />
+                    <LeftSwipeCounterButton
+                        event={event}
+                        color={event.color}
+                        count={"+1"}
+                        addTotalTimeCounter={addTotalTimeCounter}
+                        quantity={1}
+                    />
+                    <LeftSwipeCounterButton
+                        event={event}
+                        color={event.color}
+                        count={"+" + Math.floor(event.totalTimes / 2 + 1)}
+                        addTotalTimeCounter={addTotalTimeCounter}
+                        quantity={Math.floor(event.totalTimes / 2 + 1)} />
                 </SwipeButtonsContainer>
             );
 
@@ -40,7 +60,7 @@ export default class EventListItem extends React.Component {
                     <SwipeButtonsContainer
                         style={styles.swipeButtonsContainer}
                     >
-                        <LeftSwipeButton event={event} color={event.color} />
+                        <LeftSwipeButton event={event} color={event.color} addTotalTimeCounter={addTotalTimeCounter} />
                         <LeftSwipeStopwatchButton event={event} color={event.color} icon={"play-pause"} />
                         <LeftSwipeStopwatchButton event={event} color={event.color} icon={"restart"} />
                     </SwipeButtonsContainer>
@@ -52,7 +72,7 @@ export default class EventListItem extends React.Component {
                     <SwipeButtonsContainer
                         style={styles.swipeButtonsContainer}
                     >
-                        <LeftSwipeButton event={event} color={event.color} />
+                        <LeftSwipeButton event={event} color={event.color} addTotalTimeCounter={addTotalTimeCounter} />
                     </SwipeButtonsContainer>
                 );
             }
@@ -61,6 +81,10 @@ export default class EventListItem extends React.Component {
         return leftButton;
     }
 
+    /**
+     * Obtiene los botones de la parte derecha 
+     * dependiendo de los tipos de parametros utilzados 
+     */
     getRightButtons = (event) => {
         let rightButton;
         if (event.totalTimes > 0) {
@@ -99,12 +123,14 @@ export default class EventListItem extends React.Component {
         return rightButton;
     }
 
+    /**
+     * renderiza los componentes especificos
+     * dependiendo si tiene un cronometro o
+     * tiene un contador
+     */
     renderSpecificComponents = () => {
         const { event } = this.props;
         let specificComponent;
-
-        console.log("===EVENTO: " + event.name + "===");
-        console.log(event);
 
         switch (true) {
             case (event.totalTimes == 1 && event.time == 0):
@@ -136,6 +162,9 @@ export default class EventListItem extends React.Component {
 
     /* METODOS AUXILIARES */
 
+    /**
+     * va al layout de detalle del evento
+     */
     goDetailEvent = () => {
         const { event, navigation } = this.props;
         navigation.navigate("DetailEvent", { params: { navigation, event } });
