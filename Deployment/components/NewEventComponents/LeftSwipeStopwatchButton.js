@@ -11,7 +11,7 @@ export default function LeftSwipeStopwatchButton(props) {
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: props.color }]}
-            onPress={() => console.log('left button clicked')}
+            onPress={() => {props.startStopCounter(props.event.id)}}
         >
             <MaterialCommunityIcons name={props.icon} color={"#323232"} size={30} /> 
         </TouchableOpacity>

@@ -12,7 +12,7 @@ export default class TimeDay extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { events, time, navigation, addTotalTimeCounter } = this.props;
+        const { events, moment, navigation, addTotalTimeCounter, startStopCounter } = this.props;
 
         return (
             (events.length > 0) ?
@@ -20,16 +20,24 @@ export default class TimeDay extends React.Component {
                     <View style={styles.timeContainer}>
                         <View style={styles.imageContainer}>
                             <Image
-                                source={getDayTimeImage(time)}
+                                source={getDayTimeImage(moment)}
                                 style={styles.image}
                             />
                         </View>
                         <View style={styles.eventsContainer}>
-                            {events.map((event) => (
-                                <View style={styles.eventsList}>
-                                    <EventListItem addTotalTimeCounter={addTotalTimeCounter} event={event} navigation={navigation} />
-                                </View>),
-                            )}
+                            {events.map((event) => {
+                                return (
+                                    <View style={styles.eventsList}>
+                                        <EventListItem
+                                            addTotalTimeCounter={addTotalTimeCounter}
+                                            event={event}
+                                            time={event.time}
+                                            navigation={navigation}
+                                            startStopCounter={startStopCounter}
+                                        />
+                                    </View>
+                                )
+                            })}
                         </View>
                     </View>
                 ) : (

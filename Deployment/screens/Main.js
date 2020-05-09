@@ -5,6 +5,7 @@ import WeekHeader from '../components/WeekHeader';
 import AddEventButton from '../components/AddEventButton';
 import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
+import { Audio } from 'expo-av';
 
 import { newEvent } from '../utils/EventsUtils';
 
@@ -27,6 +28,7 @@ export default class Main extends React.Component {
                 totalTimes: 1,
                 totalTimesDone: 0,
                 time: 0,
+                isRunning: false,
                 timers: [
                     {
                         id: 1,
@@ -48,6 +50,7 @@ export default class Main extends React.Component {
                 totalTimes: 13,
                 totalTimesDone: 0,
                 time: 0,
+                isRunning: false,
                 timers: [
                     {
                         id: 1,
@@ -68,7 +71,8 @@ export default class Main extends React.Component {
                 hour: "09:00",
                 totalTimes: 1,
                 totalTimesDone: 0,
-                time: 1120029,
+                time: 6000,
+                isRunning: false,
                 timers: [
                     {
                         id: 1,
@@ -90,6 +94,7 @@ export default class Main extends React.Component {
                 totalTimes: 1,
                 totalTimesDone: 0,
                 time: 0,
+                isRunning: false,
                 timers: [
                     {
                         id: 1,
@@ -109,6 +114,54 @@ export default class Main extends React.Component {
 
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
         this.divideEvents(events, morningEvents, afternoonEvents, nightEvents);
+    }
+
+    /* CICLO DE VIDA */
+
+    /**
+     * funcionalidad de los cronometros
+     */
+    componentDidMount() {
+        const TIME_INTERVAL = 1000;
+
+        this.intervalId = setInterval(() => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+
+            this.setState({
+                events: events.map(event => {
+                    const { time, isRunning } = event;
+                    
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { time, isRunning } = event;
+                    
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { time, isRunning } = event;
+                    
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { time, isRunning } = event;
+                    
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+            });
+        }, TIME_INTERVAL);
     }
 
     /* METODOS DE AYUDA */
@@ -215,8 +268,8 @@ export default class Main extends React.Component {
         let after = [];
         let night = [];
         let value = 0;
-        
-        if(quantity != event.totalTimes) {
+
+        if (quantity != event.totalTimes) {
             if (quantity == 1) {
                 if ((event.totalTimesDone + 1) <= event.totalTimes) {
                     value = event.totalTimesDone + 1;
@@ -263,10 +316,74 @@ export default class Main extends React.Component {
 
         this.setState({
             events: aux,
-            morningEvents: morning, 
-            afternoonEvents: after, 
+            morningEvents: morning,
+            afternoonEvents: after,
             nightEvents: night,
         })
+    }
+
+    /**
+     * inicia o para el cronometro del evento pasado por 
+     * parametro
+     */
+    startStopCounter = (eventId) => {
+        this.setState(prevState => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = prevState;
+
+            /* devuelve los mismos cronometros pero
+            modifica el valor de isRunning al
+            inverso del timer que se ha seleccionado */
+            return {
+                events: events.map(event => {
+                    const { id, isRunning } = event;
+
+                    if (id === eventId) {                        
+                        return {
+                            ...event,
+                            isRunning: !isRunning,
+                        };
+                    }
+
+                    return event;
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { id, isRunning } = event;
+
+                    if (id === eventId) {                        
+                        return {
+                            ...event,
+                            isRunning: !isRunning,
+                        };
+                    }
+
+                    return event;
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { id, isRunning } = event;
+
+                    if (id === eventId) {                        
+                        return {
+                            ...event,
+                            isRunning: !isRunning,
+                        };
+                    }
+
+                    return event;
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { id, isRunning } = event;
+
+                    if (id === eventId) {                        
+                        return {
+                            ...event,
+                            isRunning: !isRunning,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
     }
 
     /* LAYOUT */
@@ -286,22 +403,25 @@ export default class Main extends React.Component {
                         ) : (
                             <View style={styles.dayContainer}>
                                 <TimeDay
-                                    time={"morning"}
+                                    moment={"morning"}
                                     events={morningEvents}
                                     navigation={navigation}
                                     addTotalTimeCounter={this.addTotalTimeCounter}
+                                    startStopCounter={this.startStopCounter}
                                 />
                                 <TimeDay
-                                    time={"afternoon"}
+                                    moment={"afternoon"}
                                     events={afternoonEvents}
                                     navigation={navigation}
                                     addTotalTimeCounter={this.addTotalTimeCounter}
+                                    startStopCounter={this.startStopCounter}
                                 />
                                 <TimeDay
-                                    time={"night"}
+                                    moment={"night"}
                                     events={nightEvents}
                                     navigation={navigation}
                                     addTotalTimeCounter={this.addTotalTimeCounter}
+                                    startStopCounter={this.startStopCounter}
                                 />
                             </View>
                         )}
