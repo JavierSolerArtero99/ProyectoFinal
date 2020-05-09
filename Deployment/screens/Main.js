@@ -287,30 +287,23 @@ export default class Main extends React.Component {
             value = event.totalTimes;
         }
 
-        console.log("variacion");
-        console.log(value);
-
         events.forEach((e, i) => {
             (e.id == event.id) && (e.totalTimesDone = value);
-            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
             aux = [...aux, e];
         });
 
         morningEvents.forEach((e, i) => {
             (e.id == event.id) && (e.totalTimesDone = value);
-            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
             morning = [...morning, e];
         });
 
         afternoonEvents.forEach((e, i) => {
             (e.id == event.id) && (e.totalTimesDone = value);
-            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
             after = [...after, e];
         });
 
         nightEvents.forEach((e, i) => {
             (e.id == event.id) && (e.totalTimesDone = value);
-            (e.id == event.id) && (console.log("se ha clicado: " + e.totalTimesDone));
             night = [...night, e];
         });
 

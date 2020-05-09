@@ -16,9 +16,12 @@ export default class EventStopWatch extends React.Component {
 
     finish = () => {
         const { finished } = this.state;
+        const { event, addTotalTimeCounter } = this.props;
 
         if (!finished) {
             this.playSound();
+
+            addTotalTimeCounter(event, 1);
 
             this.setState({
                 finished: true,
@@ -35,7 +38,6 @@ export default class EventStopWatch extends React.Component {
             try {
                 await soundObject.loadAsync(require('../sounds/notification.mp3'));
                 await soundObject.playAsync();
-                console.log("se ha hecho bien");
 
             } catch (error) {
             }

@@ -48,7 +48,6 @@ export default class EventListItem extends React.Component {
                         event={event}
                         color={event.color}
                         count={"+" + Math.floor(event.totalTimes / 2 + 1)}
-                        addTotalTimeCounter={addTotalTimeCounter}
                         quantity={Math.floor(event.totalTimes / 2 + 1)} />
                 </SwipeButtonsContainer>
             );
@@ -60,9 +59,23 @@ export default class EventListItem extends React.Component {
                     <SwipeButtonsContainer
                         style={styles.swipeButtonsContainer}
                     >
-                        <LeftSwipeButton event={event} color={event.color} addTotalTimeCounter={addTotalTimeCounter} />
-                        <LeftSwipeStopwatchButton event={event} color={event.color} icon={"play-pause"} startStopCounter={this.props.startStopCounter}/>
-                        <LeftSwipeStopwatchButton event={event} color={event.color} icon={"restart"} />
+                        <LeftSwipeButton
+                            event={event}
+                            color={event.color}
+                            addTotalTimeCounter={addTotalTimeCounter}
+                        />
+                        <LeftSwipeStopwatchButton
+                            event={event}
+                            color={event.color}
+                            icon={"play-pause"}
+                            addTotalTimeCounter={addTotalTimeCounter}
+                            startStopCounter={this.props.startStopCounter}
+                        />
+                        <LeftSwipeStopwatchButton
+                            event={event}
+                            color={event.color}
+                            icon={"restart"}
+                        />
                     </SwipeButtonsContainer>
                 );
 
@@ -129,7 +142,8 @@ export default class EventListItem extends React.Component {
      * tiene un contador
      */
     renderSpecificComponents = () => {
-        const { event, time } = this.props;
+        const { event, time, addTotalTimeCounter } = this.props;
+
         let specificComponent;
 
         switch (true) {
@@ -153,6 +167,7 @@ export default class EventListItem extends React.Component {
                     <EventStopWatch
                         event={event}
                         time={time}
+                        addTotalTimeCounter={addTotalTimeCounter}
                     />
                 );
                 break;
