@@ -5,7 +5,6 @@ import WeekHeader from '../components/WeekHeader';
 import AddEventButton from '../components/AddEventButton';
 import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
-import { Audio } from 'expo-av';
 
 import { newEvent } from '../utils/EventsUtils';
 

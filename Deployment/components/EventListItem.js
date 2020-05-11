@@ -47,6 +47,7 @@ export default class EventListItem extends React.Component {
                     <LeftSwipeCounterButton
                         event={event}
                         color={event.color}
+                        addTotalTimeCounter={addTotalTimeCounter}
                         count={"+" + Math.floor(event.totalTimes / 2 + 1)}
                         quantity={Math.floor(event.totalTimes / 2 + 1)} />
                 </SwipeButtonsContainer>
@@ -205,12 +206,12 @@ export default class EventListItem extends React.Component {
                     activeOpacity={0.9}
                     onPress={this.goDetailEvent}
                 >
-                    <View style={styles.eventContainer}>
-                        <MaterialCommunityIcons name={event.icon} color={event.color} size={26} />
+                    <View style={[styles.eventContainer, (event.totalTimesDone == event.totalTimes) && (styles.doneEventContainer)]}>
+                        <MaterialCommunityIcons name={event.icon} color={(event.totalTimesDone == event.totalTimes) ? ("#434343") : (event.color)} size={26} />
                         <View style={styles.description}>
                             <View>
-                                <Text style={styles.eventName}>{event.name}</Text>
-                                <Text style={styles.eventHour}>{event.hour}</Text>
+                                <Text style={[styles.eventName, (event.totalTimes==event.totalTimesDone)&&({color:"#434343", textDecorationLine: "line-through"})]}>{event.name}</Text>
+                                <Text style={[styles.eventHour, (event.totalTimes==event.totalTimesDone)&&({color:"#434343", textDecorationLine: "line-through"})]}>{event.hour}</Text>
                             </View>
                             <View style={styles.specificComponents}>
                                 {this.renderSpecificComponents()}
@@ -237,6 +238,9 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         flexDirection: "row",
         padding: 10,
+    },
+    doneEventContainer: {
+        backgroundColor: "#323232",
     },
     icon: {
         width: 45,
