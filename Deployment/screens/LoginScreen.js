@@ -25,7 +25,7 @@ export default class LoginScreen extends React.Component {
                 />
 
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: "#2380d1" }]}>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: "#2380d1" }]} onPress={() => {this.props.navigation.navigate("Main")}}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, { backgroundColor: "#ef611e" }]}>
