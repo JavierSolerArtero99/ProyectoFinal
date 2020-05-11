@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import User from '../models/user';
 
 export default class Settings extends React.Component {
     render() {

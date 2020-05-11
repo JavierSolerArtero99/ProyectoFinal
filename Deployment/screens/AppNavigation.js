@@ -14,50 +14,52 @@ import DetailEventScreen from './DetailEventScreen';
 /* VARIABLES DE NAVEGACION */
 const Tab = createMaterialBottomTabNavigator(); // navegacion de la app
 const MainStackNavigation = createStackNavigator();    // pantalla main
+const LoginStackNavigation = createStackNavigator(); // navegacion para el login
 
 /* NAVEGACION PRINCIPAL */
 
 export default function AppNavigation() {
     return (
-        <NavigationContainer>
-            <Tab.Navigator
-                initialRouteName="Main"
-                activeColor="#14ffec"
-                inactiveColor="#dbdbdb"
-                barStyle={{ backgroundColor: '#434343' }}
-            >
-                <Tab.Screen
-                    name="Stats"
-                    component={StatsScreen}
-                    options={{
-                        tabBarLabel: 'Analytics',
-                        tabBarIcon: ({ color }) => (
-                          <MaterialCommunityIcons name="google-analytics" color={color} size={26} />
-                        ),
-                      }}
-                />
-                <Tab.Screen
-                    name="Main"
-                    component={MainStack}
-                    options={{
-                        tabBarLabel: 'My Habits',
-                        tabBarIcon: ({ color }) => (
-                          <MaterialCommunityIcons name="home-circle" color={color} size={26} />
-                        ),
-                      }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        tabBarLabel: 'Settings',
-                        tabBarIcon: ({ color }) => (
-                          <MaterialCommunityIcons name="settings-outline" color={color} size={26} />
-                        ),
-                      }}
-                />
-            </Tab.Navigator>
-        </NavigationContainer>
+        // <NavigationContainer>
+        //     <Tab.Navigator
+        //         initialRouteName="Main"
+        //         activeColor="#14ffec"
+        //         inactiveColor="#dbdbdb"
+        //         barStyle={{ backgroundColor: '#434343' }}
+        //     >
+        //         <Tab.Screen
+        //             name="Stats"
+        //             component={StatsScreen}
+        //             options={{
+        //                 tabBarLabel: 'Analytics',
+        //                 tabBarIcon: ({ color }) => (
+        //                   <MaterialCommunityIcons name="google-analytics" color={color} size={26} />
+        //                 ),
+        //               }}
+        //         />
+        //         <Tab.Screen
+        //             name="Main"
+        //             component={MainStack}
+        //             options={{
+        //                 tabBarLabel: 'My Habits',
+        //                 tabBarIcon: ({ color }) => (
+        //                   <MaterialCommunityIcons name="home-circle" color={color} size={26} />
+        //                 ),
+        //               }}
+        //         />
+        //         <Tab.Screen
+        //             name="Settings"
+        //             component={SettingsScreen}
+        //             options={{
+        //                 tabBarLabel: 'Settings',
+        //                 tabBarIcon: ({ color }) => (
+        //                   <MaterialCommunityIcons name="settings-outline" color={color} size={26} />
+        //                 ),
+        //               }}
+        //         />
+        //     </Tab.Navigator>
+        // </NavigationContainer>
+
     );
 }
 

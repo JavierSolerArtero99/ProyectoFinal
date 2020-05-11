@@ -7,6 +7,7 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import { newEvent } from '../utils/EventsUtils';
+import User from '../models/user';
 
 export default class Main extends React.Component {
     /* STATE && CONSTRUCTOR */
