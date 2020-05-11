@@ -9,7 +9,7 @@ definicion del servidor
  * coge el puerto disponible por el so
  * en caso contrario el 3000
  */
-app.set('port', process.env.PORT || 9999); 
+app.set('port', process.env.PORT || 3000); 
 
 /* MIDDLEWARES:
 funciones que se ejecutan antes de 
@@ -25,11 +25,10 @@ app.use(express.json());
 parte de comunicacion cliente-servidor */
 
 // ruta para los empleados
-app.use(require('./routes/employees'));
+app.use(require('./routes/users'));
 
 
 /* START */
 app.listen(app.get('port'), () => {
     console.log("===SERVER IN PORT:" + app.get('port') + "===");
-    
 });     

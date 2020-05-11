@@ -1,12 +1,10 @@
-CREATE DATABASE IF NOT EXISTS company;
+CREATE DATABASE IF NOT EXISTS productiveapp;
 
-USE company;
+USE productiveapp;
 
-CREATE TABLE IF NOT EXISTS employees(
+CREATE TABLE IF NOT EXISTS users(
 	id INT(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) DEFAULT NULL,
-    salary INT(11) DEFAULT NULL,
-    PRIMARY KEY(id)    
+    name VARCHAR(45) NOT NULL,
+    passwd VARCHAR(20) NOT NULL,
+    PRIMARY KEY(id)
 );
-
-DESCRIBE employees;
