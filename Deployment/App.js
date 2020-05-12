@@ -7,6 +7,5 @@ export default function App() {
   return (
       // <Main />
       <AppNavigation/>
-      // <LoginScreen/>
   );
 }

@@ -1,8 +1,52 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { loginUser } from '../api/UsersDAO';
+import User from '../models/user';
 
 export default class LoginScreen extends React.Component {
+
+    /* STATE */
+    state = {
+        name: "",
+        passwd: "",
+    }
+
+    /* EVENTOS */
+
+    changeName = (newName) => {
+        this.setState({
+            name: newName,
+        })
+    }
+
+    changePasswd = (newPasswd) => {
+        this.setState({
+            passwd: newPasswd,
+        })
+    }
+
+    /* ASYNC METHODS */
+
+    /**
+     * llama a la peticion get de la api para comprobar
+     * un usuario y ver si se puede logear
+     */
+    logIn = async () => {
+        const { name, passwd } = this.state;
+        const user = await loginUser(name, passwd);
+
+        if (user == undefined) {
+            (ToastAndroid.showWithGravity(
+                "Enter a name",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            ));
+        } else {
+            User.buildUser(user);
+            this.props.navigation.navigate("Main")
+        }
+    }
 
     /* LAYOUT */
     render() {
@@ -14,21 +58,28 @@ export default class LoginScreen extends React.Component {
                 />
 
                 <TextInput
-                    style={[styles.textInput, {marginTop: 15,}]}
+                    style={[styles.textInput, { marginTop: 15, }]}
                     placeholder={"Name"}
                     underlineColorAndroid="transparent"
+                    onChangeText={this.changeName}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder={"Password"}
                     underlineColorAndroid="transparent"
+                    onChangeText={this.changePasswd}
                 />
 
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: "#2380d1" }]} onPress={() => {this.props.navigation.navigate("Main")}}>
+                    <TouchableOpacity
+                        style={[styles.button, { backgroundColor: "#2380d1" }]}
+                        onPress={this.logIn}
+                    >
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: "#ef611e" }]}>
+                    <TouchableOpacity
+                        style={[styles.button, { backgroundColor: "#ef611e" }]}
+                    >
                         <Text style={styles.buttonText}>Sign in</Text>
                     </TouchableOpacity>
                 </View>
