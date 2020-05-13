@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { loginUser } from '../api/UsersDAO';
 import User from '../models/user';
@@ -34,17 +34,27 @@ export default class LoginScreen extends React.Component {
      */
     logIn = async () => {
         const { name, passwd } = this.state;
-        const user = await loginUser(name, passwd);
+        let user;
 
-        if (user == undefined) {
-            (ToastAndroid.showWithGravity(
-                "Enter a name",
+        if (name.length > 0 && passwd.length > 0) {
+            user = await loginUser(name, passwd);
+
+            if (user == undefined) {
+                (ToastAndroid.showWithGravity(
+                    "Enter a name",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER
+                ));
+            } else {
+                User.buildUser(user);
+                this.props.navigation.navigate("Main")
+            }
+        } else {
+            ToastAndroid.showWithGravity(
+                "Enter a name and password",
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER
-            ));
-        } else {
-            User.buildUser(user);
-            this.props.navigation.navigate("Main")
+            );
         }
     }
 
@@ -100,7 +110,6 @@ const styles = StyleSheet.create({
         height: 5,
     },
     textInput: {
-        height: 40,
         width: '87%',
         backgroundColor: "#323232",
         marginBottom: 15,

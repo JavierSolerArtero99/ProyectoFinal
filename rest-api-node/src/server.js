@@ -24,8 +24,10 @@ app.use(express.json());
 /* ROUTES:
 parte de comunicacion cliente-servidor */
 
-// ruta para los empleados
+// ruta para los usuarios
 app.use(require('./routes/users'));
+// ruta para los eventos
+app.use(require('./routes/events'));
 
 
 /* START */

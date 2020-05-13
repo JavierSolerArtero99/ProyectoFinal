@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, ActivityIndicator } from 'react-native';
 
 import WeekHeader from '../components/WeekHeader';
 import AddEventButton from '../components/AddEventButton';
@@ -8,102 +8,15 @@ import TimeDay from '../components/TimeDay';
 
 import { newEvent } from '../utils/EventsUtils';
 import User from '../models/user';
+import { findAllByPK } from '../api/EventsDAO';
 
 export default class Main extends React.Component {
+   
     /* STATE && CONSTRUCTOR */
-
     state = {
-        events: [
-            {
-                id: 1,
-                name: "Saltar a la comba",
-                icon: "basketball",
-                description: "Saltar a la comba 100 veces",
-                habit: true,
-                eventType: "HABIT",
-                date: [],
-                endDate: [],
-                color: "#2380d1",
-                hour: "09:00",
-                totalTimes: 1,
-                totalTimesDone: 0,
-                time: 0,
-                isRunning: false,
-                timers: [
-                    {
-                        id: 1,
-                        hour: "09:00",
-                    },
-                ],
-            },
-            {
-                id: 2,
-                name: "Ir a misa",
-                icon: "christianity",
-                description: "rezar durante 3 horas",
-                habit: true,
-                eventType: "HABIT",
-                date: [],
-                endDate: [],
-                color: "#ffc801",
-                hour: "15:00",
-                totalTimes: 13,
-                totalTimesDone: 0,
-                time: 0,
-                isRunning: false,
-                timers: [
-                    {
-                        id: 1,
-                        hour: "09:00",
-                    },
-                ],
-            },
-            {
-                id: 3,
-                name: "Comprar pan",
-                icon: "bread-slice",
-                description: "Saltar a la comba 100 veces",
-                habit: true,
-                eventType: "HABIT",
-                date: [],
-                endDate: [],
-                color: "#ef611e",
-                hour: "09:00",
-                totalTimes: 1,
-                totalTimesDone: 0,
-                time: 6000,
-                isRunning: false,
-                timers: [
-                    {
-                        id: 1,
-                        hour: "09:00",
-                    },
-                ],
-            },
-            {
-                id: 4,
-                name: "Recoger a Raul",
-                icon: "guitar-pick",
-                description: "Saltar a la comba 100 veces",
-                habit: true,
-                eventType: "HABIT",
-                date: [],
-                endDate: [],
-                color: "#ff005a",
-                hour: "19:00",
-                totalTimes: 1,
-                totalTimesDone: 0,
-                time: 0,
-                isRunning: false,
-                timers: [
-                    {
-                        id: 1,
-                        hour: "09:00",
-                    },
-                ],
-            },
-
-        ],
+        loading: true,
+        error: false,
+        events: [],
         morningEvents: [],
         afternoonEvents: [],
         nightEvents: [],
@@ -111,17 +24,19 @@ export default class Main extends React.Component {
 
     constructor(props) {
         super(props);
-
-        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
-        this.divideEvents(events, morningEvents, afternoonEvents, nightEvents);
     }
 
     /* CICLO DE VIDA */
 
     /**
-     * funcionalidad de los cronometros
+     * pedira los eventos del usuario loggeado y
+     * crea la funcionalidad para los temporizadores
      */
     componentDidMount() {
+        //peticion para los eventos
+        this.getUserEvents();
+
+        // funcionalidad de los temporizadores
         const TIME_INTERVAL = 1000;
 
         this.intervalId = setInterval(() => {
@@ -130,7 +45,7 @@ export default class Main extends React.Component {
             this.setState({
                 events: events.map(event => {
                     const { time, isRunning } = event;
-                    
+
                     return {
                         ...event,
                         time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
@@ -138,7 +53,7 @@ export default class Main extends React.Component {
                 }),
                 morningEvents: morningEvents.map(event => {
                     const { time, isRunning } = event;
-                    
+
                     return {
                         ...event,
                         time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
@@ -146,7 +61,7 @@ export default class Main extends React.Component {
                 }),
                 afternoonEvents: afternoonEvents.map(event => {
                     const { time, isRunning } = event;
-                    
+
                     return {
                         ...event,
                         time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
@@ -154,7 +69,7 @@ export default class Main extends React.Component {
                 }),
                 nightEvents: nightEvents.map(event => {
                     const { time, isRunning } = event;
-                    
+
                     return {
                         ...event,
                         time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
@@ -162,6 +77,24 @@ export default class Main extends React.Component {
                 }),
             });
         }, TIME_INTERVAL);
+    }
+
+    /* ASYNC METHODS */
+
+    /**
+     * obtiene los eventos de el usuario loggeado
+     */
+    getUserEvents = async () => {
+        let userEvents = await findAllByPK(User._id);
+
+        this.setState({
+            events: userEvents,
+        });
+
+        this.divideEvents(userEvents);
+        this.setState({
+            loading: false,
+        })
     }
 
     /* METODOS DE AYUDA */
@@ -193,23 +126,27 @@ export default class Main extends React.Component {
     /**
      * Metodo que divide eventos en distintos 
      * arrays de franjas horarias   
-     * @param {*} events: eventos totales
-     * Franjas horarias:
-     * @param {*} morningEvents 
-     * @param {*} afternoonEvents 
-     * @param {*} nightEvents 
+     * @param {*} events: eventos totales para dividir
      */
-    divideEvents(events, morningEvents, afternoonEvents, nightEvents) {
+    divideEvents(events) {
+        const { morningEvents, afternoonEvents, nightEvents } = this.state;
+
         events.forEach(event => {
             switch (true) {
                 case (this.checkHour(event.hour) == "morning"):
-                    morningEvents.push(event)
+                    this.setState({
+                        morningEvents: [...morningEvents, event]
+                    })
                     break;
                 case (this.checkHour(event.hour) == "afternoon"):
-                    afternoonEvents.push(event)
+                    this.setState({
+                        afternoonEvents: [...afternoonEvents, event]
+                    })
                     break;
                 case (this.checkHour(event.hour) == "night"):
-                    nightEvents.push(event)
+                    this.setState({
+                        nightEvents: [...nightEvents, event]
+                    })
                     break;
             }
         });
@@ -330,7 +267,7 @@ export default class Main extends React.Component {
                 events: events.map(event => {
                     const { id, isRunning } = event;
 
-                    if (id === eventId) {                        
+                    if (id === eventId) {
                         return {
                             ...event,
                             isRunning: !isRunning,
@@ -342,7 +279,7 @@ export default class Main extends React.Component {
                 morningEvents: morningEvents.map(event => {
                     const { id, isRunning } = event;
 
-                    if (id === eventId) {                        
+                    if (id === eventId) {
                         return {
                             ...event,
                             isRunning: !isRunning,
@@ -354,7 +291,7 @@ export default class Main extends React.Component {
                 afternoonEvents: afternoonEvents.map(event => {
                     const { id, isRunning } = event;
 
-                    if (id === eventId) {                        
+                    if (id === eventId) {
                         return {
                             ...event,
                             isRunning: !isRunning,
@@ -366,7 +303,7 @@ export default class Main extends React.Component {
                 nightEvents: nightEvents.map(event => {
                     const { id, isRunning } = event;
 
-                    if (id === eventId) {                        
+                    if (id === eventId) {
                         return {
                             ...event,
                             isRunning: !isRunning,
@@ -381,53 +318,87 @@ export default class Main extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        const {
+            events,
+            morningEvents,
+            afternoonEvents,
+            nightEvents,
+            loading,
+            error,
+        } = this.state;
         const { navigation } = this.props;
 
+        console.log(navigation);
+
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.staticHeader}>
-                    <WeekHeader />
-                </View>
-                <ScrollView>
-                    {(events.length == 0) ?
-                        (
-                            <EmptyDay />
-                        ) : (
-                            <View style={styles.dayContainer}>
-                                <TimeDay
-                                    moment={"morning"}
-                                    events={morningEvents}
-                                    navigation={navigation}
-                                    addTotalTimeCounter={this.addTotalTimeCounter}
-                                    startStopCounter={this.startStopCounter}
-                                />
-                                <TimeDay
-                                    moment={"afternoon"}
-                                    events={afternoonEvents}
-                                    navigation={navigation}
-                                    addTotalTimeCounter={this.addTotalTimeCounter}
-                                    startStopCounter={this.startStopCounter}
-                                />
-                                <TimeDay
-                                    moment={"night"}
-                                    events={nightEvents}
-                                    navigation={navigation}
-                                    addTotalTimeCounter={this.addTotalTimeCounter}
-                                    startStopCounter={this.startStopCounter}
-                                />
-                            </View>
-                        )}
-                </ScrollView>
-                <View style={styles.addEvent} >
-                    <AddEventButton addEvents={this.addEvent} navigation={navigation} />
-                </View>
-            </SafeAreaView>
+            (loading) ?
+                (
+                    <SafeAreaView style={styles.loadingContainer}>
+                        <StatusBar barStyle="dark-content" />
+                        <ActivityIndicator
+                            animating={loading}
+                            color="14ffec"
+                            size="large"
+                        />
+                    </SafeAreaView>
+                )
+                :
+                (
+                    <SafeAreaView style={styles.container} >
+                        <View style={styles.staticHeader}>
+                            <WeekHeader />
+                        </View>
+                        <ScrollView>
+                            {(events.length <= 0) ?
+                                (
+                                    <EmptyDay />
+                                )
+                                :
+                                (
+                                    <View style={styles.dayContainer}>
+                                        <TimeDay
+                                            moment={"morning"}
+                                            events={morningEvents}
+                                            navigation={navigation}
+                                            addTotalTimeCounter={this.addTotalTimeCounter}
+                                            startStopCounter={this.startStopCounter}
+                                        />
+                                        <TimeDay
+                                            moment={"afternoon"}
+                                            events={afternoonEvents}
+                                            navigation={navigation}
+                                            addTotalTimeCounter={this.addTotalTimeCounter}
+                                            startStopCounter={this.startStopCounter}
+                                        />
+                                        <TimeDay
+                                            moment={"night"}
+                                            events={nightEvents}
+                                            navigation={navigation}
+                                            addTotalTimeCounter={this.addTotalTimeCounter}
+                                            startStopCounter={this.startStopCounter}
+                                        />
+                                    </View>
+                                )}
+                        </ScrollView>
+                        <View style={styles.addEvent} >
+                            <AddEventButton addEvents={this.addEvent} navigation={navigation} />
+                        </View>
+                    </SafeAreaView >
+                )
         );
     }
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        paddingTop: 30,
+        backgroundColor: "#212121",
+        justifyContent: "center",
+    },
     container: {
         flex: 1,
         paddingLeft: 10,
