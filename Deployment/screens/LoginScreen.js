@@ -63,7 +63,7 @@ export default class LoginScreen extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <Image
-                    style={{ width: 150, height: 150, borderRadius: 15 }}
+                    style={{ width: 150, height: 150, borderRadius: 100 }}
                     source={require('../images/logo.png')}
                 />
 

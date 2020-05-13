@@ -11,7 +11,7 @@ import User from '../models/user';
 import { findAllByPK } from '../api/EventsDAO';
 
 export default class Main extends React.Component {
-   
+
     /* STATE && CONSTRUCTOR */
     state = {
         loading: true,
@@ -33,12 +33,12 @@ export default class Main extends React.Component {
      * crea la funcionalidad para los temporizadores
      */
     componentDidMount() {
+        const TIME_INTERVAL = 1000; // un segundo
+
         //peticion para los eventos
         this.getUserEvents();
 
         // funcionalidad de los temporizadores
-        const TIME_INTERVAL = 1000;
-
         this.intervalId = setInterval(() => {
             const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
@@ -404,7 +404,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 10,
-        paddingTop: 30,
         backgroundColor: "#212121",
     },
     dayContainer: {
