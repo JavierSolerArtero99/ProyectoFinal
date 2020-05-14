@@ -29,3 +29,12 @@ CREATE TABLE IF NOT EXISTS habits_n_checks(
     PRIMARY KEY(id),
     FOREIGN KEY(user) REFERENCES users(id) 
 );
+
+-- tabla para los recordatorios de cada habito
+CREATE TABLE IF NOT EXISTS habits_reminders(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    hour VARCHAR(8) NOT NULL,
+    habit INT(11) NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(habit) REFERENCES habits_n_checks(id) 
+);

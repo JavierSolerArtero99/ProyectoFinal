@@ -40,14 +40,24 @@ export default class TimePicker extends React.Component {
 
     componentDidMount() {
         const { hours, minutes, } = this.state;
-        const { updateHour } = this.props;
+        const { updateHour, event } = this.props;
 
-        this.setState({
-            selectedHour: hours[0],
-            selectedMinutes: minutes[0],
-        });
+        if (event == undefined) {
+            this.setState({
+                selectedHour: hours[0],
+                selectedMinutes: minutes[0],
+            });
 
-        updateHour(hours[0] + ":" + minutes[0])
+            updateHour(hours[0] + ":" + minutes[0])
+
+        } else {
+            this.setState({
+                selectedHour: event.hour.charAt(0) + event.hour.charAt(1),
+                selectedMinutes: event.hour.charAt(3) + event.hour.charAt(4),
+            });
+
+            updateHour(event.hour.charAt(0) + event.hour.charAt(1) + ":" + event.hour.charAt(3) + event.hour.charAt(4))
+        }
     }
 
     /* TIME EVENTS */
@@ -93,7 +103,7 @@ export default class TimePicker extends React.Component {
     }
 
     upMinutes = () => {
-        const { minutes, minutesOffset, selectedHour, selectedMinutes  } = this.state
+        const { minutes, minutesOffset, selectedHour, selectedMinutes } = this.state
         const { updateHour } = this.props;
 
         let aux = minutesOffset;
@@ -113,7 +123,7 @@ export default class TimePicker extends React.Component {
     }
 
     downMinutes = () => {
-        const { minutes, minutesOffset, selectedHour, selectedMinutes  } = this.state
+        const { minutes, minutesOffset, selectedHour, selectedMinutes } = this.state
         const { updateHour } = this.props;
 
         let aux = minutesOffset;
@@ -123,7 +133,6 @@ export default class TimePicker extends React.Component {
         } else {
             aux--;
         }
-
 
         this.setState({
             minutesOffset: aux,
@@ -144,13 +153,13 @@ export default class TimePicker extends React.Component {
                     {/* hours */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateTime} onPress={this.upHour}>
-                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {selectedHour}
                         </Text>
                         <TouchableOpacity style={styles.manipulateTime} onPress={this.downHour}>
-                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>-</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -163,13 +172,13 @@ export default class TimePicker extends React.Component {
                     {/* minutes */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateTime} onPress={this.upMinutes}>
-                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {selectedMinutes}
                         </Text>
                         <TouchableOpacity style={styles.manipulateTime} onPress={this.downMinutes}>
-                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>-</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

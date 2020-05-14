@@ -31,19 +31,31 @@ export default class CustomDatePicker extends React.Component {
     /* CICLO DE VIDA */
 
     componentDidMount() {
-        const { updateDate } = this.props;
+        const { updateDate, event } = this.props;
         const { date } = this.state;
 
-        let aux = (new Date().toString()).split(' ');
-        let day = parseInt(aux[2]);
-        let month = new Date().getMonth();
-        let year = parseInt(aux[3]);
+        if (event != undefined) {
+            let aux = [parseInt(event.date.charAt(0) + event.date.charAt(1)), parseInt(event.date.charAt(3) + event.date.charAt(4)), parseInt(event.date.charAt(6) + event.date.charAt(7))];
 
-        this.setState({
-            date: [day, month, year],
-        });
+            this.setState({
+                date: aux,
+            })
 
-        updateDate([day, month, year]);
+            updateDate(aux);
+
+        } else {
+
+            let aux = (new Date().toString()).split(' ');
+            let day = parseInt(aux[2]);
+            let month = new Date().getMonth();
+            let year = parseInt(aux[3]);
+
+            this.setState({
+                date: [day, month, year],
+            });
+
+            updateDate([day, month, year]);
+        }
     }
 
     /* METODOS DE AYUDA */
@@ -179,45 +191,45 @@ export default class CustomDatePicker extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Text style={[styles.pickerText, {marginBottom: 10}]}>{title}</Text>
+                <Text style={[styles.pickerText, { marginBottom: 10 }]}>{title}</Text>
 
                 <View style={styles.datePickerContainer}>
                     {/* days */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upDays}>
-                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {date[0]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downDays}>
-                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>-</Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* month */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upMonths}>
-                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {months[date[1]]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downMonths}>
-                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>-</Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* year */}
                     <View style={styles.picker}>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.upYears}>
-                            <Text style={[styles.pickerText, {color: color}]}>+</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.pickerText}>
                             {date[2]}
                         </Text>
                         <TouchableOpacity style={styles.manipulateDate} onPress={this.downYears}>
-                            <Text style={[styles.pickerText, {color: color}]}>-</Text>
+                            <Text style={[styles.pickerText, { color: color }]}>-</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -233,7 +245,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 15,
-        marginTop: 15,
+        marginTop: 10,
         marginRight: 15,
         marginLeft: 15,
         padding: 5
