@@ -9,6 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
  */
 export default class Pickers extends React.Component {
 
+    /* STATE */
     state = {
         colors: [
             "#14ffec",
@@ -59,6 +60,19 @@ export default class Pickers extends React.Component {
         selectingIcon: false,
     }
 
+    /* CICLO DE VIDA */
+
+    componentDidMount() {
+        const { defaultIcon } = this.props;
+
+        (defaultIcon != undefined) && (this.setState({iconSelected: defaultIcon}))
+    }
+
+    /* EVENTOS */
+
+    /**
+     * abre la ventana para seleccionar un icono
+     */
     selectIcon = () => {
         const { selectIcon, selectingIcon } = this.state;
 
@@ -68,6 +82,9 @@ export default class Pickers extends React.Component {
 
     }
 
+    /**
+     * metodo que llama el flatlist para renderizar cada icono
+     */ 
     renderSingleIcon = (item) => {
         const { iconSelected } = this.state;
 
@@ -94,6 +111,9 @@ export default class Pickers extends React.Component {
         )
     }
 
+    /**
+     * devuelve una flatlist con todos los iconos
+     */
     renderIcons = () => {
         return (
             <FlatList
@@ -104,6 +124,9 @@ export default class Pickers extends React.Component {
         )
     }
 
+    /**
+     * actualiza el color seleccionado
+     */
     changeColor = () => {
         const { color, updateColor } = this.props;
         const { colors } = this.state;
@@ -124,13 +147,22 @@ export default class Pickers extends React.Component {
         updateColor(colors[index]);
     }
 
+    /**
+     * actualiza el icono del evento
+     */
     changeIcon = (item) => {
+        const { updateIcon } = this.props;
+
+        updateIcon(item)
+
         this.setState({
             iconSelected: item,
             selectingIcon: false,
         })
     }
 
+    /* LAYOUT */
+    
     render() {
         const { color } = this.props;
         const { iconSelected, selectingIcon } = this.state;

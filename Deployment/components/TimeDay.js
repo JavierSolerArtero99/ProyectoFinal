@@ -12,7 +12,13 @@ export default class TimeDay extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { events, moment, navigation, addTotalTimeCounter, startStopCounter } = this.props;
+        const {
+            events,
+            moment,
+            navigation,
+            addTotalTimeCounter,
+            startStopCounter,
+            editEvent } = this.props;
 
         return (
             (events.length > 0) ?
@@ -34,6 +40,7 @@ export default class TimeDay extends React.Component {
                                             time={event.time}
                                             navigation={navigation}
                                             startStopCounter={startStopCounter}
+                                            editEvent={editEvent}
                                         />
                                     </View>
                                 )

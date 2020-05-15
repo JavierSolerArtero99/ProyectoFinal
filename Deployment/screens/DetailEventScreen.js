@@ -16,6 +16,10 @@ export default class DetailEventScreen extends React.Component {
     /* CONSTRUCTOR && STATE*/
 
     state = {
+        newName: "",
+        newDescription: "",
+        newColor: "",
+        newIcon: "",
         newDate: [],
         newEndDate: [],
         newTimers: [],
@@ -36,6 +40,7 @@ export default class DetailEventScreen extends React.Component {
             newDate: event.date,
             newEndDate: event.endDate,
             newTimers: event.timers,
+            newIcon: event.icon,
             newColor: event.color,
         })
     }
@@ -80,7 +85,9 @@ export default class DetailEventScreen extends React.Component {
     /* ASYNC METHODS */
 
     editEvent = async () => {
+        const { editEvent } = this.props.route.params.params;
         
+        editEvent(this.state.newIcon)
     }
 
     /* EVENTOS DE LOS COMPONENTES REUTILIZADOS*/
@@ -94,16 +101,34 @@ export default class DetailEventScreen extends React.Component {
         })
     }
 
+    /**
+     * cambia el icono por el que se pasa por parametro
+     */
+    updateIcon = (newIcon) => {
+        this.setState({
+            newIcon: newIcon,
+        })
+    }
+
+    /**
+     * actualiza la hora del evento
+     */
     updateHour = (hour) => {
         console.log(hour);
     }
 
+    /**
+     * actualiza la fecha de inicio del evento
+     */
     updateDate = (date) => {
         this.setState({
             newDate: date,
         });
     }
 
+    /**
+     * actualiza la fecha de finalizacion del evento
+     */
     updateEndDate = (date) => {
         this.setState({
             newEndDate: date,
@@ -216,16 +241,13 @@ export default class DetailEventScreen extends React.Component {
     /* LAYOUT */
     render() {
         const { event } = this.props.route.params.params;
-        const { newTimers, newColor } = this.state;
-
-        console.log("===EVENT===")
-        console.log(event)
+        const { newTimers, newColor, newIcon } = this.state;
 
         return (
             <SafeAreaView style={styles.container} >
                 <ScrollView>
                     <View style={styles.viewContainer} >
-                        <MaterialCommunityIcons name={event.icon} color={newColor} size={60} />
+                        <MaterialCommunityIcons name={newIcon} color={newColor} size={60} />
 
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
@@ -244,6 +266,8 @@ export default class DetailEventScreen extends React.Component {
                             <View style={{marginLeft: 5}}>
                                 <Pickers
                                     updateColor={this.updateColor}
+                                    updateIcon={this.updateIcon}
+                                    defaultIcon={event.icon}
                                     color={newColor}
                                 />
                             </View>

@@ -14,6 +14,7 @@ import Stopwatch from '../components/NewEventComponents/Stopwatch';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
+    
     state = {
         name: "",
         description: "",
@@ -22,6 +23,7 @@ export default class NewEvent extends React.Component {
         date: [],
         endDate: [],
         color: "#2380d1",
+        icon: "",
         hour: "",
         totalTimes: 1,
         totalTimesDone: 0,
@@ -82,6 +84,15 @@ export default class NewEvent extends React.Component {
         this.setState({
             description: description,
         });
+    }
+
+    /**
+     * cambia el icono por el que se pasa por parametro
+     */
+    updateIcon = (newIcon) => {
+        this.setState({
+            icon: newIcon,
+        })
     }
 
     /**
@@ -325,6 +336,7 @@ export default class NewEvent extends React.Component {
 
                     <Pickers
                         updateColor={this.updateColor}
+                        updateIcon={this.updateIcon}
                         color={color}
                     />
 
