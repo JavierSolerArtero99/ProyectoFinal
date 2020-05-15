@@ -16,7 +16,6 @@ export default class DetailEventScreen extends React.Component {
     /* CONSTRUCTOR && STATE*/
 
     state = {
-        editing: false,
         newDate: [],
         newEndDate: [],
         newTimers: [],
@@ -78,14 +77,10 @@ export default class DetailEventScreen extends React.Component {
         )
     }
 
-    /* EVENTOS DE LA PROPIA SCREEN */
+    /* ASYNC METHODS */
 
-    editEvent = () => {
-        const { editing } = this.state;
-
-        this.setState({
-            editing: !editing,
-        })
+    editEvent = async () => {
+        
     }
 
     /* EVENTOS DE LOS COMPONENTES REUTILIZADOS*/
