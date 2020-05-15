@@ -39,44 +39,44 @@ export default class Main extends React.Component {
         this.getUserEvents();
 
         // funcionalidad de los temporizadores
-        // this.intervalId = setInterval(() => {
-        //     const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        this.intervalId = setInterval(() => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
-        //     this.setState({
-        //         events: events.map(event => {
-        //             const { time, isRunning } = event;
+            this.setState({
+                events: events.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         morningEvents: morningEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         afternoonEvents: afternoonEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         nightEvents: nightEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //     });
-        // }, TIME_INTERVAL);
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+            });
+        }, TIME_INTERVAL);
     }
 
     /* ASYNC METHODS */

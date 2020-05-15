@@ -63,7 +63,7 @@ export default class LoginScreen extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <Image
-                    style={{ width: 150, height: 150, borderRadius: 100 }}
+                    style={{ width: 150, height: 150, borderRadius: 100, backgroundColor: "#545454" }}
                     source={require('../images/logo.png')}
                 />
 
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     button: {
         marginRight: 15,
         marginLeft: 15,
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 14,
         borderRadius: 15,
     },
     buttonText: {
