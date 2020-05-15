@@ -59,7 +59,9 @@ export default function Pickers(props) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        marginBottom: 15,
+        alignSelf: "center",
+        marginBottom: 10,
+        marginTop: 10,
         marginLeft: 15,
         marginRight: 10
     },

@@ -31,11 +31,14 @@ export default class CustomDatePicker extends React.Component {
     /* CICLO DE VIDA */
 
     componentDidMount() {
-        const { updateDate, event } = this.props;
+        console.log("===PROPERTIES===");
+        console.log(this.props);
+        
+        const { updateDate, event, dateToShow } = this.props;
         const { date } = this.state;
 
         if (event != undefined) {
-            let aux = [parseInt(event.date.charAt(0) + event.date.charAt(1)), parseInt(event.date.charAt(3) + event.date.charAt(4)), parseInt(event.date.charAt(6) + event.date.charAt(7))];
+            let aux = [parseInt(dateToShow.charAt(0) + dateToShow.charAt(1)), parseInt(dateToShow.charAt(3) + dateToShow.charAt(4)), parseInt(dateToShow.charAt(6) + dateToShow.charAt(7))];
 
             this.setState({
                 date: aux,

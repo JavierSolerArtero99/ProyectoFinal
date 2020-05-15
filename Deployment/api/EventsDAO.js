@@ -1,7 +1,7 @@
 export const findAllByPK = async (userId) => {
     try {
         const events = await fetch(
-            `http://192.168.0.108:3000/events/${userId}`,
+            `http://192.168.0.106:3000/events/${userId}`,
         );
         const userEvents = await events.json();
         let finalEvents = [];
