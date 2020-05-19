@@ -1,5 +1,9 @@
 import User from "../models/user";
 
+/**
+ * obtiene todos los eventos de un usuario en concreto
+ * @param {*} userId 
+ */
 export const findAllByPK = async (userId) => {
     try {
         const events = await fetch(
@@ -35,6 +39,10 @@ export const findAllByPK = async (userId) => {
     }
 }
 
+/**
+ * modifica un evento pasado por parametro
+ * @param {*} modifiedEvent 
+ */
 export const updateEvent = async (modifiedEvent) => {
     try {
         fetch(
@@ -72,10 +80,11 @@ export const updateEvent = async (modifiedEvent) => {
     }
 }
 
+/**
+ * añade un nuevo evento
+ * @param {*} modifiedEvent 
+ */
 export const addNewEvent = async (modifiedEvent) => {
-    console.log("===============PARA CREAR===============")
-    console.log(modifiedEvent);
-
     try {
         fetch(
             `http://192.168.0.106:3000/updateEvent/${modifiedEvent.id}`,
@@ -109,5 +118,27 @@ export const addNewEvent = async (modifiedEvent) => {
 
     } catch (error) {
         console.error(error);
+    }
+}
+
+/**
+ * elimina un evento la id del cual es pasado por parametro como
+ * referencia
+ * @param {*} eventToDelete 
+ */
+export const deleteSelectedEvent = async (eventToDelete) => {
+    try {
+        fetch(
+            `http://192.168.0.106:3000/deleteEvent/${eventToDelete}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+    } catch (error) {
+        
     }
 }

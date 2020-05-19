@@ -183,8 +183,9 @@ export default class EventListItem extends React.Component {
      * va al layout de detalle del evento
      */
     goDetailEvent = () => {
-        const { event, navigation, editEvent } = this.props;
-        navigation.navigate("DetailEvent", { params: { navigation, event, editEvent } });
+        const { event, navigation, editEvent, deleteEvent } = this.props;
+        
+        navigation.navigate("DetailEvent", { params: { navigation, event, editEvent, deleteEvent } });
     }
 
     /* LAYOUT */

@@ -7,7 +7,7 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import User from '../models/user';
-import { findAllByPK, updateEvent, addNewEvent } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent } from '../api/EventsDAO';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
@@ -101,9 +101,6 @@ export default class Main extends React.Component {
      * Metodo que añade un nuevo evento al array de estos
      */
     addEvent = async (added) => {
-        console.log("================NO FORMATEADO=============")
-        console.log(added);
-        
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
         const aux = {
             id: 0,
@@ -246,7 +243,7 @@ export default class Main extends React.Component {
                 }),
             };
         });
-        
+
         // modificacion en eventos de la noche
         this.setState(prevState => {
             const { nightEvents } = prevState;
@@ -279,11 +276,23 @@ export default class Main extends React.Component {
             };
         });
 
-        console.log("OBETO PARA HACER UPDATE")
-        console.log(modifiedEvent)
-
         // PUT EN EL API
         await updateEvent(modifiedEvent);
+    }
+
+    /**
+     * elimina el evento el cual la id coincide con la que
+     * se ha pasado por parametro
+     */
+    deleteEvent = async (selectedEvent) => {
+        this.setState({
+            events: this.state.events.filter(event => event.id !== selectedEvent),
+            morningEvents: this.state.morningEvents.filter(event => event.id !== selectedEvent),
+            afternoonEvents: this.state.afternoonEvents.filter(event => event.id !== selectedEvent),
+            nightEvents: this.state.nightEvents.filter(event => event.id !== selectedEvent),
+        });
+
+        await deleteSelectedEvent(selectedEvent)
     }
 
     /* METODOS DE AYUDA */
@@ -513,6 +522,7 @@ export default class Main extends React.Component {
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
                                             editEvent={this.editEvent}
+                                            deleteEvent={this.deleteEvent}
                                         />
                                         <TimeDay
                                             moment={"afternoon"}
@@ -521,6 +531,7 @@ export default class Main extends React.Component {
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
                                             editEvent={this.editEvent}
+                                            deleteEvent={this.deleteEvent}
                                         />
                                         <TimeDay
                                             moment={"night"}
@@ -529,6 +540,7 @@ export default class Main extends React.Component {
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
                                             editEvent={this.editEvent}
+                                            deleteEvent={this.deleteEvent}
                                         />
                                     </View>
                                 )}

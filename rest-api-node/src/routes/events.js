@@ -110,40 +110,80 @@ router.get('/events/:userId/', (req, res) => {
 
 // POST: crea o modifica un evento en concreto
 router.post('/updateEvent/:id', (req, res) => {
-
     const { id } = req.params;
     const { body } = req;
     const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const lastReminder = "SELECT id FROM productiveapp.habits_n_checks where user = ? order by id desc LIMIT 1;";
     const remindersQuery = "CALL addReminder(?, ?)"
+    let last = 0;
 
-    console.log("======")
-    console.log(body)
-    console.log("======")
-
-    mysqlConnection.query(query,
+    mysqlConnection.query(
+        query,
         [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.userId],
         (err, rows, fields) => {
             if (!err) {
                 res.json({ status: "Event modified" });
-                
-                body.timers.forEach(timer => {
-                    mysqlConnection.query(remindersQuery,
-                        [timer.hour, id],
-                        (err, rows, fields) => {
-                            if (err) {
-                                console.error(err)
-                            }
+
+                mysqlConnection.query(
+                    lastReminder,
+                    [body.userId],
+                    (err, rows, fields) => {
+
+                        if (!err) {
+                            last = rows[0].id
+                            body.timers.forEach(timer => {
+
+                                mysqlConnection.query(
+                                    remindersQuery,
+                                    [timer.hour, last],
+                                    (err, rows, fields) => {
+                                        if (err) {
+                                            console.error(err)
+                                        }
+                                    }
+                                );
+                            });
+                        } else {
+                            console.log(err)
                         }
-                    );
-                });
+                    }
+                );
             } else {
                 console.error(err);
             }
         }
     );
+})
 
+// DELETE: elimina el evento
+router.delete('/deleteEvent/:id', (req, res) => {
+    const { id } = req.params;
+    const deleteReminders = "DELETE FROM habits_reminders WHERE habit = ?";
+    const deleteEvents = "DELETE FROM habits_n_checks WHERE id = ?";
 
+    mysqlConnection.query(
+        deleteReminders,
+        [id],
+        (err, rows, fields) => {
+            if (!err) {
+                
+                mysqlConnection.query(
+                    deleteEvents,
+                    [id],
+                    (err, rows, fields) => {
+                        if (!err) {
+                            console.log("Deleted: " + id)
+                        } else {
+                            console.log(err);
+                        }
+                    }
+                )
 
+            } else {
+                console.error(err)
+            }
+        }
+    )
 })
 
 module.exports = router;

@@ -93,11 +93,28 @@ export default class DetailEventScreen extends React.Component {
 
     /* ASYNC METHODS */
 
+    /**
+     * llama al metodo del componente padre para actualizar
+     * el evento que se esta visualizando
+     */
     editEvent = () => {
         const { navigation } = this.props;
         const { editEvent } = this.props.route.params.params;
 
         editEvent(this.state)
+        navigation.navigate("Main")
+    }
+
+    /**
+     * llama al metodo del componente padre para eliminar
+     * el evento que se esta visualizando
+     */
+    deleteEvent = () => {
+        const { navigation } = this.props;
+        const { deleteEvent } = this.props.route.params.params;
+        const { id } = this.state;
+         
+        deleteEvent(id)
         navigation.navigate("Main")
     }
 
@@ -287,7 +304,9 @@ export default class DetailEventScreen extends React.Component {
                                 <MaterialCommunityIcons name="pencil" color={newColor} size={30} />
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={this.deleteEvent}
+                            >
                                 <MaterialCommunityIcons name="trash-can-outline" color={newColor} size={30} />
                             </TouchableOpacity>
                         </View>
