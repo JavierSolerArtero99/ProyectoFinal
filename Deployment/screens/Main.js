@@ -6,9 +6,9 @@ import AddEventButton from '../components/AddEventButton';
 import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
-import { newEvent } from '../utils/EventsUtils';
 import User from '../models/user';
-import { findAllByPK } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent } from '../api/EventsDAO';
+import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
 
@@ -97,6 +97,195 @@ export default class Main extends React.Component {
         })
     }
 
+    /**
+     * Metodo que añade un nuevo evento al array de estos
+     */
+    addEvent = async (added) => {
+        console.log("================NO FORMATEADO=============")
+        console.log(added);
+        
+        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        const aux = {
+            id: 0,
+            name: added.name,
+            date: added.date[0] + "-" + added.date[1] + "-" + added.date[2],
+            endDate: added.endDate[0] + "-" + added.endDate[1] + "-" + added.endDate[2],
+            eventType: added.eventType,
+            icon: added.icon,
+            color: added.color,
+            totalTimes: added.totalTimes,
+            totalTimesDone: 0,
+            time: 0,
+            repeat: added.repeat,
+            hour: added.timers[0].hour,
+            timers: added.timers,
+        }
+
+        this.setState({
+            events: [...events, newEvent(aux)]
+        })
+
+        switch (true) {
+            case (this.checkHour(aux.hour) == "morning"):
+                this.setState({
+                    morningEvents: [newEvent(aux), ...morningEvents],
+                });
+                break;
+            case (this.checkHour(aux.hour) == "afternoon"):
+                this.setState({
+                    afternoonEvents: [newEvent(aux), ...afternoonEvents],
+                });
+                break;
+            case (this.checkHour(aux.hour) == "night"):
+                this.setState({
+                    nightEvents: [newEvent(aux), ...nightEvents],
+                });
+                break;
+        }
+
+        await addNewEvent(aux);
+    }
+
+    /**
+     * metodo que edita el evento pasado por parametro y lo
+     * actualiza en el array
+     */
+    editEvent = async (modifiedEvent) => {
+        // modificacion en eventos globales
+        this.setState(prevState => {
+            const { events } = prevState;
+
+            return {
+                events: events.map(event => {
+                    if (modifiedEvent.id === event.id) {
+                        return {
+                            id: modifiedEvent.id,
+                            name: modifiedEvent.newName,
+                            description: modifiedEvent.newDescription,
+                            icon: modifiedEvent.newIcon,
+                            color: modifiedEvent.newColor,
+                            totalTimes: modifiedEvent.newTotalTimes,
+                            totalTimesDone: 0,
+                            time: modifiedEvent.newTime,
+                            repeat: modifiedEvent.repeat,
+                            hour: modifiedEvent.hour,
+                            date: modifiedEvent.newDate,
+                            endDate: modifiedEvent.newEndDate,
+                            timers: modifiedEvent.newTimers,
+                            time: modifiedEvent.newTime,
+                            hour: modifiedEvent.hour,
+                            eventType: modifiedEvent.eventType,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
+
+        // modificacion en eventos de la mañana
+        this.setState(prevState => {
+            const { morningEvents } = prevState;
+
+            return {
+                morningEvents: morningEvents.map(event => {
+                    if (modifiedEvent.id === event.id) {
+                        return {
+                            id: modifiedEvent.id,
+                            name: modifiedEvent.newName,
+                            description: modifiedEvent.newDescription,
+                            icon: modifiedEvent.newIcon,
+                            color: modifiedEvent.newColor,
+                            totalTimes: modifiedEvent.newTotalTimes,
+                            totalTimesDone: 0,
+                            time: modifiedEvent.newTime,
+                            repeat: modifiedEvent.repeat,
+                            hour: modifiedEvent.hour,
+                            date: modifiedEvent.newDate,
+                            endDate: modifiedEvent.newEndDate,
+                            timers: modifiedEvent.newTimers,
+                            time: modifiedEvent.newTime,
+                            hour: modifiedEvent.hour,
+                            eventType: modifiedEvent.eventType,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
+
+        // modificacion en eventos de la tarde
+        this.setState(prevState => {
+            const { afternoonEvents } = prevState;
+
+            return {
+                afternoonEvents: afternoonEvents.map(event => {
+                    if (modifiedEvent.id === event.id) {
+                        return {
+                            id: modifiedEvent.id,
+                            name: modifiedEvent.newName,
+                            description: modifiedEvent.newDescription,
+                            icon: modifiedEvent.newIcon,
+                            color: modifiedEvent.newColor,
+                            totalTimes: modifiedEvent.newTotalTimes,
+                            totalTimesDone: 0,
+                            time: modifiedEvent.newTime,
+                            repeat: modifiedEvent.repeat,
+                            hour: modifiedEvent.hour,
+                            date: modifiedEvent.newDate,
+                            endDate: modifiedEvent.newEndDate,
+                            timers: modifiedEvent.newTimers,
+                            time: modifiedEvent.newTime,
+                            hour: modifiedEvent.hour,
+                            eventType: modifiedEvent.eventType,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
+        
+        // modificacion en eventos de la noche
+        this.setState(prevState => {
+            const { nightEvents } = prevState;
+
+            return {
+                nightEvents: nightEvents.map(event => {
+                    if (modifiedEvent.id === event.id) {
+                        return {
+                            id: modifiedEvent.id,
+                            name: modifiedEvent.newName,
+                            description: modifiedEvent.newDescription,
+                            icon: modifiedEvent.newIcon,
+                            color: modifiedEvent.newColor,
+                            totalTimes: modifiedEvent.newTotalTimes,
+                            totalTimesDone: 0,
+                            time: modifiedEvent.newTime,
+                            repeat: modifiedEvent.repeat,
+                            hour: modifiedEvent.hour,
+                            date: modifiedEvent.newDate,
+                            endDate: modifiedEvent.newEndDate,
+                            timers: modifiedEvent.newTimers,
+                            time: modifiedEvent.newTime,
+                            hour: modifiedEvent.hour,
+                            eventType: modifiedEvent.eventType,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
+
+        console.log("OBETO PARA HACER UPDATE")
+        console.log(modifiedEvent)
+
+        // PUT EN EL API
+        await updateEvent(modifiedEvent);
+    }
+
     /* METODOS DE AYUDA */
 
     /**
@@ -153,71 +342,6 @@ export default class Main extends React.Component {
     }
 
     /* METODOS PARA LOS EVENTOS */
-
-    /**
-     * Metodo que añade un nuevo evento al array de estos
-     */
-    addEvent = (added) => {
-        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
-        const aux = {
-            id: 10,
-            name: added.name,
-            icon: added.icon,
-            color: added.color,
-            totalTimes: added.totalTimes,
-            totalTimesDone: 0,
-            time: 0,
-            repeat: added.repeat,
-            hour: "10:00",
-        }
-
-        this.setState({
-            events: [...events, newEvent(aux)]
-        })
-
-        switch (true) {
-            case (this.checkHour(aux.hour) == "morning"):
-                this.setState({
-                    morningEvents: [newEvent(aux), ...morningEvents],
-                });
-                break;
-            case (this.checkHour(aux.hour) == "afternoon"):
-                this.setState({
-                    afternoonEvents: [newEvent(aux), ...afternoonEvents],
-                });
-                break;
-            case (this.checkHour(aux.hour) == "night"):
-                this.setState({
-                    nightEvents: [newEvent(aux), ...nightEvents],
-                });
-                break;
-        }
-    }
-
-    /**
-     * metodo que edita el evento pasado por parametro y lo
-     * actualiza en el array
-     */
-    editEvent = (event) => {
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-        ////////COMPLETAR/////////
-    }
 
     /**
      * metodo que cumple el evento clicado y lo edita en
@@ -353,7 +477,8 @@ export default class Main extends React.Component {
         } = this.state;
         const { navigation } = this.props;
 
-        console.log(navigation);
+        console.log("===EVENTS===")
+        console.log(events);
 
         return (
             (loading) ?

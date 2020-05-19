@@ -40,6 +40,7 @@ router.put('/updateUser/:id', (req, res) => {
     const { name, passwd } = req.body;
     const { id } = req.params;
     const query = "CALL addUser(?, ?, ?)";
+    
     mysqlConnection.query(query, [id, name, passwd], (err, rows, fields) => {
         if (!err) {
             res.json({status: "User Updated"});

@@ -37,8 +37,6 @@ router.get('/events/:userId/', (req, res) => {
         [userId],
         (err, rows, fields) => {
 
-            console.log(rows)
-
             if (!err) {
                 let aux = [];
                 if (rows.length > 0) {
@@ -109,5 +107,43 @@ router.get('/events/:userId/', (req, res) => {
             }
         });
 });
+
+// POST: crea o modifica un evento en concreto
+router.post('/updateEvent/:id', (req, res) => {
+
+    const { id } = req.params;
+    const { body } = req;
+    const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const remindersQuery = "CALL addReminder(?, ?)"
+
+    console.log("======")
+    console.log(body)
+    console.log("======")
+
+    mysqlConnection.query(query,
+        [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.userId],
+        (err, rows, fields) => {
+            if (!err) {
+                res.json({ status: "Event modified" });
+                
+                body.timers.forEach(timer => {
+                    mysqlConnection.query(remindersQuery,
+                        [timer.hour, id],
+                        (err, rows, fields) => {
+                            if (err) {
+                                console.error(err)
+                            }
+                        }
+                    );
+                });
+            } else {
+                console.error(err);
+            }
+        }
+    );
+
+
+
+})
 
 module.exports = router;

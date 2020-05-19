@@ -16,6 +16,7 @@ export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
     
     state = {
+        id: 0,
         name: "",
         description: "",
         habit: true,
@@ -23,8 +24,8 @@ export default class NewEvent extends React.Component {
         date: [],
         endDate: [],
         color: "#2380d1",
-        icon: "",
-        hour: "",
+        icon: "check",
+        hour: "09:00",
         totalTimes: 1,
         totalTimesDone: 0,
         time: 0,
@@ -236,17 +237,17 @@ export default class NewEvent extends React.Component {
      * a el layout anterior
      */
     addEvent = () => {
-        const { name } = this.state;
+        const { name, timers } = this.state;
         const { navigation } = this.props;
         const { addEvents } = this.props.route.params.params;
 
-        if (name.length > 0) {
+        if (name.length > 0 && timers.length > 0) {
             addEvents(this.state);
             navigation.navigate("Main");
 
         } else {
             ToastAndroid.showWithGravity(
-                "Enter a name",
+                "Enter a name and a reminder",
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER
             );

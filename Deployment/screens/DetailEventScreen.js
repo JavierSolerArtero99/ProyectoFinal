@@ -10,12 +10,13 @@ import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker'
 import Repeat from '../components/NewEventComponents/Repeat';
 import Count from '../components/NewEventComponents/Count';
 import Stopwatch from '../components/NewEventComponents/Stopwatch';
+import { modifyEvent } from '../utils/EventsUtils';
 
 export default class DetailEventScreen extends React.Component {
 
     /* CONSTRUCTOR && STATE*/
-
     state = {
+        id: 0,
         newName: "",
         newDescription: "",
         newColor: "",
@@ -25,6 +26,7 @@ export default class DetailEventScreen extends React.Component {
         newTimers: [],
         newTotalTimes: 1,
         newTime: 0,
+        hour: "09:00",
     }
 
     constructor(props) {
@@ -37,11 +39,18 @@ export default class DetailEventScreen extends React.Component {
         const { event } = this.props.route.params.params;
 
         this.setState({
+            id: event.id,
+            newName: event.name,
+            newDescription: event.description,
             newDate: event.date,
             newEndDate: event.endDate,
             newTimers: event.timers,
             newIcon: event.icon,
             newColor: event.color,
+            newTotalTimes: event.totalTimes,
+            newTime: event.time,
+            hour: event.hour,
+            eventType: event.eventType,
         })
     }
 
@@ -84,13 +93,34 @@ export default class DetailEventScreen extends React.Component {
 
     /* ASYNC METHODS */
 
-    editEvent = async () => {
+    editEvent = () => {
+        const { navigation } = this.props;
         const { editEvent } = this.props.route.params.params;
-        
-        editEvent(this.state.newIcon)
+
+        editEvent(this.state)
+        navigation.navigate("Main")
     }
 
     /* EVENTOS DE LOS COMPONENTES REUTILIZADOS*/
+
+    /**
+     * actualizan el nombre 
+     */
+    updateName = (input) => {
+        this.setState({
+            newName: input,
+        })
+    }
+
+    /**
+     * actualizan la desctipcion
+     */
+    updateDescription = (input) => {
+        this.setState({
+            newDescription: input,
+        })
+        console.log(input)
+    }
 
     /**
      * actualiza el color del evento
@@ -241,7 +271,7 @@ export default class DetailEventScreen extends React.Component {
     /* LAYOUT */
     render() {
         const { event } = this.props.route.params.params;
-        const { newTimers, newColor, newIcon } = this.state;
+        const { newName, newDescription, newTimers, newColor, newIcon } = this.state;
 
         return (
             <SafeAreaView style={styles.container} >
@@ -263,7 +293,7 @@ export default class DetailEventScreen extends React.Component {
                         </View>
 
                         <View style={styles.viewContainer}>
-                            <View style={{marginLeft: 5}}>
+                            <View style={{ marginLeft: 5 }}>
                                 <Pickers
                                     updateColor={this.updateColor}
                                     updateIcon={this.updateIcon}
@@ -274,15 +304,17 @@ export default class DetailEventScreen extends React.Component {
 
                             <TextInput
                                 style={styles.name}
-                                placeholder={event.name}
+                                value={newName}
                                 underlineColorAndroid="transparent"
+                                onChangeText={this.updateName}
                             />
 
                             <TextInput
                                 style={styles.description}
                                 multiline
-                                placeholder={event.description}
+                                value={newDescription}
                                 underlineColorAndroid="transparent"
+                                onChangeText={this.updateDescription}
                             />
 
                             <CustomDatePicker

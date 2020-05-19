@@ -57,8 +57,6 @@ export default class Repeat extends React.Component {
         } = this.state
         const { color } = this.props;
 
-        console.log("color del dia: " + diaryChecked)
-
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Repeat</Text>

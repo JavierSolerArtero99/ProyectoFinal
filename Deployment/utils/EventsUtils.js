@@ -5,9 +5,6 @@
  * @param {*} attrs 
  */
 export const newEvent = (attrs) => {
-    console.log("desde new event");
-    console.log((attrs));
-
     const event = {
         id: attrs.id,
         name: attrs.name,
@@ -18,6 +15,11 @@ export const newEvent = (attrs) => {
         time: attrs.time,
         repeat: attrs.repeat,
         hour: attrs.hour,
+        description: attrs.description,
+        date: attrs.date,
+        endDate: attrs.endDate,
+        timers: attrs.timers,
+        eventType: attrs.eventType,
     };
 
     return event;
