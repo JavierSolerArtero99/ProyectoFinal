@@ -53,6 +53,7 @@ router.get('/events/:userId/', (req, res) => {
                         total_times: rows[0].total_times,
                         total_times_today: rows[0].total_times_today,
                         time: rows[0].time,
+                        defaultTime: rows[0].defaultTime,
                         is_runing: rows[0].is_runing,
                         timers: [{
                             id: rows[0].reminderId,
@@ -78,6 +79,7 @@ router.get('/events/:userId/', (req, res) => {
                                     total_times: row.total_times,
                                     total_times_today: row.total_times_today,
                                     time: row.time,
+                                    defaultTime: row.defaultTime,
                                     is_runing: row.is_runing,
                                     timers: [{
                                         id: row.reminderId,

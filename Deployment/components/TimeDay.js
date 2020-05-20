@@ -18,6 +18,7 @@ export default class TimeDay extends React.Component {
             navigation,
             addTotalTimeCounter,
             startStopCounter,
+            restartCounter,
             editEvent,
             deleteEvent } = this.props;
 
@@ -41,6 +42,7 @@ export default class TimeDay extends React.Component {
                                             time={event.time}
                                             navigation={navigation}
                                             startStopCounter={startStopCounter}
+                                            restartCounter={restartCounter}
                                             editEvent={editEvent}
                                             deleteEvent={deleteEvent}
                                         />

@@ -10,7 +10,6 @@ import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker'
 import Repeat from '../components/NewEventComponents/Repeat';
 import Count from '../components/NewEventComponents/Count';
 import Stopwatch from '../components/NewEventComponents/Stopwatch';
-import { modifyEvent } from '../utils/EventsUtils';
 
 export default class DetailEventScreen extends React.Component {
 
@@ -82,6 +81,7 @@ export default class DetailEventScreen extends React.Component {
                 />
 
                 <Stopwatch
+                    time={event.time}
                     updateTime={this.updateTime}
                     color={newColor}
                     resetTotalTimes={this.resetTotalTimes}

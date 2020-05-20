@@ -13,6 +13,7 @@ export const newEvent = (attrs) => {
         totalTimes: attrs.totalTimes,
         totalTimesDone: 0,
         time: attrs.time,
+        defaultTime: attrs.time,
         repeat: attrs.repeat,
         hour: attrs.hour,
         description: attrs.description,

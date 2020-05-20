@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView, } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { humanToMilliseconds } from '../../utils/stopwatchUtils';
+import { humanToMilliseconds, millisecondsToHuman } from '../../utils/stopwatchUtils';
 
 export default class Stopwatch extends React.Component {
 
@@ -18,6 +18,23 @@ export default class Stopwatch extends React.Component {
 
     constructor(props) {
         super(props)
+    }
+
+    /* CICLO DE VIDA */
+
+    componentDidMount() {
+        const { time } = this.props;
+
+        if (time != undefined) {
+            if (time > 0) {
+                let completeTime = millisecondsToHuman(time)
+                this.setState({
+                    selectedHours: completeTime.charAt(0) + completeTime.charAt(1),
+                    selectedMinutes: completeTime.charAt(3) + completeTime.charAt(4),
+                    selectedSeconds: completeTime.charAt(6) + completeTime.charAt(7),
+                })
+            }
+        }
     }
 
     /* EVENTOS */

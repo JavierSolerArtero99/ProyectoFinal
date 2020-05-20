@@ -31,9 +31,6 @@ export default class CustomDatePicker extends React.Component {
     /* CICLO DE VIDA */
 
     componentDidMount() {
-        console.log("===PROPERTIES===");
-        console.log(this.props);
-        
         const { updateDate, event, dateToShow } = this.props;
         const { date } = this.state;
 

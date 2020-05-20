@@ -39,44 +39,44 @@ export default class Main extends React.Component {
         this.getUserEvents();
 
         // funcionalidad de los temporizadores
-        // this.intervalId = setInterval(() => {
-        //     const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        this.intervalId = setInterval(() => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
-        //     this.setState({
-        //         events: events.map(event => {
-        //             const { time, isRunning } = event;
+            this.setState({
+                events: events.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         morningEvents: morningEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         afternoonEvents: afternoonEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         nightEvents: nightEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //     });
-        // }, TIME_INTERVAL);
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+            });
+        }, TIME_INTERVAL);
     }
 
     /* ASYNC METHODS */
@@ -88,7 +88,7 @@ export default class Main extends React.Component {
         let userEvents = await findAllByPK(User._id);
 
         this.setState({
-            events: userEvents,
+            events: userEvents
         });
 
         this.divideEvents(userEvents);
@@ -114,10 +114,15 @@ export default class Main extends React.Component {
             totalTimes: added.totalTimes,
             totalTimesDone: 0,
             time: added.time,
+            defaultTime: added.time,
             repeat: added.repeat,
             hour: added.timers[0].hour,
             timers: added.timers,
         }
+
+        console.log("añadiendo")
+        console.log(aux);
+        
 
         await addNewEvent(aux);
 
@@ -317,7 +322,7 @@ export default class Main extends React.Component {
             case ((hour >= 12) && (hour < 19)):
                 check = "afternoon";
                 break;
-            case (((hour >= 19) && (hour <= 23)) || ( hour >= 0 ) && ( hour <= 6 )):
+            case (((hour >= 19) && (hour <= 23)) || (hour >= 0) && (hour <= 6)):
                 check = "night";
                 break;
         }
@@ -341,7 +346,7 @@ export default class Main extends React.Component {
                 case (this.checkHour(event.hour) == "afternoon"):
                     afternoonEvents.push(event)
                     break;
-                case (this.checkHour(event.hour) == "night"):                    
+                case (this.checkHour(event.hour) == "night"):
                     nightEvents.push(event)
                     break;
             }
@@ -472,6 +477,72 @@ export default class Main extends React.Component {
         });
     }
 
+    /**
+     * devuelve el valor que tenia previamente el cronometro
+     */
+    restartCounter = (eventId) => {
+        this.setState(prevState => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = prevState;
+
+            /* devuelve los mismos cronometros pero
+            modifica el valor de time al del principio
+            de iniciarlo */
+            return {
+                events: events.map(event => {
+                    console.log("EVENTO")
+                    console.log(event);
+                    
+                    const { id, defaultTime } = event;
+
+                    if (id === eventId) {
+                        return {
+                            ...event,
+                            time: defaultTime,
+                        };
+                    }
+
+                    return event;
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { id, defaultTime } = event;
+
+                    if (id === eventId) {
+                        return {
+                            ...event,
+                            time: defaultTime,
+                        };
+                    }
+
+                    return event;
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { id, defaultTime } = event;
+
+                    if (id === eventId) {
+                        return {
+                            ...event,
+                            time: defaultTime,
+                        };
+                    }
+
+                    return event;
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { id, defaultTime } = event;
+
+                    if (id === eventId) {
+                        return {
+                            ...event,
+                            time: defaultTime,
+                        };
+                    }
+
+                    return event;
+                }),
+            };
+        });
+    }
+
     /* LAYOUT */
     render() {
         const {
@@ -484,14 +555,7 @@ export default class Main extends React.Component {
         } = this.state;
         const { navigation } = this.props;
 
-        // console.log("===EVENTS EN EL RENDER===")
-        // console.log(events)
-        // console.log("=MAÑANA=");
-        // console.log(morningEvents);
-        console.log("=TARDE=");
-        console.log(afternoonEvents);
-        // console.log("=NOCHE=");
-        // console.log(nightEvents);
+        console.log(events)
 
         return (
             (loading) ?
@@ -525,6 +589,7 @@ export default class Main extends React.Component {
                                             navigation={navigation}
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
+                                            restartCounter={this.restartCounter}
                                             editEvent={this.editEvent}
                                             deleteEvent={this.deleteEvent}
                                         />
@@ -534,6 +599,7 @@ export default class Main extends React.Component {
                                             navigation={navigation}
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
+                                            restartCounter={this.restartCounter}
                                             editEvent={this.editEvent}
                                             deleteEvent={this.deleteEvent}
                                         />
@@ -543,6 +609,7 @@ export default class Main extends React.Component {
                                             navigation={navigation}
                                             addTotalTimeCounter={this.addTotalTimeCounter}
                                             startStopCounter={this.startStopCounter}
+                                            restartCounter={this.restartCounter}
                                             editEvent={this.editEvent}
                                             deleteEvent={this.deleteEvent}
                                         />

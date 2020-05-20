@@ -70,12 +70,13 @@ export default class EventListItem extends React.Component {
                             color={event.color}
                             icon={"play-pause"}
                             addTotalTimeCounter={addTotalTimeCounter}
-                            startStopCounter={this.props.startStopCounter}
+                            function={this.props.startStopCounter}
                         />
                         <LeftSwipeStopwatchButton
                             event={event}
                             color={event.color}
                             icon={"restart"}
+                            function={this.props.restartCounter}
                         />
                     </SwipeButtonsContainer>
                 );

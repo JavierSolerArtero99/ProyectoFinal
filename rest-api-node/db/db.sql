@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS habits_n_checks(
     total_times INT(3) NOT NULL,
     total_times_today INT(3) DEFAULT 0,
     time INT(10) DEFAULT 0,
+    defaultTime INT(10) DEFAULT '0';
     is_runing BOOLEAN DEFAULT false,
 	user INT(11),
     PRIMARY KEY(id),

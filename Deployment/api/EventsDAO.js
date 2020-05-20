@@ -27,6 +27,7 @@ export const findAllByPK = async (userId) => {
                 totalTimes: event.total_times,
                 totalTimesDone: event.total_times_today,
                 time: event.time,
+                defaultTime: event.defaultTime,
                 timers: event.timers,
                 isRunning: (event.isRunning > 0),
             })
