@@ -139,6 +139,20 @@ export const deleteSelectedEvent = async (eventToDelete) => {
             }
         )
     } catch (error) {
-        
+        console.log(error);
+    }
+}
+
+export const getLastEventId = async () => {
+    try {
+        const request = await fetch(
+            `http://192.168.0.106:3000/lastEvent/`
+        );
+        const lastId = await request.json();
+
+        return lastId[0].id
+
+    } catch (error) {
+        console.error(error);
     }
 }

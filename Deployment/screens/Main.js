@@ -7,7 +7,7 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import User from '../models/user';
-import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId } from '../api/EventsDAO';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
@@ -92,6 +92,7 @@ export default class Main extends React.Component {
         });
 
         this.divideEvents(userEvents);
+
         this.setState({
             loading: false,
         })
@@ -118,6 +119,10 @@ export default class Main extends React.Component {
             timers: added.timers,
         }
 
+        await addNewEvent(aux);
+
+        aux.id = await getLastEventId();
+
         this.setState({
             events: [...events, newEvent(aux)]
         })
@@ -140,7 +145,6 @@ export default class Main extends React.Component {
                 break;
         }
 
-        await addNewEvent(aux);
     }
 
     /**
@@ -313,7 +317,7 @@ export default class Main extends React.Component {
             case ((hour >= 12) && (hour < 19)):
                 check = "afternoon";
                 break;
-            case ((hour >= 19)):
+            case (((hour >= 19) && (hour <= 23)) || ( hour >= 0 ) && ( hour <= 6 )):
                 check = "night";
                 break;
         }
@@ -332,19 +336,13 @@ export default class Main extends React.Component {
         events.forEach(event => {
             switch (true) {
                 case (this.checkHour(event.hour) == "morning"):
-                    this.setState({
-                        morningEvents: [...morningEvents, event]
-                    })
+                    morningEvents.push(event)
                     break;
                 case (this.checkHour(event.hour) == "afternoon"):
-                    this.setState({
-                        afternoonEvents: [...afternoonEvents, event]
-                    })
+                    afternoonEvents.push(event)
                     break;
-                case (this.checkHour(event.hour) == "night"):
-                    this.setState({
-                        nightEvents: [...nightEvents, event]
-                    })
+                case (this.checkHour(event.hour) == "night"):                    
+                    nightEvents.push(event)
                     break;
             }
         });
@@ -486,8 +484,14 @@ export default class Main extends React.Component {
         } = this.state;
         const { navigation } = this.props;
 
-        console.log("===EVENTS===")
-        console.log(events);
+        // console.log("===EVENTS EN EL RENDER===")
+        // console.log(events)
+        // console.log("=MAÑANA=");
+        // console.log(morningEvents);
+        console.log("=TARDE=");
+        console.log(afternoonEvents);
+        // console.log("=NOCHE=");
+        // console.log(nightEvents);
 
         return (
             (loading) ?

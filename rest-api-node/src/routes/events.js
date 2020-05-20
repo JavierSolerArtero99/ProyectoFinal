@@ -108,6 +108,22 @@ router.get('/events/:userId/', (req, res) => {
         });
 });
 
+// GET: de la ultima id del evento introducido
+router.get('/lastEvent/', (req, res) => {
+    const query = "SELECT id FROM productiveapp.habits_n_checks order by id desc limit 1;"
+
+    mysqlConnection.query(
+        query,
+        (err, rows, fields) => {
+            if (!err) {
+                res.json(rows)
+                
+            } else { 
+                console.log(err)
+            }
+        })
+})
+
 // POST: crea o modifica un evento en concreto
 router.post('/updateEvent/:id', (req, res) => {
     const { id } = req.params;
@@ -166,7 +182,7 @@ router.delete('/deleteEvent/:id', (req, res) => {
         [id],
         (err, rows, fields) => {
             if (!err) {
-                
+
                 mysqlConnection.query(
                     deleteEvents,
                     [id],

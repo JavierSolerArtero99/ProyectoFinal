@@ -250,7 +250,8 @@ export default class DetailEventScreen extends React.Component {
         const { newTimers } = this.state;
 
         this.setState({
-            newTimers: [this.instanceTimer(hour), ...newTimers]
+            newTimers: [this.instanceTimer(hour), ...newTimers],
+            hour: hour,
         });
     }
 
