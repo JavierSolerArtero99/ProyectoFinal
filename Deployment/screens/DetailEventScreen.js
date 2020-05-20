@@ -136,7 +136,6 @@ export default class DetailEventScreen extends React.Component {
         this.setState({
             newDescription: input,
         })
-        console.log(input)
     }
 
     /**
@@ -161,15 +160,15 @@ export default class DetailEventScreen extends React.Component {
      * actualiza la hora del evento
      */
     updateHour = (hour) => {
-        console.log(hour);
     }
 
     /**
      * actualiza la fecha de inicio del evento
      */
     updateDate = (date) => {
+        const formated = date[0] + "-" + date[1] + "-" + date[2]
         this.setState({
-            newDate: date,
+            newDate: formated,
         });
     }
 
@@ -177,8 +176,9 @@ export default class DetailEventScreen extends React.Component {
      * actualiza la fecha de finalizacion del evento
      */
     updateEndDate = (date) => {
+        const formated = date[0] + "-" + date[1] + "-" + date[2]
         this.setState({
-            newEndDate: date,
+            newEndDate: formated,
         });
     }
 

@@ -7,7 +7,7 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import User from '../models/user';
-import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId, getFilterEvents } from '../api/EventsDAO';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
@@ -16,6 +16,8 @@ export default class Main extends React.Component {
     state = {
         loading: true,
         error: false,
+        selectedDate: "",
+        totalEvents: [],
         events: [],
         morningEvents: [],
         afternoonEvents: [],
@@ -35,48 +37,55 @@ export default class Main extends React.Component {
     componentDidMount() {
         const TIME_INTERVAL = 1000; // un segundo
 
+        // creacion de la fecha actual
+        const date = new Date();
+        const dateString = (date.getUTCDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear())
+        this.setState({
+            selectedDate: dateString,
+        })
+
         //peticion para los eventos
         this.getUserEvents();
 
-        // funcionalidad de los temporizadores
-        this.intervalId = setInterval(() => {
-            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        // // funcionalidad de los temporizadores
+        // this.intervalId = setInterval(() => {
+        //     const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
-            this.setState({
-                events: events.map(event => {
-                    const { time, isRunning } = event;
+        //     this.setState({
+        //         events: events.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                morningEvents: morningEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         morningEvents: morningEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                afternoonEvents: afternoonEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         afternoonEvents: afternoonEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                nightEvents: nightEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         nightEvents: nightEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-            });
-        }, TIME_INTERVAL);
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //     });
+        // }, TIME_INTERVAL);
     }
 
     /* ASYNC METHODS */
@@ -86,9 +95,11 @@ export default class Main extends React.Component {
      */
     getUserEvents = async () => {
         let userEvents = await findAllByPK(User._id);
+        let filteredEvents = getFilterEvents(userEvents, this.state.selectedDate);
 
         this.setState({
-            events: userEvents
+            totalEvents: userEvents,
+            events: filteredEvents
         });
 
         this.divideEvents(userEvents);
@@ -119,10 +130,6 @@ export default class Main extends React.Component {
             hour: added.timers[0].hour,
             timers: added.timers,
         }
-
-        console.log("añadiendo")
-        console.log(aux);
-        
 
         await addNewEvent(aux);
 
@@ -554,8 +561,6 @@ export default class Main extends React.Component {
             error,
         } = this.state;
         const { navigation } = this.props;
-
-        console.log(events)
 
         return (
             (loading) ?

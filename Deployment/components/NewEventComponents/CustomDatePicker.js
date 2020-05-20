@@ -35,7 +35,11 @@ export default class CustomDatePicker extends React.Component {
         const { date } = this.state;
 
         if (event != undefined) {
-            let aux = [parseInt(dateToShow.charAt(0) + dateToShow.charAt(1)), parseInt(dateToShow.charAt(3) + dateToShow.charAt(4)), parseInt(dateToShow.charAt(6) + dateToShow.charAt(7))];
+            let aux = [
+                parseInt(dateToShow.charAt(0) + dateToShow.charAt(1)), 
+                parseInt(dateToShow.charAt(3) + dateToShow.charAt(4)), 
+                parseInt(dateToShow.charAt(5) + dateToShow.charAt(6) + dateToShow.charAt(7) + dateToShow.charAt(8)),
+            ];
 
             this.setState({
                 date: aux,
@@ -44,11 +48,10 @@ export default class CustomDatePicker extends React.Component {
             updateDate(aux);
 
         } else {
-
             let aux = (new Date().toString()).split(' ');
             let day = parseInt(aux[2]);
             let month = new Date().getMonth();
-            let year = parseInt(aux[3]);
+            let year = new Date().getFullYear();
 
             this.setState({
                 date: [day, month, year],

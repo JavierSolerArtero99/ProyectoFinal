@@ -1,5 +1,7 @@
 import User from "../models/user";
 
+/* METODOS ASYNC */
+
 /**
  * obtiene todos los eventos de un usuario en concreto
  * @param {*} userId 
@@ -19,7 +21,6 @@ export const findAllByPK = async (userId) => {
                 icon: event.icon,
                 color: event.color,
                 description: event.description,
-                // habit: true,
                 eventType: event.event_type,
                 hour: event.hour,
                 date: event.date,
@@ -144,6 +145,9 @@ export const deleteSelectedEvent = async (eventToDelete) => {
     }
 }
 
+/**
+ * obtiene el ultimo id de los eventos introducidos
+ */
 export const getLastEventId = async () => {
     try {
         const request = await fetch(
@@ -156,4 +160,65 @@ export const getLastEventId = async () => {
     } catch (error) {
         console.error(error);
     }
+}
+
+/* FILTRADO DE EVENTOS */
+
+/**
+ * filtra los eventos para el dia seleccionado
+ * @param {*} totalEvents eventos para filtrar
+ * @param {*} date fecha actual
+ */
+export const getFilterEvents = (totalEvents, date) => {
+    let filteredEvents = [];
+
+    totalEvents.forEach(element => {
+        if (dateInRange(element, date)) {
+            filteredEvents.push(element);
+        }
+    });
+
+    return filteredEvents;
+}
+
+/* METODOS AUXILIARES */
+
+const dateInRange = (event, today) => {
+    let inRange;
+    const todayDate = [];
+    const startDate = [];
+    const endDate = [];
+    let todayValue = 0;
+    let startValue = 0;
+    let endValue = 0;
+
+    // formateo de la fecha
+    today.split('-').forEach(element => {
+        todayDate.push(parseInt(element))
+    });
+    event.date.split('-').forEach(element => {
+        startDate.push(parseInt(element))
+    });
+    event.endDate.split('-').forEach(element => {
+        endDate.push(parseInt(element))
+    });
+
+    ((todayDate[0] + "").length == 0) && (todayDate[0] = "0" + todayDate[0]);
+    ((todayDate[1] + "").length == 1) && (todayDate[1] = "0" + todayDate[1]);
+    ((startDate[0] + "").length == 0) && (startDate[0] = "0" + startDate[0]);
+    ((startDate[1] + "").length == 1) && (startDate[1] = "0" + startDate[1]);
+    ((endDate[0] + "").length == 0) && (endDate[0] = "0" + endDate[0]);
+    ((endDate[1] + "").length == 1) && (endDate[1] = "0" + endDate[1]);
+
+    todayValue = parseInt(todayDate[2] + "" + todayDate[1] + "" + todayDate[0]);
+    startValue = parseInt(startDate[2] + "" + startDate[1] + "" + startDate[0]);
+    endValue = parseInt(endDate[2] + "" + endDate[1] + "" + endDate[0]);
+
+    console.log("==========COMPROBANDO============")
+    console.log("Fecha actual: " + todayValue);
+    console.log("Inicio del evento: " + startValue);
+    console.log("Fin del evento: " + endValue);
+    console.log("==================================");
+
+    return ((todayValue >= startValue) && (todayValue <= endValue));
 }
