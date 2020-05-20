@@ -14,7 +14,7 @@ import Stopwatch from '../components/NewEventComponents/Stopwatch';
 
 export default class NewEvent extends React.Component {
     /* CONSTRUCTOR && STATE */
-    
+
     state = {
         id: 0,
         name: "",
@@ -110,6 +110,7 @@ export default class NewEvent extends React.Component {
      * actualize la hora al componente padre
      */
     updateDate = (newDate) => {
+        (this.state.eventType == "CHECK-IN") && (this.setState({ endDate: newDate }))
         this.setState({
             date: newDate,
         });
@@ -132,7 +133,7 @@ export default class NewEvent extends React.Component {
     updateTotalTimes = (variation) => {
         const { totalTimes } = this.state;
         let augment = 0;
-        
+
         (variation == '+') ? (augment++) : (augment--)
 
         if (totalTimes <= 1 && variation == '-') {
@@ -261,6 +262,9 @@ export default class NewEvent extends React.Component {
      */
     renderHabitsComponents = () => {
         const { totalTimes, color } = this.state;
+        console.log("TIME")
+        console.log(this.state.time);
+        
 
         return (
             <View style={styles.specificComponents}>

@@ -113,7 +113,7 @@ export default class Main extends React.Component {
             color: added.color,
             totalTimes: added.totalTimes,
             totalTimesDone: 0,
-            time: 0,
+            time: added.time,
             repeat: added.repeat,
             hour: added.timers[0].hour,
             timers: added.timers,

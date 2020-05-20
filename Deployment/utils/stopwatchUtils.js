@@ -19,3 +19,7 @@ const pad = (numberString, size) => {
     }
     return padded;
 };
+
+export const humanToMilliseconds = (hour, minutes, seconds) => {
+    return (((hour * 60) * 60) * 1000) + ((minutes * 60) * 1000) + (seconds * 1000)
+}

@@ -3,6 +3,7 @@ import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView, } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { humanToMilliseconds } from '../../utils/stopwatchUtils';
 
 export default class Stopwatch extends React.Component {
 
@@ -29,7 +30,7 @@ export default class Stopwatch extends React.Component {
         const { selectedHours, selectedMinutes, selectedSeconds, } = this.state;
         const hour = selectedHours + ":" + selectedMinutes + ":" + selectedSeconds;
 
-        updateTime(hour);
+        updateTime(humanToMilliseconds(selectedHours, selectedMinutes, selectedSeconds));
         resetTotalTimes();
 
         this.setState({
