@@ -178,11 +178,6 @@ export const getFilterEvents = (totalEvents, date) => {
         }
     });
 
-    console.log("EVENTOS TOTALES")
-    console.log(totalEvents)
-    console.log("EVENTOS FILTRADOS")
-    console.log(filteredEvents)
-
     return filteredEvents;
 }
 
