@@ -7,7 +7,6 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Pickers from '../components/NewEventComponents/Pickers';
 import TimerList from '../components/NewEventComponents/TimerList';
 import CustomDatePicker from '../components/NewEventComponents/CustomDatePicker';
-import Repeat from '../components/NewEventComponents/Repeat';
 import Count from '../components/NewEventComponents/Count';
 import Stopwatch from '../components/NewEventComponents/Stopwatch';
 
@@ -61,10 +60,6 @@ export default class DetailEventScreen extends React.Component {
 
         return (
             <View style={{ width: '100%' }}>
-                <Repeat
-                    color={newColor}
-                />
-
                 <CustomDatePicker
                     updateDate={this.updateEndDate}
                     color={newColor}
@@ -113,7 +108,7 @@ export default class DetailEventScreen extends React.Component {
         const { navigation } = this.props;
         const { deleteEvent } = this.props.route.params.params;
         const { id } = this.state;
-         
+
         deleteEvent(id)
         navigation.navigate("Main")
     }
@@ -337,13 +332,15 @@ export default class DetailEventScreen extends React.Component {
                                 onChangeText={this.updateDescription}
                             />
 
-                            <CustomDatePicker
-                                updateDate={this.updateDate}
-                                dateToShow={event.date}
-                                color={newColor}
-                                title={event.eventType + " BEGIN"}
-                                event={event}
-                            />
+                            <View style={{ width: '100%' }}>
+                                <CustomDatePicker
+                                    updateDate={this.updateDate}
+                                    dateToShow={event.date}
+                                    color={newColor}
+                                    title={event.eventType + " BEGIN"}
+                                    event={event}
+                                />
+                            </View>
 
                             {(event.eventType == "HABIT")
                                 &&

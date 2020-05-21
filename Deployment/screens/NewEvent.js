@@ -262,9 +262,6 @@ export default class NewEvent extends React.Component {
      */
     renderHabitsComponents = () => {
         const { totalTimes, color } = this.state;
-        console.log("TIME")
-        console.log(this.state.time);
-        
 
         return (
             <View style={styles.specificComponents}>
@@ -280,10 +277,6 @@ export default class NewEvent extends React.Component {
                     updateDate={this.updateDate}
                     color={color}
                     title={"HABIT BEGIN"}
-                />
-
-                <Repeat
-                    color={color}
                 />
 
                 <CustomDatePicker
