@@ -178,12 +178,17 @@ export const getFilterEvents = (totalEvents, date) => {
         }
     });
 
+    console.log("EVENTOS TOTALES")
+    console.log(totalEvents)
+    console.log("EVENTOS FILTRADOS")
+    console.log(filteredEvents)
+
     return filteredEvents;
 }
 
 /* METODOS AUXILIARES */
 
-const dateInRange = (event, today) => {
+export const dateInRange = (event, today) => {
     let inRange;
     const todayDate = [];
     const startDate = [];

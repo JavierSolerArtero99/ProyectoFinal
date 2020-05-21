@@ -7,7 +7,7 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import User from '../models/user';
-import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId, getFilterEvents } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId, getFilterEvents, dateInRange } from '../api/EventsDAO';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
@@ -39,7 +39,7 @@ export default class Main extends React.Component {
 
         // creacion de la fecha actual
         const date = new Date();
-        const dateString = (date.getUTCDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear())
+        const dateString = (date.getUTCDate() + "-" + (date.getMonth()) + "-" + date.getFullYear())
         this.setState({
             selectedDate: dateString,
         })
@@ -102,7 +102,7 @@ export default class Main extends React.Component {
             events: filteredEvents
         });
 
-        this.divideEvents(userEvents);
+        this.divideEvents(filteredEvents);
 
         this.setState({
             loading: false,
@@ -113,7 +113,7 @@ export default class Main extends React.Component {
      * Metodo que añade un nuevo evento al array de estos
      */
     addEvent = async (added) => {
-        const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        const { events, morningEvents, afternoonEvents, nightEvents, selectedDate } = this.state;
         const aux = {
             id: 0,
             name: added.name,
@@ -133,28 +133,32 @@ export default class Main extends React.Component {
 
         await addNewEvent(aux);
 
-        aux.id = await getLastEventId();
+        console.log(selectedDate)
 
-        this.setState({
-            events: [...events, newEvent(aux)]
-        })
+        if (dateInRange(aux, selectedDate)) {
+            aux.id = await getLastEventId();
 
-        switch (true) {
-            case (this.checkHour(aux.hour) == "morning"):
-                this.setState({
-                    morningEvents: [newEvent(aux), ...morningEvents],
-                });
-                break;
-            case (this.checkHour(aux.hour) == "afternoon"):
-                this.setState({
-                    afternoonEvents: [newEvent(aux), ...afternoonEvents],
-                });
-                break;
-            case (this.checkHour(aux.hour) == "night"):
-                this.setState({
-                    nightEvents: [newEvent(aux), ...nightEvents],
-                });
-                break;
+            this.setState({
+                events: [...events, newEvent(aux)]
+            })
+
+            switch (true) {
+                case (this.checkHour(aux.hour) == "morning"):
+                    this.setState({
+                        morningEvents: [newEvent(aux), ...morningEvents],
+                    });
+                    break;
+                case (this.checkHour(aux.hour) == "afternoon"):
+                    this.setState({
+                        afternoonEvents: [newEvent(aux), ...afternoonEvents],
+                    });
+                    break;
+                case (this.checkHour(aux.hour) == "night"):
+                    this.setState({
+                        nightEvents: [newEvent(aux), ...nightEvents],
+                    });
+                    break;
+            }
         }
 
     }
@@ -498,7 +502,7 @@ export default class Main extends React.Component {
                 events: events.map(event => {
                     console.log("EVENTO")
                     console.log(event);
-                    
+
                     const { id, defaultTime } = event;
 
                     if (id === eventId) {
