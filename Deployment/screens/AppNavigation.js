@@ -98,7 +98,7 @@ function MainStack({ route, navigation }) {
     return (
         <MainStackNavigation.Navigator
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
             <MainStackNavigation.Screen name="Main" component={getMainScreen} />
@@ -149,7 +149,6 @@ function getLoginScreen({ route, navigation }) {
         <LoginScreen navigation={navigation} route={route} />
     );
 }
-
 
 /**
  * pantalla de stats

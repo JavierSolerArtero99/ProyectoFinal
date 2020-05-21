@@ -40,6 +40,8 @@ export default class Main extends React.Component {
         // creacion de la fecha actual
         const date = new Date();
         const dateString = (date.getUTCDate() + "-" + (date.getMonth()) + "-" + date.getFullYear())
+
+        // asignacion de la fecha actual
         this.setState({
             selectedDate: dateString,
         })
@@ -367,6 +369,14 @@ export default class Main extends React.Component {
     /* METODOS PARA LOS EVENTOS */
 
     /**
+     * cambia la fecha seleccionada y filtra los eventos 
+     * a los de el dia cambiado
+     */
+    changeSelectedDay = (changedDate) => {
+        console.log("Se ha cambiado el dia al: " + changedDate)
+    }
+
+    /**
      * metodo que cumple el evento clicado y lo edita en
      * los arrays
      */
@@ -582,7 +592,9 @@ export default class Main extends React.Component {
                 (
                     <SafeAreaView style={styles.container} >
                         <View style={styles.staticHeader}>
-                            <WeekHeader />
+                            <WeekHeader 
+                                changeSelectedDay={this.changeSelectedDay}
+                            />
                         </View>
                         <ScrollView>
                             {(events.length <= 0) ?
