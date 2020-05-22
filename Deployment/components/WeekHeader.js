@@ -77,10 +77,19 @@ export default class WeekHeader extends React.Component {
                     onPress={() => { this.changeDay(day) }}
                     style={styles.day}
                 >
-                    <Text style={[styles.dayText, this.gsCurrentDayText((day.charAt(0) + day.charAt(1)), this.state.realToday)]}>{day.charAt(0) + day.charAt(1)}</Text>
-                    {(day.charAt(0) + day.charAt(1) == today) && (
-                        <View style={styles.currentDay} />
-                    )}
+                    <Text style={[
+                        styles.dayText,
+                        this.gsCurrentDayText((day.charAt(0) + day.charAt(1)), this.state.realToday)
+                    ]}>
+                        {day.charAt(0) + day.charAt(1)}
+                    </Text>
+                    
+                    {
+                        (day.charAt(0) + day.charAt(1) == (this.props.selectedDate.charAt(0) + this.props.selectedDate.charAt(1)))
+                        &&
+                        (
+                            <View style={styles.currentDay} />
+                        )}
                 </TouchableOpacity>)
         });
     }

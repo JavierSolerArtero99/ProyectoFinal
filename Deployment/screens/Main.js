@@ -373,7 +373,17 @@ export default class Main extends React.Component {
      * a los de el dia cambiado
      */
     changeSelectedDay = (changedDate) => {
-        console.log("Se ha cambiado el dia al: " + changedDate)
+        this.setState({
+            selectedDate: changedDate,
+            loading: true,
+            totalEvents: [],
+            events: [],
+            morningEvents: [],
+            afternoonEvents: [],
+            nightEvents: [],
+        })
+
+        this.getUserEvents()
     }
 
     /**
@@ -573,75 +583,81 @@ export default class Main extends React.Component {
             nightEvents,
             loading,
             error,
+            selectedDate,
         } = this.state;
         const { navigation } = this.props;
 
         return (
-            (loading) ?
-                (
-                    <SafeAreaView style={styles.loadingContainer}>
-                        <StatusBar barStyle="dark-content" />
-                        <ActivityIndicator
-                            animating={loading}
-                            color="14ffec"
-                            size="large"
-                        />
-                    </SafeAreaView>
-                )
-                :
-                (
-                    <SafeAreaView style={styles.container} >
-                        <View style={styles.staticHeader}>
-                            <WeekHeader 
-                                changeSelectedDay={this.changeSelectedDay}
-                            />
-                        </View>
-                        <ScrollView>
-                            {(events.length <= 0) ?
-                                (
-                                    <EmptyDay />
-                                )
-                                :
-                                (
-                                    <View style={styles.dayContainer}>
-                                        <TimeDay
-                                            moment={"morning"}
-                                            events={morningEvents}
-                                            navigation={navigation}
-                                            addTotalTimeCounter={this.addTotalTimeCounter}
-                                            startStopCounter={this.startStopCounter}
-                                            restartCounter={this.restartCounter}
-                                            editEvent={this.editEvent}
-                                            deleteEvent={this.deleteEvent}
-                                        />
-                                        <TimeDay
-                                            moment={"afternoon"}
-                                            events={afternoonEvents}
-                                            navigation={navigation}
-                                            addTotalTimeCounter={this.addTotalTimeCounter}
-                                            startStopCounter={this.startStopCounter}
-                                            restartCounter={this.restartCounter}
-                                            editEvent={this.editEvent}
-                                            deleteEvent={this.deleteEvent}
-                                        />
-                                        <TimeDay
-                                            moment={"night"}
-                                            events={nightEvents}
-                                            navigation={navigation}
-                                            addTotalTimeCounter={this.addTotalTimeCounter}
-                                            startStopCounter={this.startStopCounter}
-                                            restartCounter={this.restartCounter}
-                                            editEvent={this.editEvent}
-                                            deleteEvent={this.deleteEvent}
-                                        />
-                                    </View>
-                                )}
-                        </ScrollView>
-                        <View style={styles.addEvent} >
-                            <AddEventButton addEvents={this.addEvent} navigation={navigation} />
-                        </View>
-                    </SafeAreaView >
-                )
+            <SafeAreaView style={styles.container} >
+                <View style={styles.staticHeader}>
+                    <WeekHeader
+                        selectedDate={selectedDate}
+                        changeSelectedDay={this.changeSelectedDay}
+                    />
+                </View>
+                {
+                    (loading) ?
+                        (
+                            <SafeAreaView style={styles.loadingContainer}>
+                                <StatusBar barStyle="dark-content" />
+                                <ActivityIndicator
+                                    animating={loading}
+                                    color="14ffec"
+                                    size="large"
+                                />
+                            </SafeAreaView>
+                        )
+                        :
+                        (
+                            <SafeAreaView style={styles.container} >
+                                <ScrollView>
+                                    {(events.length <= 0) ?
+                                        (
+                                            <EmptyDay />
+                                        )
+                                        :
+                                        (
+                                            <View style={styles.dayContainer}>
+                                                <TimeDay
+                                                    moment={"morning"}
+                                                    events={morningEvents}
+                                                    navigation={navigation}
+                                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                                    startStopCounter={this.startStopCounter}
+                                                    restartCounter={this.restartCounter}
+                                                    editEvent={this.editEvent}
+                                                    deleteEvent={this.deleteEvent}
+                                                />
+                                                <TimeDay
+                                                    moment={"afternoon"}
+                                                    events={afternoonEvents}
+                                                    navigation={navigation}
+                                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                                    startStopCounter={this.startStopCounter}
+                                                    restartCounter={this.restartCounter}
+                                                    editEvent={this.editEvent}
+                                                    deleteEvent={this.deleteEvent}
+                                                />
+                                                <TimeDay
+                                                    moment={"night"}
+                                                    events={nightEvents}
+                                                    navigation={navigation}
+                                                    addTotalTimeCounter={this.addTotalTimeCounter}
+                                                    startStopCounter={this.startStopCounter}
+                                                    restartCounter={this.restartCounter}
+                                                    editEvent={this.editEvent}
+                                                    deleteEvent={this.deleteEvent}
+                                                />
+                                            </View>
+                                        )}
+                                </ScrollView>
+                                <View style={styles.addEvent} >
+                                    <AddEventButton addEvents={this.addEvent} navigation={navigation} />
+                                </View>
+                            </SafeAreaView >
+                        )}
+            </SafeAreaView >
+
         );
     }
 }

@@ -9,7 +9,7 @@ import User from "../models/user";
 export const findAllByPK = async (userId) => {
     try {
         const events = await fetch(
-            `http://192.168.0.15:3000/events/${userId}`,
+            `http://192.168.0.106:3000/events/${userId}`,
         );
         const userEvents = await events.json();
         let finalEvents = [];
@@ -48,7 +48,7 @@ export const findAllByPK = async (userId) => {
 export const updateEvent = async (modifiedEvent) => {
     try {
         fetch(
-            `http://192.168.0.15:3000/updateEvent/${modifiedEvent.id}`,
+            `http://192.168.0.106:3000/updateEvent/${modifiedEvent.id}`,
             {
                 method: 'POST',
                 headers: {
@@ -89,7 +89,7 @@ export const updateEvent = async (modifiedEvent) => {
 export const addNewEvent = async (modifiedEvent) => {
     try {
         fetch(
-            `http://192.168.0.15:3000/updateEvent/${modifiedEvent.id}`,
+            `http://192.168.0.106:3000/updateEvent/${modifiedEvent.id}`,
             {
                 method: 'POST',
                 headers: {
@@ -131,7 +131,7 @@ export const addNewEvent = async (modifiedEvent) => {
 export const deleteSelectedEvent = async (eventToDelete) => {
     try {
         fetch(
-            `http://192.168.0.15:3000/deleteEvent/${eventToDelete}`,
+            `http://192.168.0.106:3000/deleteEvent/${eventToDelete}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -151,7 +151,7 @@ export const deleteSelectedEvent = async (eventToDelete) => {
 export const getLastEventId = async () => {
     try {
         const request = await fetch(
-            `http://192.168.0.15:3000/lastEvent/`
+            `http://192.168.0.106:3000/lastEvent/`
         );
         const lastId = await request.json();
 
