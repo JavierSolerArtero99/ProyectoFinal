@@ -1,19 +1,31 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView, Image, Alert } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, Image, Alert, TouchableOpacity, ScrollView } from 'react-native';
+
 import User from '../models/user';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+
+import Credentials from '../components/SettingsComponents/Credentials';
 
 export default class Settings extends React.Component {
 
     /* STATE */
     state = {
-
+        changingCredentials: false,
     }
 
     /* EVENTS */
 
     changeCredentials = () => {
+        const { changingCredentials } = this.state;
 
+        this.setState({
+            changingCredentials: !changingCredentials,
+        })
+    }
+
+    cancelChangingCredentials = () => {
+        this.setState({
+            changingCredentials: false,
+        })
     }
 
     logOut = () => {
@@ -25,8 +37,10 @@ export default class Settings extends React.Component {
     }
 
     render() {
+        const { changingCredentials } = this.state;
+
         return (
-            <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.container}>
                 {/* IMAGE */}
                 <View style={styles.imageContainer} >
                     <Image
@@ -34,36 +48,51 @@ export default class Settings extends React.Component {
                         source={require('../images/settings.png')}
                     />
                 </View>
+
                 {/* TITLE */}
                 <Text style={styles.title}> Settings </Text>
+
                 {/* CREDENTIALS */}
-                <TouchableHighlight
+                <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#2380d1" }]}
                     onPress={this.changeCredentials}
                 >
-                    <Text style={styles.buttonText}>
-                        Change Credentials
-                    </Text>
-                </TouchableHighlight>
+                    <View style={{ width: "90%" }}>
+                        <Text style={styles.buttonText}>
+                            Change Credentials
+                        </Text>
+                        {
+                            (changingCredentials)
+                            &&
+                            (
+                                <Credentials
+                                    cancelChangingCredentials={this.cancelChangingCredentials}
+                                />
+                            )
+                        }
+                    </View>
+                </TouchableOpacity>
+
                 {/* LOG OUT */}
-                <TouchableHighlight
+                <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#ef611e" }]}
                     onPress={this.logOut}
                 >
                     <Text style={styles.buttonText}>
                         Log Out
                     </Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
+
                 {/* DROP OUT */}
-                <TouchableHighlight
+                <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#ff005a" }]}
                     onPress={this.dropOut}
                 >
                     <Text style={styles.buttonText}>
                         Drop Out
                     </Text>
-                </TouchableHighlight>
-            </SafeAreaView>
+                </TouchableOpacity>
+            </ScrollView>
         );
     }
 }
@@ -76,9 +105,9 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingTop: 15,
         backgroundColor: "#212121",
-        alignItems: "center",
     },
     imageContainer: {
+        alignSelf: "center",
         width: 100,
         height: 100,
         borderRadius: 100,
@@ -87,23 +116,27 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
+        alignSelf: "center",
         fontWeight: "bold",
         fontSize: 40,
         color: "#dbdbdb",
         marginBottom: 30,
     },
     button: {
-        padding: 20,
+        alignSelf: "center",
+        paddingVertical: 20,
         width: 250,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 15,
         marginTop: 10,
         marginBottom: 10,
+        width: '90%',
     },
     buttonText: {
         fontWeight: "bold",
         fontSize: 18,
-        color: "#dbdbdb"
+        color: "#dbdbdb",
+        alignSelf: "center",
     }
 });

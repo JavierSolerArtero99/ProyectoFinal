@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: "row",
+        marginBottom: 15,
     },
     button: {
         marginRight: 15,
