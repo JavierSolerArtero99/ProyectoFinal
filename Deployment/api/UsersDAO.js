@@ -1,3 +1,5 @@
+import User from "../models/user";
+
 /**
  * consulta el nombre y la contraseña del usuario pasado
  * por parametro
@@ -41,6 +43,33 @@ export const signUser = async (name, passwd) => {
         );
 
         return loginUser(name, passwd)
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const updateUser = async (id, name, passwd) => {
+    try {
+        fetch(
+            `http://192.168.0.106:3000/postUser/`,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id,
+                    name: name,
+                    passwd: passwd,
+                })
+            }
+        );
+
+        User.modifyUser(name, passwd);
+
+        return User
         
     } catch (error) {
         console.error(error)

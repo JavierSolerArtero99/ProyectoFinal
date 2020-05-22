@@ -10,4 +10,10 @@ export default class User {
         User._passwd = loggedUser.passwd;
         User._isLogged = true;
     }
+
+    static modifyUser = (name, passwd) => {
+        User._name = name;
+        User._passwd = passwd;
+        User._isLogged = true;
+    }
 }

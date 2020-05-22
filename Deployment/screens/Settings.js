@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView, Image, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, Image, Alert, TouchableOpacity, ScrollView, ToastAndroid } from 'react-native';
 
 import User from '../models/user';
 
 import Credentials from '../components/SettingsComponents/Credentials';
+import { updateUser } from '../api/UsersDAO';
 
 export default class Settings extends React.Component {
 
@@ -16,10 +17,33 @@ export default class Settings extends React.Component {
 
     changeCredentials = () => {
         const { changingCredentials } = this.state;
-
+        
         this.setState({
             changingCredentials: !changingCredentials,
         })
+    }
+    
+    updateCredentials = async (newName, oldPass, newPass) => {
+        if (oldPass == User._passwd) {
+            await updateUser(User._id, newName, newPass)
+
+            this.setState({
+                changingCredentials: false,
+            })
+
+            ToastAndroid.showWithGravity(
+                "User updated!",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+
+        } else {
+            ToastAndroid.showWithGravity(
+                "Incorrect password",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+        }
     }
 
     cancelChangingCredentials = () => {
@@ -66,6 +90,7 @@ export default class Settings extends React.Component {
                             &&
                             (
                                 <Credentials
+                                updateCredentials={this.updateCredentials}
                                     cancelChangingCredentials={this.cancelChangingCredentials}
                                 />
                             )
