@@ -674,8 +674,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
         paddingBottom: 10,
         backgroundColor: "#212121",
     },

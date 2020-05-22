@@ -8,6 +8,7 @@ export default class LoginScreen extends React.Component {
 
     /* STATE */
     state = {
+        isLogged: (User._isLogged),
         name: "",
         passwd: "",
     }
@@ -78,7 +79,7 @@ export default class LoginScreen extends React.Component {
                 User.buildUser(user);
                 this.props.navigation.navigate("Main")
             }
-            
+
         } else {
             ToastAndroid.showWithGravity(
                 "Enter a name and password",
@@ -90,6 +91,8 @@ export default class LoginScreen extends React.Component {
 
     /* LAYOUT */
     render() {
+        const { isLogged } = this.state;
+
         return (
             <SafeAreaView style={styles.container}>
                 <Image
