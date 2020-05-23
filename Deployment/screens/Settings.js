@@ -17,12 +17,12 @@ export default class Settings extends React.Component {
 
     changeCredentials = () => {
         const { changingCredentials } = this.state;
-        
+
         this.setState({
             changingCredentials: !changingCredentials,
         })
     }
-    
+
     updateCredentials = async (newName, oldPass, newPass) => {
         if (oldPass == User._passwd) {
             await updateUser(User._id, newName, newPass)
@@ -53,15 +53,44 @@ export default class Settings extends React.Component {
     }
 
     logOut = () => {
-
+        User.logOut()
+        this.props.navigation.navigate("Login")
     }
 
     dropOut = () => {
-
+        
     }
 
     render() {
         const { changingCredentials } = this.state;
+
+        const logOutAlert = () =>
+            Alert.alert(
+                "Are you sure to Log Out?",
+                "",
+                [
+                    { text: "OK", onPress: () => this.logOut() },
+                    {
+                        text: "Cancel",
+                        style: styles.button
+                    }
+                ],
+                { cancelable: true }
+            );
+
+        const dropOutAlert = () =>
+            Alert.alert(
+                "Are you sure to Drop Out?",
+                "All your data will be removed",
+                [
+                    { text: "OK", onPress: () => this.dropOut() },
+                    {
+                        text: "Cancel",
+                        style: styles.button
+                    }
+                ],
+                { cancelable: true }
+            );
 
         return (
             <ScrollView style={styles.container}>
@@ -90,7 +119,7 @@ export default class Settings extends React.Component {
                             &&
                             (
                                 <Credentials
-                                updateCredentials={this.updateCredentials}
+                                    updateCredentials={this.updateCredentials}
                                     cancelChangingCredentials={this.cancelChangingCredentials}
                                 />
                             )
@@ -101,7 +130,8 @@ export default class Settings extends React.Component {
                 {/* LOG OUT */}
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#ef611e" }]}
-                    onPress={this.logOut}
+                    // onPress={this.logOut}
+                    onPress={logOutAlert}
                 >
                     <Text style={styles.buttonText}>
                         Log Out
@@ -111,7 +141,7 @@ export default class Settings extends React.Component {
                 {/* DROP OUT */}
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: "#ff005a" }]}
-                    onPress={this.dropOut}
+                    onPress={dropOutAlert}
                 >
                     <Text style={styles.buttonText}>
                         Drop Out

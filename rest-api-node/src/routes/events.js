@@ -131,7 +131,7 @@ router.post('/updateEvent/:id', (req, res) => {
     const { id } = req.params;
     const { body } = req;
     const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    const lastReminder = "SELECT id FROM productiveapp.habits_n_checks where user = ? order by id desc LIMIT 1;";
+    const lastReminder = "SELECT id FROM productiveapp.habits_n_checks where user = ? order by id desc LIMIT 1;"; // WHERE ENABLED == TRUE
     const remindersQuery = "CALL addReminder(?, ?)"
     let last = 0;
 

@@ -16,4 +16,11 @@ export default class User {
         User._passwd = passwd;
         User._isLogged = true;
     }
+
+    static logOut = () => {
+        User._id = "";
+        User._name = "";
+        User._passwd = "";
+        User._isLogged = false;
+    }
 }
