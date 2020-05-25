@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, SafeAreaView, Image, Alert, TouchableOpacity, S
 import User from '../models/user';
 
 import Credentials from '../components/SettingsComponents/Credentials';
-import { updateUser } from '../api/UsersDAO';
+import { updateUser, dropOutUser } from '../api/UsersDAO';
 
 export default class Settings extends React.Component {
 
@@ -13,15 +13,7 @@ export default class Settings extends React.Component {
         changingCredentials: false,
     }
 
-    /* EVENTS */
-
-    changeCredentials = () => {
-        const { changingCredentials } = this.state;
-
-        this.setState({
-            changingCredentials: !changingCredentials,
-        })
-    }
+    /* ASYNC METHODS */
 
     updateCredentials = async (newName, oldPass, newPass) => {
         if (oldPass == User._passwd) {
@@ -46,6 +38,21 @@ export default class Settings extends React.Component {
         }
     }
 
+    dropOut = async () => {
+        await dropOutUser(User._id)
+        this.props.navigation.navigate("Login")
+    }
+
+    /* EVENTS */
+
+    changeCredentials = () => {
+        const { changingCredentials } = this.state;
+
+        this.setState({
+            changingCredentials: !changingCredentials,
+        })
+    }
+
     cancelChangingCredentials = () => {
         this.setState({
             changingCredentials: false,
@@ -55,10 +62,6 @@ export default class Settings extends React.Component {
     logOut = () => {
         User.logOut()
         this.props.navigation.navigate("Login")
-    }
-
-    dropOut = () => {
-        
     }
 
     render() {

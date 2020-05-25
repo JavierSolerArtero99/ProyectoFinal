@@ -9,7 +9,7 @@ router.get('/login/:name/:passwd', (req, res) => {
     const { name, passwd } = req.params;
 
     mysqlConnection.query('SELECT * FROM users WHERE name = ? AND passwd = ?;', [name, passwd], (err, rows, fields) => {
-        if(!err) {
+        if (!err) {
             res.json(rows);
 
         } else {
@@ -28,7 +28,7 @@ router.post('/postUser/', (req, res) => {
 
     mysqlConnection.query(query, [id, name, passwd], (err, rows, fields) => {
         if (!err) {
-            res.json({Status: 'User Added'});
+            res.json({ Status: 'User Added' });
         } else {
             console.log(err);
         }
@@ -40,14 +40,31 @@ router.put('/updateUser/:id', (req, res) => {
     const { name, passwd } = req.body;
     const { id } = req.params;
     const query = "CALL addUser(?, ?, ?)";
-    
+
     mysqlConnection.query(query, [id, name, passwd], (err, rows, fields) => {
         if (!err) {
-            res.json({status: "User Updated"});
+            res.json({ status: "User Updated" });
         } else {
             console.log(err);
         }
     });
+})
+
+// DELETE: elimina al usuario
+router.delete('/deleteUser/', (req, res) => {
+    const { userId } = req.body;
+    const query = "DELETE FROM users WHERE id=?;";
+
+    mysqlConnection.query(
+        query,
+        [userId],
+        (err, rows, fields) => {
+            if (!err) {
+                res.json({ status: "User Droped Out" });
+            } else {
+                console.log(err);
+            }
+        });
 })
 
 

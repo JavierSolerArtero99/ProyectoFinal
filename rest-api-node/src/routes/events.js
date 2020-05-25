@@ -184,7 +184,6 @@ router.delete('/deleteEvent/:id', (req, res) => {
         [id],
         (err, rows, fields) => {
             if (!err) {
-
                 mysqlConnection.query(
                     deleteEvents,
                     [id],
@@ -196,7 +195,6 @@ router.delete('/deleteEvent/:id', (req, res) => {
                         }
                     }
                 )
-
             } else {
                 console.error(err)
             }

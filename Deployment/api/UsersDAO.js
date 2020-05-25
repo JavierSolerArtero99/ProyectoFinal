@@ -1,4 +1,7 @@
 import User from "../models/user";
+import { findAllByPK, deleteSelectedEvent } from "./EventsDAO";
+
+/* ASYNCH METHODS */
 
 /**
  * consulta el nombre y la contraseña del usuario pasado
@@ -75,6 +78,40 @@ export const updateUser = async (id, name, passwd) => {
         console.error(error)
     }
 }
+
+/**
+ * elimina todos los datos del usuario referenciado pasado
+ * por parametro
+ * @param {*} userId 
+ */
+export const dropOutUser = async (userId) => {
+    const userEvents = await findAllByPK(userId);
+
+    userEvents.forEach(event => {
+        deleteSelectedEvent(event.id);
+    });
+
+    try {
+        fetch(
+            `http://192.168.0.106:3000/deleteUser/`,
+            {
+                method: 'DELETE',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                })
+            }
+        );
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+/* METODOS AUXILIARES */
 
 /**
  * guarda el usuario logeado en un fichero
