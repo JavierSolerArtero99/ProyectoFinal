@@ -11,7 +11,7 @@ export default class EventCounter extends React.Component {
         const { event } = this.props;
 
         return (
-            <Text style={[{ color: event.color }, (event.totalTimes == event.totalTimesDone) ? (styles.counterDone) : (styles.counter)]}>{event.totalTimesDone} / {event.totalTimes}</Text>
+            <Text style={[{ color: event.color }, (event.todayChecked) ? (styles.counterDone) : (styles.counter)]}>{event.totalTimesDone} / {event.totalTimes}</Text>
         )
     }
 }

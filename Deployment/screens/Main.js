@@ -49,45 +49,45 @@ export default class Main extends React.Component {
         //peticion para los eventos
         this.getUserEvents();
 
-        // // funcionalidad de los temporizadores
-        // this.intervalId = setInterval(() => {
-        //     const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        // funcionalidad de los temporizadores
+        this.intervalId = setInterval(() => {
+            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
-        //     this.setState({
-        //         events: events.map(event => {
-        //             const { time, isRunning } = event;
+            this.setState({
+                events: events.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         morningEvents: morningEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                morningEvents: morningEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         afternoonEvents: afternoonEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                afternoonEvents: afternoonEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //         nightEvents: nightEvents.map(event => {
-        //             const { time, isRunning } = event;
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+                nightEvents: nightEvents.map(event => {
+                    const { time, isRunning } = event;
 
-        //             return {
-        //                 ...event,
-        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-        //             };
-        //         }),
-        //     });
-        // }, TIME_INTERVAL);
+                    return {
+                        ...event,
+                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+                    };
+                }),
+            });
+        }, TIME_INTERVAL);
     }
 
     /* ASYNC METHODS */
@@ -392,6 +392,7 @@ export default class Main extends React.Component {
      */
     addTotalTimeCounter = (event, quantity) => {
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        let done = false;
         let aux = [];
         let morning = [];
         let after = [];
@@ -416,23 +417,37 @@ export default class Main extends React.Component {
             value = event.totalTimes;
         }
 
+        done = (value == event.totalTimes)
+
         events.forEach((e, i) => {
-            (e.id == event.id) && (e.totalTimesDone = value);
+            if (e.id == event.id) {
+                e.totalTimesDone = value;
+                e.todayChecked = done;
+            }
             aux = [...aux, e];
         });
 
         morningEvents.forEach((e, i) => {
-            (e.id == event.id) && (e.totalTimesDone = value);
+            if (e.id == event.id) {
+                e.totalTimesDone = value;
+                e.todayChecked = done;
+            }
             morning = [...morning, e];
         });
 
         afternoonEvents.forEach((e, i) => {
-            (e.id == event.id) && (e.totalTimesDone = value);
+            if (e.id == event.id) {
+                e.totalTimesDone = value;
+                e.todayChecked = done;
+            }
             after = [...after, e];
         });
 
         nightEvents.forEach((e, i) => {
-            (e.id == event.id) && (e.totalTimesDone = value);
+            if (e.id == event.id) {
+                e.totalTimesDone = value;
+                e.todayChecked = done;
+            }
             night = [...night, e];
         });
 

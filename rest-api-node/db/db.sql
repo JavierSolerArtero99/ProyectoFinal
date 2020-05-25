@@ -132,3 +132,13 @@ BEGIN
 	DELETE FROM habits_reminders WHERE habit = _habit_id;
     DELETE FROM habits_n_checks WHERE id = _habit_id;
 END
+
+--EVENTS
+
+--reset check from today
+CREATE EVENT resetHabits
+	ON SCHEDULE EVERY 24 HOUR
+    STARTS '25-05-01 00:00:00'
+    DO
+		UPDATE habits_n_checks SET today_checked=0
+		

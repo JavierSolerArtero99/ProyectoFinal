@@ -36,7 +36,6 @@ router.get('/events/:userId/', (req, res) => {
         'SELECT habits_n_checks.*, habits_reminders.id as reminderId, habits_reminders.hour as reminderHour, habits_reminders.habit as habitId FROM productiveapp.habits_n_checks INNER JOIN habits_reminders ON habits_n_checks.id = habits_reminders.habit WHERE habits_n_checks.user = ?;',
         [userId],
         (err, rows, fields) => {
-
             if (!err) {
                 let aux = [];
                 if (rows.length > 0) {
@@ -55,6 +54,7 @@ router.get('/events/:userId/', (req, res) => {
                         time: rows[0].time,
                         defaultTime: rows[0].defaultTime,
                         is_runing: rows[0].is_runing,
+                        todayChecked: (rows[0].today_checked > 0),
                         timers: [{
                             id: rows[0].reminderId,
                             hour: rows[0].reminderHour,
@@ -81,6 +81,7 @@ router.get('/events/:userId/', (req, res) => {
                                     time: row.time,
                                     defaultTime: row.defaultTime,
                                     is_runing: row.is_runing,
+                                    todayChecked: (row.today_checked > 0),
                                     timers: [{
                                         id: row.reminderId,
                                         hour: row.reminderHour,

@@ -14,6 +14,8 @@ export const findAllByPK = async (userId) => {
         const userEvents = await events.json();
         let finalEvents = [];
 
+        console.log(userEvents)
+
         userEvents.forEach(event => {
             finalEvents.push({
                 id: event.id,
@@ -30,6 +32,7 @@ export const findAllByPK = async (userId) => {
                 time: event.time,
                 defaultTime: event.defaultTime,
                 timers: event.timers,
+                todayChecked: event.todayChecked,
                 isRunning: (event.isRunning > 0),
             })
         });

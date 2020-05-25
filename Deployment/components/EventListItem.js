@@ -185,7 +185,7 @@ export default class EventListItem extends React.Component {
      */
     goDetailEvent = () => {
         const { event, navigation, editEvent, deleteEvent } = this.props;
-        
+
         navigation.navigate("DetailEvent", { params: { navigation, event, editEvent, deleteEvent } });
     }
 
@@ -208,12 +208,12 @@ export default class EventListItem extends React.Component {
                     activeOpacity={0.9}
                     onPress={this.goDetailEvent}
                 >
-                    <View style={[styles.eventContainer, (event.totalTimesDone == event.totalTimes) && (styles.doneEventContainer)]}>
-                        <MaterialCommunityIcons name={event.icon} color={(event.totalTimesDone == event.totalTimes) ? ("#434343") : (event.color)} size={26} />
+                    <View style={[styles.eventContainer, (event.todayChecked) && (styles.doneEventContainer)]}>
+                        <MaterialCommunityIcons name={event.icon} color={(event.todayChecked) ? ("#434343") : (event.color)} size={26} />
                         <View style={styles.description}>
                             <View>
-                                <Text style={[styles.eventName, (event.totalTimes==event.totalTimesDone)&&({color:"#434343", textDecorationLine: "line-through"})]}>{event.name}</Text>
-                                <Text style={[styles.eventHour, (event.totalTimes==event.totalTimesDone)&&({color:"#434343", textDecorationLine: "line-through"})]}>{event.hour}</Text>
+                                <Text style={[styles.eventName, (event.todayChecked) && ({ color: "#434343", textDecorationLine: "line-through" })]}>{event.name}</Text>
+                                <Text style={[styles.eventHour, (event.todayChecked) && ({ color: "#434343", textDecorationLine: "line-through" })]}>{event.hour}</Text>
                             </View>
                             <View style={styles.specificComponents}>
                                 {this.renderSpecificComponents()}

@@ -51,7 +51,7 @@ export default class EventStopWatch extends React.Component {
         const timeString = millisecondsToHuman(time);
 
         return (
-            <Text style={[{ color: event.color }, (event.totalTimes == event.totalTimesDone) ? (styles.stopwatchTimerDone) : (styles.stopwatchTimer)]}>
+            <Text style={[{ color: event.color }, (event.todayChecked) ? (styles.stopwatchTimerDone) : (styles.stopwatchTimer)]}>
                 {(time > 1000) ? (timeString) : (this.finish())}
             </Text>
         )
