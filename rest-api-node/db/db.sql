@@ -5,33 +5,39 @@ USE productiveapp;
 --TABLAS
 
 -- tabla de usuarios
-CREATE TABLE IF NOT EXISTS users(
-	id INT(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) NOT NULL,
-    passwd VARCHAR(20) NOT NULL,
-    PRIMARY KEY(id)
-);
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `passwd` varchar(20) NOT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 -- tabla de los eventos (habitos y check-in)
-CREATE TABLE IF NOT EXISTS habits_n_checks(
-	id INT(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(20) NOT NULL,
-    description VARCHAR(50),
-    icon VARCHAR(20) NOT NULL,
-    event_type VARCHAR(10) NOT NULL,
-    date VARCHAR(10) NOT NULL,
-    end_date VARCHAR(10),
-    color VARCHAR(10),
-    hour VARCHAR(5),
-    total_times INT(3) NOT NULL,
-    total_times_today INT(3) DEFAULT 0,
-    time INT(10) DEFAULT 0,
-    defaultTime INT(10) DEFAULT '0';
-    is_runing BOOLEAN DEFAULT false,
-	user INT(11),
-    PRIMARY KEY(id),
-    FOREIGN KEY(user) REFERENCES users(id) 
-);
+CREATE TABLE `habits_n_checks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  `icon` varchar(20) NOT NULL,
+  `event_type` varchar(10) NOT NULL,
+  `date` varchar(10) NOT NULL,
+  `end_date` varchar(10) DEFAULT NULL,
+  `color` varchar(10) DEFAULT NULL,
+  `hour` varchar(5) DEFAULT NULL,
+  `total_times` int(3) NOT NULL,
+  `total_times_today` int(3) DEFAULT '0',
+  `time` int(10) DEFAULT '0',
+  `is_runing` tinyint(1) DEFAULT '0',
+  `user` int(11) DEFAULT NULL,
+  `defaultTime` int(10) DEFAULT '0',
+  `total_times_checked` int(11) DEFAULT '0',
+  `actual_streak` int(11) DEFAULT '0',
+  `best_streak` int(11) DEFAULT '0',
+  `today_checked` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user` (`user`),
+  CONSTRAINT `habits_n_checks_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 -- tabla para los recordatorios de cada habito
 CREATE TABLE IF NOT EXISTS habits_reminders(
@@ -116,4 +122,13 @@ BEGIN
 	END IF;
     
     SELECT _id AS id;
+END
+
+--deleteEvents
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteEvents`(
+	IN _habit_id INT(11)
+)
+BEGIN
+	DELETE FROM habits_reminders WHERE habit = _habit_id;
+    DELETE FROM habits_n_checks WHERE id = _habit_id;
 END
