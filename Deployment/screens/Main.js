@@ -7,7 +7,8 @@ import EmptyDay from '../components/EmptyDay';
 import TimeDay from '../components/TimeDay';
 
 import User from '../models/user';
-import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId, getFilterEvents, dateInRange } from '../api/EventsDAO';
+import { findAllByPK, updateEvent, addNewEvent, deleteSelectedEvent, getLastEventId, getFilterEvents, dateInRange, doneEvent } from '../api/EventsDAO';
+import { updatePerfectDay } from '../api/UsersDAO';
 import { newEvent } from '../utils/EventsUtils';
 
 export default class Main extends React.Component {
@@ -49,45 +50,45 @@ export default class Main extends React.Component {
         //peticion para los eventos
         this.getUserEvents();
 
-        // funcionalidad de los temporizadores
-        this.intervalId = setInterval(() => {
-            const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
+        // // funcionalidad de los temporizadores
+        // this.intervalId = setInterval(() => {
+        //     const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
 
-            this.setState({
-                events: events.map(event => {
-                    const { time, isRunning } = event;
+        //     this.setState({
+        //         events: events.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                morningEvents: morningEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         morningEvents: morningEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                afternoonEvents: afternoonEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         afternoonEvents: afternoonEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-                nightEvents: nightEvents.map(event => {
-                    const { time, isRunning } = event;
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //         nightEvents: nightEvents.map(event => {
+        //             const { time, isRunning } = event;
 
-                    return {
-                        ...event,
-                        time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
-                    };
-                }),
-            });
-        }, TIME_INTERVAL);
+        //             return {
+        //                 ...event,
+        //                 time: (isRunning && time > 1000) ? time - TIME_INTERVAL : time,
+        //             };
+        //         }),
+        //     });
+        // }, TIME_INTERVAL);
     }
 
     /* ASYNC METHODS */
@@ -390,15 +391,17 @@ export default class Main extends React.Component {
      * metodo que cumple el evento clicado y lo edita en
      * los arrays
      */
-    addTotalTimeCounter = (event, quantity) => {
+    addTotalTimeCounter = async (event, quantity) => {
         const { events, morningEvents, afternoonEvents, nightEvents } = this.state;
         let done = false;
+        let perfectDay = true;
         let aux = [];
         let morning = [];
         let after = [];
         let night = [];
         let value = 0;
 
+        //comprobacion si el evento ha terminado
         if (quantity != event.totalTimes) {
             if (quantity == 1) {
                 if ((event.totalTimesDone + 1) <= event.totalTimes) {
@@ -417,12 +420,32 @@ export default class Main extends React.Component {
             value = event.totalTimes;
         }
 
+        // update en la base de datos
         done = (value == event.totalTimes)
+        if (done && !event.todayChecked) {
+            event.todayChecked = done;
+            event.actualStreak++;
+            (event.actualStreak > event.bestStreak) && (event.bestStreak = event.actualStreak);
 
+            //comprobar perfect day
+            events.forEach(event => {
+                if (perfectDay && event.todayChecked) {
+                    perfectDay = true;
+                } else {
+                    perfectDay = false;
+                }
+            });
+
+            await doneEvent(event)
+            if (perfectDay) {
+                await updatePerfectDay(User._id)
+            }
+        }
+
+        // update en el front end
         events.forEach((e, i) => {
             if (e.id == event.id) {
                 e.totalTimesDone = value;
-                e.todayChecked = done;
             }
             aux = [...aux, e];
         });
@@ -430,7 +453,6 @@ export default class Main extends React.Component {
         morningEvents.forEach((e, i) => {
             if (e.id == event.id) {
                 e.totalTimesDone = value;
-                e.todayChecked = done;
             }
             morning = [...morning, e];
         });
@@ -438,7 +460,6 @@ export default class Main extends React.Component {
         afternoonEvents.forEach((e, i) => {
             if (e.id == event.id) {
                 e.totalTimesDone = value;
-                e.todayChecked = done;
             }
             after = [...after, e];
         });
@@ -446,7 +467,6 @@ export default class Main extends React.Component {
         nightEvents.forEach((e, i) => {
             if (e.id == event.id) {
                 e.totalTimesDone = value;
-                e.todayChecked = done;
             }
             night = [...night, e];
         });

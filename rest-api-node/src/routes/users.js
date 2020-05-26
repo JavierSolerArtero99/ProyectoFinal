@@ -35,6 +35,23 @@ router.post('/postUser/', (req, res) => {
     });
 });
 
+router.post('/perfectDay/', (req, res) => {
+    const { body } = req;
+    const perfectDay = "UPDATE users SET perfect_days = perfect_days + 1 WHERE id = ?";
+
+    mysqlConnection.query(
+        perfectDay,
+        [body.userId],
+        (err, rows, fields) => {
+            if (!err) {
+                res.json({ status: "Event DONE" });
+            } else {
+                console.error(err);
+            }
+        }
+    );
+});
+
 // PUT: modifica un usuario
 router.put('/updateUser/:id', (req, res) => {
     const { name, passwd } = req.body;

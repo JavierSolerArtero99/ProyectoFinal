@@ -55,6 +55,8 @@ router.get('/events/:userId/', (req, res) => {
                         defaultTime: rows[0].defaultTime,
                         is_runing: rows[0].is_runing,
                         todayChecked: (rows[0].today_checked > 0),
+                        actualStreak: rows[0].actual_streak,
+                        bestStreak: rows[0].best_streak,
                         timers: [{
                             id: rows[0].reminderId,
                             hour: rows[0].reminderHour,
@@ -82,6 +84,8 @@ router.get('/events/:userId/', (req, res) => {
                                     defaultTime: row.defaultTime,
                                     is_runing: row.is_runing,
                                     todayChecked: (row.today_checked > 0),
+                                    actualStreak: row.actual_streak,
+                                    bestStreak: row.best_streak,
                                     timers: [{
                                         id: row.reminderId,
                                         hour: row.reminderHour,
@@ -120,8 +124,8 @@ router.get('/lastEvent/', (req, res) => {
         (err, rows, fields) => {
             if (!err) {
                 res.json(rows)
-                
-            } else { 
+
+            } else {
                 console.log(err)
             }
         })
@@ -131,14 +135,16 @@ router.get('/lastEvent/', (req, res) => {
 router.post('/updateEvent/:id', (req, res) => {
     const { id } = req.params;
     const { body } = req;
-    const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const lastReminder = "SELECT id FROM productiveapp.habits_n_checks where user = ? order by id desc LIMIT 1;"; // WHERE ENABLED == TRUE
     const remindersQuery = "CALL addReminder(?, ?)"
     let last = 0;
 
+    console.log(body.name + ": " + body.todayChecked)
+
     mysqlConnection.query(
         query,
-        [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.userId],
+        [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.isChecked, body.userId],
         (err, rows, fields) => {
             if (!err) {
                 res.json({ status: "Event modified" });
@@ -167,6 +173,25 @@ router.post('/updateEvent/:id', (req, res) => {
                         }
                     }
                 );
+            } else {
+                console.error(err);
+            }
+        }
+    );
+})
+
+// POST: pone el evento pasado por parametro a hecho
+router.post('/doneEvent/', (req, res) => {
+    const { body } = req;
+    const query = "UPDATE habits_n_checks SET today_checked = 1, total_times_checked = total_times_checked + 1, actual_streak = ?, best_streak = ? WHERE id = ?";
+    let last = 0;
+
+    mysqlConnection.query(
+        query,
+        [body.actualStreak, body.bestStreak, body.id],
+        (err, rows, fields) => {
+            if (!err) {
+                res.json({ status: "Event DONE" });
             } else {
                 console.error(err);
             }

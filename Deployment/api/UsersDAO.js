@@ -111,6 +111,27 @@ export const dropOutUser = async (userId) => {
     }
 }
 
+export const updatePerfectDay = async (userId) => {
+    try {
+        fetch(
+            `http://192.168.0.106:3000/perfectDay/`,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                })
+            }
+        );
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 /* METODOS AUXILIARES */
 
 /**

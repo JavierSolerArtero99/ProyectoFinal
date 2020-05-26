@@ -14,8 +14,6 @@ export const findAllByPK = async (userId) => {
         const userEvents = await events.json();
         let finalEvents = [];
 
-        console.log(userEvents)
-
         userEvents.forEach(event => {
             finalEvents.push({
                 id: event.id,
@@ -33,6 +31,8 @@ export const findAllByPK = async (userId) => {
                 defaultTime: event.defaultTime,
                 timers: event.timers,
                 todayChecked: event.todayChecked,
+                actualStreak: event.actualStreak,
+                bestStreak: event.bestStreak,
                 isRunning: (event.isRunning > 0),
             })
         });
@@ -73,6 +73,7 @@ export const updateEvent = async (modifiedEvent) => {
                     timers: modifiedEvent.newTimers,
                     time: modifiedEvent.newTime,
                     eventType: modifiedEvent.eventType,
+                    todayChecked: modifiedEvent.todayChecked,
                     isRuning: 0,
                     userId: User._id,
                 })
@@ -80,6 +81,34 @@ export const updateEvent = async (modifiedEvent) => {
         )
 
 
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/**
+ * marca a hecho el check de hoy (este se rinicia cada dia a su valor
+ * por defecto: false)
+ * @param {*} event 
+ */
+export const doneEvent = async (event) => {
+    try {
+        fetch(
+            `http://192.168.0.106:3000/doneEvent/`,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: event.id,
+                    actualStreak: event.actualStreak,
+                    bestStreak: event.bestStreak,
+                    // userId: User._id,
+                })
+            }
+        )
     } catch (error) {
         console.error(error);
     }

@@ -10,6 +10,7 @@ CREATE TABLE `users` (
   `name` varchar(45) NOT NULL,
   `passwd` varchar(20) NOT NULL,
   `date` varchar(10) DEFAULT NULL,
+  `perfect_days` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
@@ -138,7 +139,5 @@ END
 --reset check from today
 CREATE EVENT resetHabits
 	ON SCHEDULE EVERY 24 HOUR
-    STARTS '25-05-01 00:00:00'
     DO
-		UPDATE habits_n_checks SET today_checked=0
-		
+		UPDATE habits_n_checks SET today_checked=0 WHERE id > 0
