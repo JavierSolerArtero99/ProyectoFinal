@@ -136,8 +136,6 @@ export default class Main extends React.Component {
 
         await addNewEvent(aux);
 
-        console.log(selectedDate)
-
         if (dateInRange(aux, selectedDate)) {
             aux.id = await getLastEventId();
 
@@ -185,7 +183,7 @@ export default class Main extends React.Component {
                             icon: modifiedEvent.newIcon,
                             color: modifiedEvent.newColor,
                             totalTimes: modifiedEvent.newTotalTimes,
-                            totalTimesDone: 0,
+                            totalTimesDone: (modifiedEvent.todayChecked) ? (modifiedEvent.newTotalTimes) : (0),
                             time: modifiedEvent.newTime,
                             repeat: modifiedEvent.repeat,
                             hour: modifiedEvent.hour,
@@ -217,7 +215,7 @@ export default class Main extends React.Component {
                             icon: modifiedEvent.newIcon,
                             color: modifiedEvent.newColor,
                             totalTimes: modifiedEvent.newTotalTimes,
-                            totalTimesDone: 0,
+                            totalTimesDone: modifiedEvent.totalTimesDone,
                             time: modifiedEvent.newTime,
                             repeat: modifiedEvent.repeat,
                             hour: modifiedEvent.hour,
@@ -249,7 +247,7 @@ export default class Main extends React.Component {
                             icon: modifiedEvent.newIcon,
                             color: modifiedEvent.newColor,
                             totalTimes: modifiedEvent.newTotalTimes,
-                            totalTimesDone: 0,
+                            totalTimesDone: modifiedEvent.totalTimesDone,
                             time: modifiedEvent.newTime,
                             repeat: modifiedEvent.repeat,
                             hour: modifiedEvent.hour,
@@ -281,7 +279,7 @@ export default class Main extends React.Component {
                             icon: modifiedEvent.newIcon,
                             color: modifiedEvent.newColor,
                             totalTimes: modifiedEvent.newTotalTimes,
-                            totalTimesDone: 0,
+                            totalTimesDone: modifiedEvent.totalTimesDone,
                             time: modifiedEvent.newTime,
                             repeat: modifiedEvent.repeat,
                             hour: modifiedEvent.hour,
@@ -555,9 +553,6 @@ export default class Main extends React.Component {
             de iniciarlo */
             return {
                 events: events.map(event => {
-                    console.log("EVENTO")
-                    console.log(event);
-
                     const { id, defaultTime } = event;
 
                     if (id === eventId) {

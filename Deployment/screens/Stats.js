@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, ScrollView } from 'react-native';
 
 export default class Stats extends React.Component {
     render() {
         return (
             <SafeAreaView style={styles.container}>
-                <Text>Pantalla de Stats</Text>
+                <ScrollView>
+                    
+                </ScrollView>
             </SafeAreaView>
         );
     }

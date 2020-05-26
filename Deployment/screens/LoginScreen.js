@@ -37,8 +37,9 @@ export default class LoginScreen extends React.Component {
         const { name, passwd } = this.state;
         let user;
 
-        if (name.length > 0 && passwd.length > 0) {
-            user = await loginUser(name, passwd);
+        // if (name.length > 0 && passwd.length > 0) {
+            // user = await loginUser(name, passwd);
+            user = await loginUser("Javieraso", "1234");
 
             if (user == undefined) {
                 (ToastAndroid.showWithGravity(
@@ -50,13 +51,13 @@ export default class LoginScreen extends React.Component {
                 User.buildUser(user);
                 this.props.navigation.navigate("Main")
             }
-        } else {
-            ToastAndroid.showWithGravity(
-                "Enter a name and password",
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
-            );
-        }
+        // } else {
+        //     ToastAndroid.showWithGravity(
+        //         "Enter a name and password",
+        //         ToastAndroid.SHORT,
+        //         ToastAndroid.CENTER
+        //     );
+        // }
     }
 
     /**
@@ -116,7 +117,8 @@ export default class LoginScreen extends React.Component {
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
                         style={[styles.button, { backgroundColor: "#2380d1" }]}
-                        onPress={this.logIn}
+                        // onPress={this.logIn} 
+                        onPress={this.logIn()} 
                     >
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>

@@ -23,6 +23,7 @@ export default class DetailEventScreen extends React.Component {
         newEndDate: [],
         newTimers: [],
         newTotalTimes: 1,
+        todayChecked: false,
         newTime: 0,
         hour: "09:00",
     }
@@ -45,7 +46,9 @@ export default class DetailEventScreen extends React.Component {
             newTimers: event.timers,
             newIcon: event.icon,
             newColor: event.color,
+            todayChecked: event.todayChecked,
             newTotalTimes: event.totalTimes,
+            totalTimesDone: event.totalTimesDone,
             newTime: event.time,
             hour: event.hour,
             eventType: event.eventType,
@@ -97,7 +100,7 @@ export default class DetailEventScreen extends React.Component {
         const { editEvent } = this.props.route.params.params;
 
         editEvent(this.state)
-        navigation.navigate("Main")
+        navigation.navigate("SingleEventStats")
     }
 
     /**

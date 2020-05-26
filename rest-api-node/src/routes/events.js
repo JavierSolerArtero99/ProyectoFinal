@@ -140,7 +140,7 @@ router.post('/updateEvent/:id', (req, res) => {
     const remindersQuery = "CALL addReminder(?, ?)"
     let last = 0;
 
-    console.log(body.name + ": " + body.todayChecked)
+    console.log(body.name + ": " + body.totalTimesDone)
 
     mysqlConnection.query(
         query,

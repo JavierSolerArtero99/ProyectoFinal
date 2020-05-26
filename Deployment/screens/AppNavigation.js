@@ -11,6 +11,7 @@ import Stats from './Stats';
 import Settings from './Settings';
 import NewEvent from './NewEvent';
 import DetailEventScreen from './DetailEventScreen';
+import SingleEventStats from './SingleEventStats';
 
 /* VARIABLES DE NAVEGACION */
 const Tab = createMaterialBottomTabNavigator(); // navegacion de la app
@@ -103,6 +104,7 @@ function MainStack({ route, navigation }) {
         >
             <MainStackNavigation.Screen name="Main" component={getMainScreen} />
             <MainStackNavigation.Screen name="AddEvent" component={getAddEventScreen} />
+            <MainStackNavigation.Screen name="SingleEventStats" component={getSingleEventStats} />
             <MainStackNavigation.Screen name="DetailEvent" component={getDetailEventScreen} />
         </MainStackNavigation.Navigator>
     );
@@ -127,6 +129,12 @@ function getMainScreen({ route, navigation }) {
 function getAddEventScreen({ route, navigation }) {
     return (
         <NewEvent navigation={navigation} route={route} />
+    );
+}
+
+function getSingleEventStats({ route, navigation }) {
+    return (
+        <SingleEventStats navigation={navigation} route={route} />
     );
 }
 
