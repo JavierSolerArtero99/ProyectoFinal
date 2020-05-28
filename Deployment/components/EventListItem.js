@@ -184,9 +184,9 @@ export default class EventListItem extends React.Component {
      * va al layout de detalle del evento
      */
     goDetailEvent = () => {
-        const { event, navigation, editEvent, deleteEvent } = this.props;
+        const { event, navigation, editEvent, deleteEvent, addTotalTimeCounter, startStopCounter } = this.props;
 
-        navigation.navigate("SingleEventStats", { params: { navigation, event, editEvent, deleteEvent } });
+        navigation.navigate("SingleEventStats", { params: { navigation, event, editEvent, deleteEvent, addTotalTimeCounter, startStopCounter } });
     }
 
     /* LAYOUT */
