@@ -424,6 +424,7 @@ export default class Main extends React.Component {
             event.todayChecked = done;
             event.actualStreak++;
             (event.actualStreak > event.bestStreak) && (event.bestStreak = event.actualStreak);
+            event.totalTimesChecked++;
 
             //comprobar perfect day
             events.forEach(event => {

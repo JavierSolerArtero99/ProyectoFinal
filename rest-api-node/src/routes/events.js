@@ -55,6 +55,7 @@ router.get('/events/:userId/', (req, res) => {
                         defaultTime: rows[0].defaultTime,
                         is_runing: rows[0].is_runing,
                         todayChecked: (rows[0].today_checked > 0),
+                        totalTimesChecked: rows[0].total_times_checked,
                         actualStreak: rows[0].actual_streak,
                         bestStreak: rows[0].best_streak,
                         timers: [{
@@ -84,6 +85,7 @@ router.get('/events/:userId/', (req, res) => {
                                     defaultTime: row.defaultTime,
                                     is_runing: row.is_runing,
                                     todayChecked: (row.today_checked > 0),
+                                    totalTimesChecked: row.total_times_checked,
                                     actualStreak: row.actual_streak,
                                     bestStreak: row.best_streak,
                                     timers: [{

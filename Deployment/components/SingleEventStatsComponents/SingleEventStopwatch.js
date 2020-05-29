@@ -8,45 +8,45 @@ import { millisecondsToHuman } from '../../utils/stopwatchUtils';
 
 export default class SingleEventStopWatch extends React.Component {
 
-    state = {
-        finished: false,
-    }
+    // state = {
+    //     finished: false,
+    // }
 
-    constructor(props) {
-        super(props)
-    }
+    // constructor(props) {
+    //     super(props)
+    // }
 
-    finish = () => {
-        const { finished } = this.state;
-        const { event, addTotalTimeCounter } = this.props;
+    // finish = () => {
+    //     const { finished } = this.state;
+    //     const { event, addTotalTimeCounter } = this.props;
 
-        if (!finished) {
-            this.playSound();
+    //     if (!finished) {
+    //         this.playSound();
 
-            addTotalTimeCounter(event, 1);
+    //         addTotalTimeCounter(event, 1);
 
-            this.setState({
-                finished: true,
-            })
-        }
+    //         this.setState({
+    //             finished: true,
+    //         })
+    //     }
 
-        return "00:00:00"
-    }
+    //     return "00:00:00"
+    // }
 
-    playSound = async () => {
-        const soundObject = new Audio.Sound();
+    // playSound = async () => {
+    //     const soundObject = new Audio.Sound();
 
-        if (Audio.getPermissionsAsync()) {
-            try {
-                await soundObject.loadAsync(require('../../sounds/notification.mp3'));
-                await soundObject.playAsync();
+    //     if (Audio.getPermissionsAsync()) {
+    //         try {
+    //             await soundObject.loadAsync(require('../../sounds/notification.mp3'));
+    //             await soundObject.playAsync();
 
-            } catch (error) {
-            }
-        } else {
-            console.log("no hay permisos")
-        }
-    }
+    //         } catch (error) {
+    //         }
+    //     } else {
+    //         console.log("no hay permisos")
+    //     }
+    // }
 
     render() {
         const { event, time, startStopCounter } = this.props;
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: "bold",
         marginHorizontal: 20,
-        marginVertical: 15,
+        marginBottom: 15,
     },
     stopwatchButton: {
         borderRadius: 50,

@@ -38,7 +38,7 @@ export default class LoginScreen extends React.Component {
         let user;
 
         // if (name.length > 0 && passwd.length > 0) {
-            // user = await loginUser(name, passwd);
+        //     user = await loginUser(name, passwd);
             user = await loginUser("Javieraso", "1234");
 
             if (user == undefined) {

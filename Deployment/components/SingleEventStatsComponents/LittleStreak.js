@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     },
     actualStreak: {
         color: "#dbdbdb",
+        marginTop: -5,
         fontSize: 25,
         fontWeight: "bold",
     },

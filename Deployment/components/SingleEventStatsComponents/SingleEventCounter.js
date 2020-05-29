@@ -6,18 +6,17 @@ import Main from '../../screens/Main';
 
 export default class SingleEventCounter extends React.Component {
 
-    constructor(props) {
-        super(props)
-    }
+    // constructor(props) {
+    //     super(props)
+    // }
 
-    update = () => {
-        const { event, addTotalTimeCounter } = this.props;
-        addTotalTimeCounter(event, (1))
-    }
+    // update = () => {
+    //     const { event, addTotalTimeCounter } = this.props;
+    //     addTotalTimeCounter(event, (1))
+    // }
 
     render() {
         const { event } = this.props;
-        console.log(this.props)
         return (
             <View style={styles.counterContainer}>
                 {/* + 1
@@ -45,7 +44,7 @@ export default class SingleEventCounter extends React.Component {
 
 const styles = StyleSheet.create({
     counter: {
-        marginVertical: 15,
+        marginBottom: 15,
         marginHorizontal: 20,
         fontSize: 25,
         fontWeight: "bold",

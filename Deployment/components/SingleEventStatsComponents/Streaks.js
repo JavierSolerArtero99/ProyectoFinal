@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 export default function Streaks(props) {
     return (
-        <View style={styles.streakContainer}>
+        <View style={[styles.streakContainer, {backgroundColor: props.color}]}>
             <Text style={styles.actualStreak}>{props.actualStreak} Days</Text>
             <Text style={styles.actualStreakTitle}>Actual Streak</Text>
 
@@ -23,18 +23,17 @@ export default function Streaks(props) {
 const styles = StyleSheet.create({
     streakContainer: {
         width: '90%',
-        backgroundColor: "#2380d1",
         borderRadius: 15,
         paddingHorizontal: 20,
         paddingVertical: 10,
     },
     actualStreak: {
-        color: "#dbdbdb",
+        color: "#545454",
         fontSize: 40,
         fontWeight: "bold",
     },
     actualStreakTitle: {
-        color: "#dbdbdb",
+        color: "#545454",
         fontSize: 15,
         fontWeight: "bold",
     },
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     },
     bestStreakText: {
         fontSize: 15,
-        color: "#dbdbdb",
+        color: "#545454",
         fontWeight: "bold"
     }
 });

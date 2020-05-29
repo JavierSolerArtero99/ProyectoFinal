@@ -7,19 +7,22 @@ import SingleEventStopWatch from '../components/SingleEventStatsComponents/Singl
 import Streaks from '../components/SingleEventStatsComponents/Streaks';
 import LittleStreaks from '../components/SingleEventStatsComponents/LittleStreak';
 
+import Stats from '../models/Stats';
+
+
 export default class SingleEventStats extends React.Component {
 
-    /* STATE */
-    state = {
-
-    }
-
+    /* CONSTRUCTOR */
     constructor(props) {
         super(props)
     }
 
     /* METODOS DE RENDERIZACION */
 
+    /**
+     * renderiza los componentes necesarios dependiendo si el evento
+     * tiene un contador o un cronometro
+     */
     renderSpecificComponents = (event) => {
         const { addTotalTimeCounter, startStopCounter } = this.props.route.params.params;
         let specificComponent;
@@ -55,6 +58,36 @@ export default class SingleEventStats extends React.Component {
         return (specificComponent);
     }
 
+    /* ESTADISTICAS */
+
+    /**
+     * devuelve la media diaria del evento
+     */
+    getDailyAverage = (event) => {
+        const date = new Date();
+        const dateString = (date.getUTCDate() + "-" + (date.getMonth()) + "-" + date.getFullYear())
+
+        if (event.totalTimesChecked < 1 || event.totalTimesChecked == undefined) return 0;
+        
+        if ((event.totalTimesChecked / Stats.getDays(event.date, dateString)).toFixed(2) == Infinity) return 1
+
+        return (event.totalTimesChecked / Stats.getDays(event.date, dateString)).toFixed(2);
+    }
+
+    /**
+     * obtiene el porcentaje de cumplimiento del evento
+     */
+    getPercentage = (event) => {
+        const date = new Date();
+        const dateString = (date.getUTCDate() + "-" + (date.getMonth()) + "-" + date.getFullYear())
+
+        if (event.totalTimesChecked < 1 || event.totalTimesChecked == undefined) return 0 
+
+        if (((event.totalTimesChecked / Stats.getDays(event.date, dateString)).toFixed(2) * 100) == Infinity) return 100
+
+        return ((event.totalTimesChecked / Stats.getDays(event.date, dateString)).toFixed(2) * 100);
+    }
+
     /* EVENTOS */
 
     /** Navegacion
@@ -67,7 +100,10 @@ export default class SingleEventStats extends React.Component {
 
     /* LAYOUT */
     render() {
-        const { event, addTotalTimeCounter } = this.props.route.params.params;
+        const { event } = this.props.route.params.params;
+
+        console.log(event);
+
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>
@@ -96,44 +132,37 @@ export default class SingleEventStats extends React.Component {
                         {/* descripcion */}
                         {/* {(event.description.length > 0) && (<Text style={styles.descriptionText}>{event.description}</Text>)} */}
 
+                        {/* estadisticas */}
                         <Streaks
                             actualStreak={event.actualStreak}
                             bestStreak={event.bestStreak}
+                            color={event.color}
                         />
-
                         <View style={styles.streaksContainer}>
                             <LittleStreaks
-                                title={""}
-                                data={event.bestStreak}
+                                title={"Daily average"}
+                                data={this.getDailyAverage(event)}
                                 icon={"chart-line-variant"}
-                                color={"#ffc801"}
+                                color={"#ff005a"}
                             />
-                            <View style={{width: 25}}></View>
+                            <View style={{ width: 25 }}></View>
                             <LittleStreaks
                                 title={"Total times checked"}
-                                data={event.bestStreak}
+                                data={event.totalTimesChecked}
                                 icon={"progress-check"}
                                 color={"#4ad869"}
                             />
                         </View>
-
                         <View style={styles.streaksContainer}>
                             <LittleStreaks
-                                title={""}
-                                data={event.bestStreak}
+                                title={"Fulfillment percentage"}
+                                data={this.getPercentage(event) + " %"}
                                 icon={"flash-circle"}
                                 color={"#14ffec"}
                             />
-                            <View style={{width: 25}}></View>
-                            <LittleStreaks
-                                title={""}
-                                data={event.bestStreak}
-                                icon={"certificate"}
-                                color={"#ef611e"}
-                            />
                         </View>
 
-                        {/* editar */}
+                        {/* boton para editar */}
                         <TouchableHighlight
                             style={[styles.editButton, { backgroundColor: event.color }]}
                             onPress={this.goDetailEvent}
@@ -166,6 +195,7 @@ const styles = StyleSheet.create({
     },
     dateContainer: {
         flexDirection: "row",
+        marginBottom: 15,
     },
     singleDateContainer: {
         marginTop: 10,
