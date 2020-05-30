@@ -133,6 +133,24 @@ router.get('/lastEvent/', (req, res) => {
         })
 })
 
+router.get('/bestSreak/:id', (req, res) => {
+    const { id } = req.params;
+    const query = "SELECT perfect_days FROM productiveapp.users WHERE id = ?;"
+
+    mysqlConnection.query(
+        query,
+        [id],
+        (err, rows, fields) => {
+            if (!err) {
+                res.json(rows)
+
+            } else {
+                console.log(err)
+            }
+        }
+    )
+})
+
 // POST: crea o modifica un evento en concreto
 router.post('/updateEvent/:id', (req, res) => {
     const { id } = req.params;

@@ -8,6 +8,7 @@ export default class User {
         User._id = loggedUser.id;
         User._name = loggedUser.name;
         User._passwd = loggedUser.passwd;
+        User._date = loggedUser.date;
         User._isLogged = true;
     }
 

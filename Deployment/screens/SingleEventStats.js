@@ -102,8 +102,6 @@ export default class SingleEventStats extends React.Component {
     render() {
         const { event } = this.props.route.params.params;
 
-        console.log(event);
-
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>

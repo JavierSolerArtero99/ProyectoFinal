@@ -195,6 +195,20 @@ export const getLastEventId = async () => {
     }
 }
 
+export const getBestStreak = async (userId) => {
+    try {
+        const request = await fetch(
+            `http://192.168.0.106:3000/bestSreak/${userId}`
+        );
+        const bestSreak = await request.json();
+
+        return bestSreak[0].perfect_days;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 /* FILTRADO DE EVENTOS */
 
 /**
