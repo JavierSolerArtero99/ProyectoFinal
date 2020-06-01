@@ -73,6 +73,9 @@ export default class NewEvent extends React.Component {
      * change the event name
      */
     changeName = (newName) => {
+        console.log("Nuevo nombre")
+        console.log(newName);
+
         this.setState({
             name: newName,
         });
@@ -338,9 +341,10 @@ export default class NewEvent extends React.Component {
                         color={color}
                     />
 
-                    <CustomTextInput
+                    <TextInput
+                        style={styles.nameInput}
                         placeholder="Name"
-                        changeName={this.changeName}
+                        onChangeText={this.changeName}
                     />
 
                     {(habit)
@@ -383,6 +387,18 @@ const styles = StyleSheet.create({
     },
     specificComponents: {
         marginBottom: 15,
+    },
+    nameInput: {
+        backgroundColor: "#323232",
+        marginLeft: 15,
+        marginRight: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        color: "#dbdbdb",
+        fontWeight: "bold",
     },
     descriptionInput: {
         backgroundColor: "#323232",
