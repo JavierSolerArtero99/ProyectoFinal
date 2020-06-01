@@ -75,6 +75,8 @@ export const updateEvent = async (modifiedEvent) => {
                     time: modifiedEvent.newTime,
                     eventType: modifiedEvent.eventType,
                     todayChecked: modifiedEvent.todayChecked,
+                    bestStreak: modifiedEvent.bestStreak, 
+                    actualStreak: modifiedEvent.actualStreak,
                     isRuning: 0,
                     userId: User._id,
                 })

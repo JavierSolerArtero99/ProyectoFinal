@@ -173,6 +173,8 @@ export default class Main extends React.Component {
         this.setState(prevState => {
             const { events } = prevState;
 
+            console.log(modifiedEvent)
+
             return {
                 events: events.map(event => {
                     if (modifiedEvent.id === event.id) {
@@ -192,6 +194,8 @@ export default class Main extends React.Component {
                             timers: modifiedEvent.newTimers,
                             time: modifiedEvent.newTime,
                             hour: modifiedEvent.hour,
+                            bestStreak: modifiedEvent.bestStreak,
+                            actualStreak: modifiedEvent.actualStreak,
                             eventType: modifiedEvent.eventType,
                         };
                     }
@@ -224,6 +228,8 @@ export default class Main extends React.Component {
                             timers: modifiedEvent.newTimers,
                             time: modifiedEvent.newTime,
                             hour: modifiedEvent.hour,
+                            bestStreak: modifiedEvent.bestStreak,
+                            actualStreak: modifiedEvent.actualStreak,
                             eventType: modifiedEvent.eventType,
                         };
                     }
@@ -256,6 +262,8 @@ export default class Main extends React.Component {
                             timers: modifiedEvent.newTimers,
                             time: modifiedEvent.newTime,
                             hour: modifiedEvent.hour,
+                            bestStreak: modifiedEvent.bestStreak,
+                            actualStreak: modifiedEvent.actualStreak,
                             eventType: modifiedEvent.eventType,
                         };
                     }
@@ -288,6 +296,8 @@ export default class Main extends React.Component {
                             timers: modifiedEvent.newTimers,
                             time: modifiedEvent.newTime,
                             hour: modifiedEvent.hour,
+                            bestStreak: modifiedEvent.bestStreak,
+                            actualStreak: modifiedEvent.actualStreak,
                             eventType: modifiedEvent.eventType,
                         };
                     }
@@ -398,6 +408,8 @@ export default class Main extends React.Component {
         let after = [];
         let night = [];
         let value = 0;
+
+        console.log(event)
 
         //comprobacion si el evento ha terminado
         if (quantity != event.totalTimes) {

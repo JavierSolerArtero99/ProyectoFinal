@@ -155,16 +155,16 @@ router.get('/bestSreak/:id', (req, res) => {
 router.post('/updateEvent/:id', (req, res) => {
     const { id } = req.params;
     const { body } = req;
-    const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const query = "CALL addEvent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const lastReminder = "SELECT id FROM productiveapp.habits_n_checks where user = ? order by id desc LIMIT 1;"; // WHERE ENABLED == TRUE
     const remindersQuery = "CALL addReminder(?, ?)"
     let last = 0;
 
-    console.log(body.name + ": " + body.totalTimesDone)
+    console.log(body)
 
     mysqlConnection.query(
         query,
-        [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.isChecked, body.userId],
+        [id, body.name, body.description, body.icon, body.eventType, body.date, body.endDate, body.color, body.hour, body.totalTimes, body.totalTimesDone, body.time, body.isRuning, body.isChecked, body.bestStreak, body.actualStreak, body.userId],
         (err, rows, fields) => {
             if (!err) {
                 res.json({ status: "Event modified" });

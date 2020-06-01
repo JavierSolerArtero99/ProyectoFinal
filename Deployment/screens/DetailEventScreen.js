@@ -26,6 +26,8 @@ export default class DetailEventScreen extends React.Component {
         todayChecked: false,
         newTime: 0,
         hour: "09:00",
+        bestStreak: 0,
+        actualStreak: 0,
     }
 
     constructor(props) {
@@ -36,6 +38,9 @@ export default class DetailEventScreen extends React.Component {
 
     componentDidMount() {
         const { event } = this.props.route.params.params;
+
+        console.log("event")
+        console.log(event)
 
         this.setState({
             id: event.id,
@@ -52,6 +57,8 @@ export default class DetailEventScreen extends React.Component {
             newTime: event.time,
             hour: event.hour,
             eventType: event.eventType,
+            bestStreak: event.bestStreak,
+            actualStreak: event.actualStreak,
         })
     }
 
@@ -100,6 +107,8 @@ export default class DetailEventScreen extends React.Component {
         const { editEvent } = this.props.route.params.params;
 
         editEvent(this.state)
+        console.log("ESTADO");
+        console.log(this.state)
         navigation.navigate("Main")
     }
 

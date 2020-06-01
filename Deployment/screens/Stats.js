@@ -31,7 +31,7 @@ export default class StatsSreen extends React.Component {
             bestStreak: await getBestStreak(User._id),
             dailyAverage: (this.getDiaryAverage(auxEvents)).toFixed(2),
             totalChecks: this.getTotalChecks(auxEvents),
-            fulfillmentPercen: (this.getDiaryAverage(auxEvents)) * 100,
+            fulfillmentPercen: ((this.getDiaryAverage(auxEvents)) * 100).toFixed(0),
         })
     }
 
@@ -82,7 +82,7 @@ export default class StatsSreen extends React.Component {
                         {/* fechas */}
                         <View style={styles.dateContainer}>
                             <View style={styles.singleDateContainer}>
-                                <Text style={styles.description}>Begin date:</Text>
+                                <Text style={styles.description}>Since:</Text>
                                 <Text style={styles.description}>{User._date}</Text>
                             </View>
                         </View>
