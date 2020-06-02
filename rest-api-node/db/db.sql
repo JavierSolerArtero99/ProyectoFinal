@@ -66,12 +66,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addEvent`(
     IN _total_times_today INT(3),
     IN _time INT(10),
 	IN _is_runing tinyint(1),
+    IN _today_checked tinyint(1),
+    IN _best_streak INT(11),
+    in _actual_streak INT(11),
     IN _user INT(11)    
 )
 BEGIN
 	IF _id = 0 THEN
-		INSERT INTO habits_n_checks(name, description, icon, event_type, date, end_date, color, hour, total_times, total_times_today, time, is_runing, user)
-        VALUES (_name, _description, _icon, _event_type, _date, _end_date, _color, _hour, _total_times, _total_times_today, _time, _is_runing, _user);
+		INSERT INTO habits_n_checks(name, description, icon, event_type, date, end_date, color, hour, total_times, total_times_today, time, defaultTime, is_runing, today_checked, user)
+        VALUES (_name, _description, _icon, _event_type, _date, _end_date, _color, _hour, _total_times, _total_times_today, _time, _time, _is_runing, _today_checked, _user);
 		SET _id = last_insert_id();
 	ELSE
 		UPDATE habits_n_checks
@@ -87,7 +90,9 @@ BEGIN
             total_times = _total_times, 
             total_times_today = _total_times_today, 
             time = _time, 
-            is_runing = _is_runing
+            is_runing = _is_runing,
+            actual_streak = _actual_streak,
+            best_streak = _best_streak
             WHERE id = _id;
 	END IF;
 END
@@ -107,12 +112,13 @@ END
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addUser`(
 	IN _id INT,
     IN _name VARCHAR(45),
-    IN _passwd VARCHAR(20)
+    IN _passwd VARCHAR(20),
+    IN _date VARCHAR(10)
 )
 BEGIN 
 	IF _id = 0 THEN
-		INSERT INTO users(name, passwd)
-        VALUES (_name, _passwd);
+		INSERT INTO users(name, passwd, date)
+        VALUES (_name, _passwd, _date);
 		SET _id = last_insert_id();
 	ELSE
 		UPDATE users

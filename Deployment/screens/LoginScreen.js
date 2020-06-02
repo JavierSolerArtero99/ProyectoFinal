@@ -37,9 +37,9 @@ export default class LoginScreen extends React.Component {
         const { name, passwd } = this.state;
         let user;
 
-        // if (name.length > 0 && passwd.length > 0) {
-        //     user = await loginUser(name, passwd);
-            user = await loginUser("Javieraso", "1234");
+        if (name.length > 0 && passwd.length > 0) {
+            user = await loginUser(name, passwd);
+            // user = await loginUser("Javieraso", "1234");
 
             if (user == undefined) {
                 (ToastAndroid.showWithGravity(
@@ -51,13 +51,13 @@ export default class LoginScreen extends React.Component {
                 User.buildUser(user);
                 this.props.navigation.navigate("Main")
             }
-        // } else {
-        //     ToastAndroid.showWithGravity(
-        //         "Enter a name and password",
-        //         ToastAndroid.SHORT,
-        //         ToastAndroid.CENTER
-        //     );
-        // }
+        } else {
+            ToastAndroid.showWithGravity(
+                "Enter a name and password",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        }
     }
 
     /**
@@ -67,19 +67,13 @@ export default class LoginScreen extends React.Component {
         const { name, passwd } = this.state;
         let user;
 
-        if (name.length > 0 && passwd.length > 0) {
-            user = await signUser(name, passwd);
-            if (user == undefined) {
-                (ToastAndroid.showWithGravity(
-                    "Name or Password incorrect!",
-                    ToastAndroid.SHORT,
-                    ToastAndroid.CENTER
-                ));
+        const date = new Date();
+        const dateString = (date.getUTCDate() + "-" + (date.getMonth()) + "-" + date.getFullYear())
 
-            } else {
-                User.buildUser(user);
-                this.props.navigation.navigate("Main")
-            }
+        if (name.length > 0 && passwd.length > 0) {
+            user = await signUser(name, passwd, dateString);
+            User.buildUser(user);
+            this.props.navigation.navigate("Main")
 
         } else {
             ToastAndroid.showWithGravity(
@@ -111,14 +105,15 @@ export default class LoginScreen extends React.Component {
                     style={styles.textInput}
                     placeholder={"Password"}
                     underlineColorAndroid="transparent"
+                    secureTextEntry={true}
                     onChangeText={this.changePasswd}
                 />
 
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
                         style={[styles.button, { backgroundColor: "#2380d1" }]}
-                        // onPress={this.logIn} 
-                        onPress={this.logIn()} 
+                        onPress={this.logIn}
+                    // onPress={this.logIn()} 
                     >
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>

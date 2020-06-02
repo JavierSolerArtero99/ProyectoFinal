@@ -26,7 +26,8 @@ export const loginUser = async (name, passwd) => {
     }
 }
 
-export const signUser = async (name, passwd) => {
+export const signUser = async (name, passwd, dateString) => {
+    console.log(dateString)
     try {
         console.log(name + " " + passwd)
         fetch(
@@ -41,6 +42,7 @@ export const signUser = async (name, passwd) => {
                     id: 0,
                     name: name,
                     passwd: passwd,
+                    date: dateString,
                 })
             }
         );

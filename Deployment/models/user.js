@@ -24,4 +24,20 @@ export default class User {
         User._passwd = "";
         User._isLogged = false;
     }
+
+    static getFormatedDate = (date) => {
+        let beginArray = date.split("-")
+
+        beginArray[1] = (parseInt(beginArray[1]) + 1) + "";
+        console.log("ARRAY");
+        console.log(beginArray[0]);
+        
+        (beginArray[0].length == 1) && (beginArray[0] = "0" + beginArray[0]);
+        (beginArray[1].length == 1) && (beginArray[1] = "0" + beginArray[1]);
+
+        console.log("Array formated");
+        console.log(beginArray[0])
+
+        return (beginArray[0] + "-" + beginArray[1] + "-" + beginArray[2]);
+    }
 }

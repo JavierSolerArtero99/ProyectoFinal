@@ -107,8 +107,6 @@ export default class DetailEventScreen extends React.Component {
         const { editEvent } = this.props.route.params.params;
 
         editEvent(this.state)
-        console.log("ESTADO");
-        console.log(this.state)
         navigation.navigate("Main")
     }
 

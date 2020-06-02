@@ -13,7 +13,7 @@ export default class Stats {
         beginArray[1] = (parseInt(beginArray[1]) + 1) + "";
         endArray[1] = (parseInt(endArray[1]) + 1) + "";
 
-        (beginArray[0].length == 1) && (beginArray[0] = "0" + beginArray[1]);
+        (beginArray[0].length == 1) && (beginArray[0] = "0" + beginArray[0]);
         (beginArray[1].length == 1) && (beginArray[1] = "0" + beginArray[1]);
         (endArray[0].length == 1) && (endArray[0] = "0" + endArray[1]);
         (endArray[1].length == 1) && (endArray[1] = "0" + endArray[1]);

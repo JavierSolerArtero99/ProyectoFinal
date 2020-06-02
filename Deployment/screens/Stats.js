@@ -83,7 +83,7 @@ export default class StatsSreen extends React.Component {
                         <View style={styles.dateContainer}>
                             <View style={styles.singleDateContainer}>
                                 <Text style={styles.description}>Since:</Text>
-                                <Text style={styles.description}>{User._date}</Text>
+                                <Text style={styles.description}>{User.getFormatedDate(User._date)}</Text>
                             </View>
                         </View>
 

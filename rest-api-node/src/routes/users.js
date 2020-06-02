@@ -21,12 +21,10 @@ router.get('/login/:name/:passwd', (req, res) => {
 
 // POST: sube un nuevo user
 router.post('/postUser/', (req, res) => {
-    const { id, name, passwd } = req.body;
-    const query = `
-        CALL addUser(?, ?, ?);
-    `;
+    const { id, name, passwd, date } = req.body;
+    const query = `CALL addUser(?, ?, ?, ?);`;
 
-    mysqlConnection.query(query, [id, name, passwd], (err, rows, fields) => {
+    mysqlConnection.query(query, [id, name, passwd, date], (err, rows, fields) => {
         if (!err) {
             res.json({ Status: 'User Added' });
         } else {
